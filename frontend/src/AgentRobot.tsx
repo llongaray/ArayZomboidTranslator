@@ -1,8 +1,9 @@
+import type {CSSProperties} from 'react';
 import {motion,useReducedMotion} from 'motion/react';
 type Props={name:string;color:string;status:'working'|'waiting'|'done';count:number;detail:string;workers:number};
 export default function AgentRobot({name,color,status,count,detail,workers}:Props){
  const reduce=useReducedMotion(),working=status==='working';
- return <div className="bot-station" style={{'--bot-color':color} as React.CSSProperties}>
+ return <div className="bot-station" style={{'--bot-color':color} as CSSProperties}>
   <div className={'bot-status '+status}><span className="bot-dot"/>{status==='working'?'Trabalhando':status==='done'?'Finalizado':'Esperando'}{count>0&&<small> · {count}</small>}</div>
   <div className="bot-scene">
    <motion.svg viewBox="0 0 220 160" className="bot-svg" role="img" aria-label={name+' robô trabalhando em computador'} animate={working&&!reduce?{y:[0,-3,0]}:{y:0}} transition={{duration:2.4,repeat:working?Infinity:0,ease:'easeInOut'}}>
