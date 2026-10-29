@@ -27,20 +27,26 @@ def syntax_error(text: str) -> str | None:
 
 
 def suspected_lines(text: str, limit: int = 12) -> list[dict]:
-    """Provide safe, non-mutating clues for the human diagnostic report."""
-    lines = text.splitlines()
+    """Report suspicious assignment lines without changing the input."""
     suspects = []
+    lines = text.splitlines()
     for index, line in enumerate(lines):
-        stripped = line.strip()
-        if not SIMPLE_START.match(stripped):
+        if not SIMPLE_START.match(line):
             continue
-        first = line.find('"')
-        # Ignore escaped quotes when spotting likely unescaped literals.
-        unescaped = [i for i in range(first, len(line))
-                     if line[i] == '"' and (i == 0 or len(line[:i]) - len(line[:i].rstrip('\\')) == 0)]
-        if len(unescaped) > 2:
-            suspects.append({'line': index + 1, 'kind': 'internal_quotes', 'sample': stripped[:180]})
-        elif len(unescaped) == 2 and not re.search(r'",\\s*(?:--.*)?
+        # A basic structural hint, not a replacement for the full parser.
+        quotes = len(re.findall(r'(?<!\\)"', line))
+        if quotes > 2:
+            suspects.append({'line': index + 1, 'kind': 'internal_quotes',
+                             'sample': line.strip()[:180]})
+        elif quotes == 2 and not re.search(r'"\s*,\s*(?:--.*)?$', line):
+            following = next((x.strip() for x in lines[index + 1:]
+                              if x.strip() and not x.lstrip().startswith('--')), '')
+            if SIMPLE_START.match(following):
+                suspects.append({'line': index + 1, 'kind': 'missing_comma',
+                                 'sample': line.strip()[:180]})
+        if len(suspects) >= limit:
+            break
+    return suspects
 
 def safe_repair(text: str) -> tuple[str,list[str]]:
     """Repair only quoted Lua table entries with unambiguous outer delimiters.
