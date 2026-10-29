@@ -232,6 +232,9 @@ def select_rows(report: dict, mode: str, files: str = '', unsafe_review: bool = 
             continue
         if row['status'] not in statuses:
             continue
+        # Blank English entries have no material to translate.
+        if not row['en'].strip():
+            continue
         if row['status'] == 'identical' and likely_fixed(row['en']):
             continue
         selection.append(row)
