@@ -20,6 +20,10 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
     if tokens(en) != tokens(translated):
         return 'rejected',['placeholder_mismatch']
     candidate=translated.strip()
+    if re.search(r'(?i)(GERENTE|SUPERVISOR|TRADUTOR)\\s*:',candidate):
+        return 'rejected',['agent_feedback_leak']
+    if '⟦' in candidate or '⟧' in candidate:
+        return 'rejected',['unrestored_marker']
     # Ollama sometimes echoes internal identifiers and input file names as translations.
     if (re.fullmatch(r"(?i)(?:file\s*:\s*)?[A-Za-z0-9_.\\/:-]+_PTBR\.txt",candidate)
         or re.fullmatch(r"(?i)(?:file\s*:\s*)?[A-Za-z0-9_.\\/:-]+_EN\.txt",candidate)
