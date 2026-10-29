@@ -25,3 +25,12 @@ def test_unknown_backslash_escape_is_preserved_as_literal():
     output,fixes=repair_legacy(source)
     assert fixes
     assert syntax_error(output) is None
+
+def test_hyphenated_keys_and_partial_repair_survive():
+    from arayzt.lua_syntax import safe_repair
+    source='UI_PTBR = {\n UI_clock_small = "Pequeno"\n UI_clock_large = "Grande"\n UI_ClothingType_T-shirt = "Camiseta",\n UI_bindings_Rack Firearm = "Engatilhar",\n UI_message = "Pressione \\%1",\n}\n'
+    normalized,fixes=repair_legacy(source)
+    assert '["UI_ClothingType_T-shirt"]' in normalized
+    assert '["UI_bindings_Rack Firearm"]' in normalized
+    fixed,_=safe_repair(normalized)
+    assert syntax_error(fixed) is None
