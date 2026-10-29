@@ -116,10 +116,14 @@ def write_lua_overlay(path: Path, source: Path, english_source: Path, changes: d
         text = source.read_text(encoding='utf-8-sig')
         from .lua_syntax import syntax_error, safe_repair
         if syntax_error(text):
-            repaired, fixes = safe_repair(text)
-            if fixes and syntax_error(repaired) is None:
-                # Repair a working copy before matching entries, never the game original.
-                text = repaired
+            from .legacy_repair import repair_legacy
+            normalized, repairs = repair_legacy(text)
+            if repairs and syntax_error(normalized) is None:
+                text = normalized
+            else:
+                repaired, fixes = safe_repair(text)
+                if fixes and syntax_error(repaired) is None:
+                    text = repaired
     else:
         # Criar arquivo compatível com o nome da tabela inglesa, porém sem copiar
         # automaticamente entradas ainda não traduzidas.
