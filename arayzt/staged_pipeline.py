@@ -184,7 +184,8 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         thread.start()
 
     # Watchdog: never wait forever when every worker of a stage exits unexpectedly.
-    while inflight.wait(timeout=.1):
+    while inflight.is_set():
+        time.sleep(.05)
         if cancel.is_set():
             # Flush remaining queue entries as cancelled, including jobs belonging
             # to unexpectedly stopped stages. Finish is idempotent by job ID.
