@@ -15,6 +15,8 @@ PT_WORDS = {'com','sem','para','uma','um','do','da','de','no','na','abrir','dorm
 
 def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
     """Return approved / needs_review / rejected and rule codes."""
+    if not en.strip():
+        return ('approved',[]) if isinstance(translated,str) and not translated.strip() else ('rejected',['nonempty_for_empty_source'])
     if not isinstance(translated,str) or not translated.strip():
         return 'rejected',['empty_translation']
     if tokens(en) != tokens(translated):
@@ -30,6 +32,8 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
         or re.fullmatch(r"(?i)(?:k\d+|[A-Za-z][\w]*_[A-Za-z0-9_]+)",candidate)
         or (key and candidate.casefold()==key.casefold())):
         return 'rejected',['structural_echo']
+    if candidate==en.strip() and (not re.search(r'[A-Za-zÀ-ÿ]',candidate) or candidate.casefold() in {'xbox','playstation','pizza','taco','burrito','hotdog','champagne','linear'}):
+        return 'approved',[]
     issues=[]
     if en.strip().casefold()==translated.strip().casefold():
         issues.append('unchanged_english')
@@ -38,5 +42,9 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
     if len(original_words & EN_WORDS)>=2 and len(new_words & EN_WORDS)>=2 and not len(new_words & PT_WORDS):
         issues.append('suspected_english')
     if len(translated)>max(30,len(en)*4):issues.append('unusual_length')
+    if 'thirst' in key.casefold() and any(word in candidate.casefold() for word in ('fome','faminto')):
+        issues.append('semantic_thirst_hunger')
+    if any(word in key.casefold() for word in ('hunger','hungry')) and any(word in candidate.casefold() for word in ('sede','sedento')):
+        issues.append('semantic_hunger_thirst')
     if en in GLOSSARY and translated.casefold()!=GLOSSARY[en].casefold():issues.append('glossary_mismatch')
     return ('needs_review' if issues else 'approved'),issues
