@@ -119,3 +119,10 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Expand dashboard default translation groups beyond UI/ContextMenu/Moodles to include ItemName, ItemType, ItemCategory, Tooltip, IG_UI, Recipes and Fluids.
 - Clarify that full-game audit reads only base game's Translate/EN and not necessarily active mods.
 - Preserve existing checkpoints; previously completed groups do not need to be translated again.
+
+## [0.9.8] - 2026-10-29
+- Audit all EN translation file paths recursively against PTBR and list missing PTBR files, unknown PTBR-only files, and PTBR keys absent from the matching EN dictionary.
+- EN is canonical for selecting translation keys; never silently rename or delete divergent PTBR keys.
+- Save workspace/en-reference-audit.json for manager review, including canonical file inventory.
+- Use all supported translation groups by default in the React dashboard; preserve existing checkpoint and exported source files.
+- Separate special RadioData, Recorded_Media and SurvivorNames formats for dedicated handling rather than falsely claiming full automatic coverage.
