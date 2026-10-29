@@ -114,3 +114,8 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Repair trailing unpaired Lua backslash before closing quote, preserving a literal trailing path separator.
 - Regression based on actual UI_ServerOption_Map_tooltip file from blocked v0.9.5 export.
 - Keep strict Lua certification, isolated quarantine and persistent checkpoint.
+
+## [0.9.7] - 2026-10-29
+- Expand dashboard default translation groups beyond UI/ContextMenu/Moodles to include ItemName, ItemType, ItemCategory, Tooltip, IG_UI, Recipes and Fluids.
+- Clarify that full-game audit reads only base game's Translate/EN and not necessarily active mods.
+- Preserve existing checkpoints; previously completed groups do not need to be translated again.
