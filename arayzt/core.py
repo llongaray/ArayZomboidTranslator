@@ -247,7 +247,7 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
     grouped = {}
     for row in report['rows']: grouped.setdefault(row['file'], []).append(row)
     accepted_map = {(r['file'],r['key']):r for r in accepted}
-    count=0; written=0; blocked=[]
+    count=0; written=0; blocked=[];preexisting_warnings=[]
     for relative, rows in grouped.items():
         source_file=root/'PTBR'/relative
         changes={}
@@ -277,8 +277,11 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
             en_source=root/'EN'/rows[0]['en_file']
             try:
                 write_lua_overlay(output_file,source_file,en_source,changes)
-                from .validation import validate_lua
-                problems=validate_lua(output_file,changes)
+                from .validation import validate_lua_comparative
+                comparison=validate_lua_comparative(output_file,source_file,changes)
+                problems=comparison['introduced']
+                if comparison['preexisting']:
+                    preexisting_warnings.append({'file':str(relative),'count':len(comparison['preexisting']),'examples':comparison['preexisting'][:5]})
                 if problems:
                     output_file.unlink(missing_ok=True)
                     blocked.append({'file':str(relative),'issues':problems[:20],'issue_count':len(problems)})
@@ -288,4 +291,4 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
                 blocked.append({'file':str(relative),'issues':[str(exc)],'issue_count':1})
                 continue
         written+=1;count+=len(changes)
-    return {'translated':count,'output':str(target_root),'files':written,'blocked_files':blocked,'delivery_status':'partial' if blocked else 'success'}
+    return {'translated':count,'output':str(target_root),'files':written,'blocked_files':blocked,'preexisting_warnings':preexisting_warnings,'delivery_status':'partial' if blocked else 'success'}
