@@ -280,6 +280,7 @@ def canonical_audit_summary(report: dict) -> dict:
         'wrong_or_unknown_ptbr_keys':kinds.get('extra_ptbr_key',0),
         'invalid_files':kinds.get('invalid_translation',0),
         'unsupported_free_text_files':len(report['free_text']),
+        'manual_only_groups':['RadioData','Recorded_Media','SurvivorNames'],
         'files':report['inventory'],
         'problems':[p for p in report['problems'] if p['kind'] in (
             'missing_ptbr_file','orphan_ptbr_file','extra_ptbr_key','invalid_translation')],
