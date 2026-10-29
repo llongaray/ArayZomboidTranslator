@@ -29,7 +29,6 @@ def translate_atom(row,url,model,cancel):
         if not row["en"].strip():
             return {"row":row,"status":"needs_review","translation":"","reasons":["empty_source"],"attempts":0,"history":history}
         if likely_fixed(row["en"]) or row["en"].strip().casefold() in {"xbox","playstation","hotdog","taco","burrito","champagne","linear"}:
-            from .validation import validate_candidate
             state,reasons=validate_candidate(row["en"],row["en"],row["key"])
             if state=="approved":
                 return {"row":row,"status":"approved","translation":row["en"],"reasons":[],"attempts":0,"history":[{"agent":"supervisor","cycle":0,"status":"approved","reasons":["invariant"]}]}
