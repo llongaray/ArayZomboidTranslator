@@ -19,15 +19,17 @@ class OllamaClient:
         protected, maps = {}, {}
         for r in records:
             value, mapping = protect(r["en"])
-            protected[r["key_id"]] = {"file":r["file"], "key":r["key"], "value":value}
+            protected[r["key_id"]] = value
             maps[r["key_id"]] = mapping
-        schema = {"type":"object","properties":{"translations":{"type":"object","additionalProperties":{"type":"string"}}},"required":["translations"]}
+        schema = {"type":"object","properties":{"translations":{"type":"object","properties":{r["key_id"]:{"type":"string"} for r in records},"required":[r["key_id"] for r in records],"additionalProperties":False}},"required":["translations"],"additionalProperties":False}
         prompt = ("Traduza textos de interface do jogo Project Zomboid de inglês para português brasileiro natural. "
                   "Responda EXCLUSIVAMENTE no JSON requerido. Preserve integralmente símbolos especiais, marcadores ⟦AZT0000⟧, "
                   "nomes próprios, quebras, símbolos de formatação e significado. Não traduza chaves; use IDs como chaves. "
                   "Glossário: Bandage = bandagem; Bleeding = sangramento; Hunger = fome; Pain = dor; "
                   "Minor Bleeding = sangramento leve. Traduza verbos de menus no infinitivo; nunca repita inglês sem tradução. "
-                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Itens: " + json.dumps(protected,ensure_ascii=False))
+                  "Nunca retorne nomes de arquivos .txt, IDs, chaves ou metadados como tradução. "
+                  "Produza um campo translations com exatamente os IDs do lote. "
+                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Textos: " + json.dumps(protected,ensure_ascii=False))
         payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":4096,"num_predict":768}}
         request = Request(self.url + "/api/generate", data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
         try:
@@ -36,7 +38,14 @@ class OllamaClient:
         except (HTTPError,URLError,TimeoutError,socket.timeout) as exc:
             raise RuntimeError(f"Falha ao acessar Ollama: {exc}") from exc
         try:
-            translations = json.loads(result["response"])["translations"]
+            raw = json.loads(result["response"])
+            translations = raw.get("translations",raw)
+            if not isinstance(translations,dict):raise ValueError("Campo translations não é um objeto")
+            if len(records)==1 and records[0]["key_id"] not in translations:
+                # Tolerate a single-key object under a different name, but never
+                # accept metadata/file/key fields as a translation.
+                values=[v for k,v in translations.items() if isinstance(v,str) and k not in ("file","key","source","model","status")]
+                if len(values)==1:translations={records[0]["key_id"]:values[0]}
             output = []
             for r in records:
                 key_id = r["key_id"]

@@ -19,6 +19,13 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
         return 'rejected',['empty_translation']
     if tokens(en) != tokens(translated):
         return 'rejected',['placeholder_mismatch']
+    candidate=translated.strip()
+    # Ollama sometimes echoes internal identifiers and input file names as translations.
+    if (re.fullmatch(r"(?i)(?:file\s*:\s*)?[A-Za-z0-9_.\\/:-]+_PTBR\.txt",candidate)
+        or re.fullmatch(r"(?i)(?:file\s*:\s*)?[A-Za-z0-9_.\\/:-]+_EN\.txt",candidate)
+        or re.fullmatch(r"(?i)(?:k\d+|[A-Za-z][\w]*_[A-Za-z0-9_]+)",candidate)
+        or (key and candidate.casefold()==key.casefold())):
+        return 'rejected',['structural_echo']
     issues=[]
     if en.strip().casefold()==translated.strip().casefold():
         issues.append('unchanged_english')

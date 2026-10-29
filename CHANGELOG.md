@@ -49,3 +49,14 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 ### Limitations
 - Cancellation is bounded by the active HTTP request timeout, not an instantaneous cancellation of GPU inference.
 - Very long translations can fail with the 768-token cap; review and rerun these separately.
+
+## [0.5.2] - 2026-10-28
+
+### Fixes
+- Reject filename/field/identifier echoes from generated translations and revalidate reused checkpoints.
+- Remove file and key metadata from the translation prompt to reduce metadata copying.
+- Require requested IDs in the Ollama JSON schema and recover one-entry responses with an alternate field name.
+- Preserve successful entries when a partial batch needs individual retries.
+
+### Safety
+- Previously accepted checkpoints are reclassified on every run; suspicious strings are never exported automatically.

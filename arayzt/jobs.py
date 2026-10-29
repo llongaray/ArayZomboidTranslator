@@ -89,8 +89,10 @@ class Pipeline:
             # Divide o lote em itens únicos, mantendo timeout e respeitando cancelamento.
             if failed and len(current)>1 and not self.cancel.is_set():
                 self.update(message=f'Lote {batch_no}: isolando entradas com falha')
-                done=[];failed=[]
-                for r in current:
+                already={(item['file'],item['key']) for item in done}
+                retry_rows=[r for r in current if (r['file'],r['key']) not in already]
+                failed=[]
+                for r in retry_rows:
                     if self.cancel.is_set():break
                     one,err=translate_rows(client,[r],batch_size=1,retries=0)
                     done.extend(one);failed.extend(err)
