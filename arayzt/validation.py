@@ -33,3 +33,16 @@ def validate_lua(path, changes):
     for k in changes:
         if k not in found:problems.append(("missing_key",k))
     return problems
+
+def validate_lua_comparative(output_path, source_path, changes):
+    """Report pre-existing parser warnings separately; block only introduced warnings.
+
+    The parser is line-based, so this is a comparison, not a complete Lua syntax proof.
+    """
+    from collections import Counter
+    before=validate_lua(source_path,{}) if Path(source_path).is_file() else []
+    after=validate_lua(output_path,changes)
+    def normalized(issue):
+        return tuple(issue) if isinstance(issue,(tuple,list)) else str(issue)
+    delta=Counter(normalized(x) for x in after)-Counter(normalized(x) for x in before)
+    return {'preexisting':before,'introduced':list(delta.elements())}
