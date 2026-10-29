@@ -87,8 +87,15 @@ def orchestrate_pipeline(rows,url,model,workers,cancel,on_result,on_stage=None):
                     finish(job,'needs_review',job['reasons'])
             finally:management.task_done()
     for row in rows:
-        translation.put({'row':row,'cycle':1,'feedback':'','candidate':'',
-                         'fault':[],'history':[]})
+        job={'row':row,'cycle':1,'feedback':'','candidate':'',
+             'fault':[],'history':[]}
+        # Orchestrator verifies existing PTBR before spending LLM time:
+        # identical or placeholder-drifted entries go to supervisor directly.
+        if row.get('status') in ('identical','placeholder_mismatch') and row.get('ptbr'):
+            job['candidate']=row['ptbr']
+            supervision.put(job)
+        else:
+            translation.put(job)
     threads=[Thread(target=translator,args=(i,),daemon=True) for i in range(1,workers+1)]
     threads += [Thread(target=supervisor,daemon=True),Thread(target=manager,daemon=True)]
     for t in threads:t.start()
