@@ -19,3 +19,9 @@ def test_orphaned_strings_under_commented_assignment():
     output,fixes=repair_legacy(source)
     assert '-- "Continuação de ABC"' in output
     assert syntax_error(output) is None
+
+def test_unknown_backslash_escape_is_preserved_as_literal():
+    source='UI_PTBR = {\n    UI_Key = "A tecla \\\\m e \\\\%1",\n}\n'
+    output,fixes=repair_legacy(source)
+    assert fixes
+    assert syntax_error(output) is None
