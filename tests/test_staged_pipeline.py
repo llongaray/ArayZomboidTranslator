@@ -41,3 +41,21 @@ def test_retry_returns_only_rejected_job_to_translator(monkeypatch):
     staged_pipeline.orchestrate_pipeline([{'file':'UI_PTBR.txt','key':'A','en':'Original','status':'missing'}],
        'http://127.0.0.1:11434','model',2,threading.Event(),out.append)
     assert counts['A']==2 and out[0]['status']=='approved'
+
+def test_orchestrator_sends_existing_ptbr_directly_to_supervisor(monkeypatch):
+    calls=[]
+    def fake_translate(client,rows,batch_size=1,retries=0):
+        calls.append(rows[0]['key'])
+        return [{'translation':'corrigido'}],[]
+    monkeypatch.setattr(staged_pipeline,'translate_rows',fake_translate)
+    monkeypatch.setattr(staged_pipeline,'validate_candidate',lambda en,candidate,key:('approved',[]))
+    out=[];stages=[]
+    staged_pipeline.orchestrate_pipeline([
+       {'file':'UI_PTBR.txt','key':'A','en':'Known','ptbr':'Conhecido','status':'identical'},
+       {'file':'UI_PTBR.txt','key':'B','en':'New','ptbr':None,'status':'missing'}],
+       'http://127.0.0.1:11434','model',2,threading.Event(),out.append,
+       lambda slot,row,stage,cycle,detail:stages.append((row['key'],stage)))
+    assert calls==['B']
+    assert ('A','supervisor') in stages
+    assert ('A','translator') not in stages
+    assert len(out)==2
