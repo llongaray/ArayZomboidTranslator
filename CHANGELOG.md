@@ -60,3 +60,15 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 
 ### Safety
 - Previously accepted checkpoints are reclassified on every run; suspicious strings are never exported automatically.
+
+## [0.7.0] - 2026-10-28
+
+### Added
+- Atomic per-entry translation with an orchestrator and a bounded 1–4 concurrent Ollama request pool.
+- Translator → rule-based Supervisor → Manager (one rework attempt) → Supervisor → Delivery/review flow.
+- Per-entry checkpoint persistence by the orchestrator, never by workers.
+- Real percentage completion and worker count in the dashboard.
+
+### Notes
+- Concurrent requests share the configured Ollama endpoint/model, not independent VRAM model copies.
+- A single RX 6600 may perform best with one worker; measure throughput before increasing concurrency.
