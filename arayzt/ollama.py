@@ -2,6 +2,7 @@
 import json
 import time
 import socket
+import re
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from urllib.parse import urlsplit
@@ -67,7 +68,7 @@ class OllamaClient:
                   "Minor Bleeding = sangramento leve. Traduza verbos de menus no infinitivo; nunca repita inglês sem tradução. "
                   "Nunca retorne nomes de arquivos .txt, IDs, chaves ou metadados como tradução. "
                   "Produza um campo translations com exatamente os IDs do lote. "
-                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Textos: " + json.dumps(protected,ensure_ascii=False) + (" GERENTE: "+feedback+" ANTERIOR: "+previous if feedback else ""))
+                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Textos: " + json.dumps(protected,ensure_ascii=False) + (" Orientação de revisão (não copiar na resposta): "+json.dumps({"motivo": feedback, "versao_anterior": previous}, ensure_ascii=False)+" Responda SOMENTE com o texto traduzido para cada ID, nunca com a orientação." if feedback else ""))
         payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":4096,"num_predict":768}}
         request = Request(self.url + "/api/generate", data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
         try:
@@ -87,7 +88,14 @@ class OllamaClient:
             output = []
             for r in records:
                 key_id = r["key_id"]
-                translated = restore(translations[key_id],maps[key_id])
+                candidate = translations[key_id]
+                if not isinstance(candidate, str):
+                    raise ValueError("Tradução não é texto")
+                # Reject echoed internal instructions before any marker restoration.
+                if re.search(r"(?i)\\b(?:gerente|supervisor|tradutor|anterior)\\s*:", candidate) or re.search(
+                    r"(?i)\\b(?:agent_feedback_leak|unchanged_english|corrija o erro|vazamento de feedback)\\b", candidate):
+                    raise ValueError("agent_feedback_leak")
+                translated = restore(candidate,maps[key_id])
                 if tokens(r["en"]) != tokens(translated):
                     raise ValueError(f"Placeholders alterados em {key_id}")
                 if not translated.strip(): raise ValueError(f"Tradução vazia em {key_id}")
