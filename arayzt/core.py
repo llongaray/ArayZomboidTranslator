@@ -292,7 +292,10 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
                 certification=certify(output_file)
                 problems=comparison['introduced']
                 if not certification['valid']:
-                    problems.append(('lua_syntax_invalid',certification['error']))
+                    problems.append({'kind':'lua_syntax_invalid',
+                                     'error':certification['error'],
+                                     'suspected_lines':certification.get('suspected_lines',[]),
+                                     'attempted_fixes':certification.get('fixes',[])})
                 if certification['valid'] and certification['repaired']:
                     # A repaired file must still preserve every accepted translation.
                     parsed=read_lua(output_file)
