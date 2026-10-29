@@ -183,10 +183,16 @@ def audit(game: Path) -> dict:
     sources = sorted(p for p in en_dir.rglob('*') if p.is_file() and p.suffix.lower() in ('.json','.txt'))
     if not sources: raise ValueError(f'Nenhum arquivo JSON/TXT encontrado em {en_dir}')
     rows, problems, free_text, processed = [], [], [], 0
+    inventory=[]
+    expected=set()
     for source in sources:
         relative = source.relative_to(en_dir)
         target_relative = translation_rel(relative)
         target = pt_dir / target_relative
+        expected.add(target_relative.as_posix())
+        inventory.append({'en_file':relative.as_posix(),'ptbr_file':target_relative.as_posix(),'ptbr_exists':target.is_file(),'kind':'free_text' if is_free_text(relative) else source.suffix.lower().lstrip('.')})
+        if not target.is_file():
+            problems.append({'file':target_relative.as_posix(),'en_file':relative.as_posix(),'kind':'missing_ptbr_file','severity':'warning'})
         try:
             if is_free_text(relative):
                 original = source.read_text(encoding='utf-8-sig')
@@ -212,15 +218,24 @@ def audit(game: Path) -> dict:
                 else: status='translated'
                 rows.append({'file':target_relative.as_posix(), 'en_file':relative.as_posix(),
                              'key':key, 'en':english, 'ptbr':portuguese, 'status':status})
-            for extra in pt.keys()-en.keys():
-                problems.append({'file':target_relative.as_posix(),'kind':'extra_ptbr_key','key':extra,'severity':'info'})
+            for extra in sorted(pt.keys()-en.keys()):
+                problems.append({'file':target_relative.as_posix(),'kind':'extra_ptbr_key','key':extra,'severity':'warning','en_reference':relative.as_posix(),'requires_review':True})
         except (ValueError,OSError) as exc:
             problems.append({'file':relative.as_posix(),'kind':'invalid_translation','error':str(exc),'severity':'error'})
+    # Inventory PTBR independently: files with no EN counterpart are flagged,
+    # never silently removed or rewritten.
+    for pt_file in sorted(p for p in pt_dir.rglob('*') if p.is_file() and p.suffix.lower() in ('.json','.txt')):
+        rel=pt_file.relative_to(pt_dir).as_posix()
+        if rel not in expected:
+            inventory.append({'ptbr_file':rel,'en_file':None,'ptbr_exists':True,'kind':'orphan_ptbr'})
+            problems.append({'file':rel,'kind':'orphan_ptbr_file','severity':'warning','requires_review':True})
     if not rows: raise ValueError(f'Nenhuma chave Lua/JSON analisada em {en_dir}; confira os erros')
     counts = dict(Counter(r['status'] for r in rows))
     return {'game':str(root),'timestamp':datetime.now(timezone.utc).isoformat(),
             'counts':counts,'rows':rows,'problems':problems,'free_text':free_text,
-            'source_files':len(sources),'parsed_files':processed,
+            'source_files':len(sources),'parsed_files':processed,'inventory':inventory,
+            'missing_ptbr_files':sum(not f['ptbr_exists'] for f in inventory),
+            'orphan_ptbr_files':sum(f['kind']=='orphan_ptbr' for f in inventory),
             'problem_counts':dict(Counter(p['kind'] for p in problems))}
 
 # Grupos deliberadamente não automatizados: nomes próprios e texto que exige revisão humana.
