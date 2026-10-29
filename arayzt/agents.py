@@ -25,6 +25,14 @@ def translate_atom(row,url,model,cancel):
     for cycle in range(1,MAX_CYCLES+1):
         if cancel.is_set():
             return {"row":row,"status":"cancelled","translation":previous,"reasons":["cancelled"],"attempts":cycle-1,"history":history}
+        from .core import likely_fixed
+        if not row["en"].strip():
+            return {"row":row,"status":"needs_review","translation":"","reasons":["empty_source"],"attempts":0,"history":history}
+        if likely_fixed(row["en"]) or row["en"].strip().casefold() in {"xbox","playstation","hotdog","taco","burrito","champagne","linear"}:
+            from .validation import validate_candidate
+            state,reasons=validate_candidate(row["en"],row["en"],row["key"])
+            if state=="approved":
+                return {"row":row,"status":"approved","translation":row["en"],"reasons":[],"attempts":0,"history":[{"agent":"supervisor","cycle":0,"status":"approved","reasons":["invariant"]}]}
         request=dict(row)
         if feedback:
             request["manager_feedback"]=feedback
