@@ -103,3 +103,9 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Comment out orphaned continuation strings following commented-out concatenation headers.
 - Retain Lua full-grammar validation and reject anything still invalid; original game files untouched.
 - Added regression tests for actual ContextMenu/UI syntax patterns from the PTBR reports.
+
+## [0.9.5] - 2026-10-29
+- Accumulate independent safe legacy syntax repairs before checking full Lua validity.
+- Normalize PZ localization keys with spaces, hyphens, and slashes into Lua bracket keys.
+- Preserve checkpoint and fail-closed export: any remaining invalid Lua stays quarantined.
+- Add combined regression coverage for UI_PTBR legacy key and escape patterns.
