@@ -290,7 +290,14 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
                 comparison=validate_lua_comparative(output_file,source_file,changes)
                 from .lua_syntax import certify
                 certification=certify(output_file)
-                problems=comparison['introduced']
+                recovery=None
+                if not certification['valid'] and source_file.exists():
+                    from .lua_rebuild import recover
+                    rebuilt,recovery=recover(source_file.read_text(encoding='utf-8-sig'),changes)
+                    if recovery.get('valid'):
+                        output_file.write_text(rebuilt,encoding='utf-8')
+                        certification=certify(output_file)
+                problems=[] if recovery and recovery.get('valid') else list(comparison['introduced'])
                 if not certification['valid']:
                     problems.append({'kind':'lua_syntax_invalid',
                                      'error':certification['error'],
