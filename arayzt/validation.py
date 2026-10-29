@@ -43,6 +43,8 @@ def validate_lua_comparative(output_path, source_path, changes):
     before=validate_lua(source_path,{}) if Path(source_path).is_file() else []
     after=validate_lua(output_path,changes)
     def normalized(issue):
-        return tuple(issue) if isinstance(issue,(tuple,list)) else str(issue)
+        if isinstance(issue,(tuple,list)):
+            return (issue[0],issue[1]) if issue[0]=='missing_key' else (issue[0],)
+        return str(issue)
     delta=Counter(normalized(x) for x in after)-Counter(normalized(x) for x in before)
     return {'preexisting':before,'introduced':list(delta.elements())}
