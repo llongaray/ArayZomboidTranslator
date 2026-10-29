@@ -93,7 +93,7 @@ class OllamaClient:
                     raise ValueError("Tradução não é texto")
                 # Reject echoed internal instructions before any marker restoration.
                 if re.search(r"(?i)\\b(?:gerente|supervisor|tradutor|anterior)\\s*:", candidate) or re.search(
-                    r"(?i)\\b(?:agent_feedback_leak|unchanged_english|corrija o erro|vazamento de feedback)\\b", candidate):
+                    r"(?i)\\b(?:agent_feedback_leak|unchanged_english|corrija o erro|corrigir o erro|vazamento de feedback)\\b", candidate):
                     raise ValueError("agent_feedback_leak")
                 translated = restore(candidate,maps[key_id])
                 if tokens(r["en"]) != tokens(translated):
