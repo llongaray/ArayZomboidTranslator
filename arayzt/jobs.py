@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv, hashlib, json, os, threading, time
 from collections import Counter
 from pathlib import Path
-from .core import audit, select_rows, export_overlay, tokens, write_json
+from .core import audit, select_rows, export_overlay, tokens, write_json, canonical_audit_summary
 from .ollama import OllamaClient, translate_rows
 from .summary import summarize
 from .quality import review
@@ -53,11 +53,13 @@ class Pipeline:
         work=Path(work).expanduser().resolve();work.mkdir(parents=True,exist_ok=True)
         self.update(phase='audit',message='Lendo arquivos EN/PTBR')
         report=audit(Path(game));atomic_json(work/'audit.json',report)
+        reference=canonical_audit_summary(report)
+        atomic_json(work/'en-reference-audit.json',reference)
         selected=select_rows(report,mode,files)
         summary=summarize(report,files,len(selected))
         atomic_json(work/'summary.json',summary)
         write_review_csv(report,work/'review.csv',files)
-        result={'audit':str(work/'audit.json'),'summary':str(work/'summary.json'),'review_csv':str(work/'review.csv'),'counts':summary['counts'],'filters':files,'selected':len(selected),'source_files':report['source_files'],'parsed_files':report['parsed_files'],'problems':summary['problems']}
+        result={'en_reference_audit':str(work/'en-reference-audit.json'),'en_reference':{k:v for k,v in reference.items() if k not in ('files','problems')},'audit':str(work/'audit.json'),'summary':str(work/'summary.json'),'review_csv':str(work/'review.csv'),'counts':summary['counts'],'filters':files,'selected':len(selected),'source_files':report['source_files'],'parsed_files':report['parsed_files'],'problems':summary['problems']}
         self.update(phase='audit_done',summary=summary,total=len(selected),progress=0)
         if not translate:return result
         if self.cancel.is_set():raise Cancelled('Operação cancelada antes da tradução')
