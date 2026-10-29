@@ -279,7 +279,16 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
                 write_lua_overlay(output_file,source_file,en_source,changes)
                 from .validation import validate_lua_comparative
                 comparison=validate_lua_comparative(output_file,source_file,changes)
+                from .lua_syntax import certify
+                certification=certify(output_file)
                 problems=comparison['introduced']
+                if not certification['valid']:
+                    problems.append(('lua_syntax_invalid',certification['error']))
+                if certification['valid'] and certification['repaired']:
+                    # A repaired file must still preserve every accepted translation.
+                    parsed=read_lua(output_file)
+                    if any(parsed.get(k)!=v for k,v in changes.items()):
+                        problems.append(('repaired_file_mutated_translation',str(relative)))
                 if comparison['preexisting']:
                     preexisting_warnings.append({'file':str(relative),'count':len(comparison['preexisting']),'examples':comparison['preexisting'][:5]})
                 if problems:
