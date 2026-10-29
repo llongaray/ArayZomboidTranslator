@@ -118,15 +118,18 @@ class Pipeline:
         self.update(workers=int(workers),percent=round(100*skipped/len(queue),2),
                     message='Orquestrador distribuindo traduções atômicas')
         active_slots={}
+        stages_lock=threading.Lock()
         def on_stage(slot,row,agent,cycle,detail):
-            if agent=='complete':
-                active_slots.pop(slot,None)
-            else:
-                active_slots[slot]={'worker':slot,'agent':agent,'cycle':cycle,
-                                    'file':row['file'],'key':row['key'],
-                                    'detail':detail}
-            self.update(active_workers=list(active_slots.values()),
-                        message=f"{len(active_slots)} worker(s) ativos • {done_count}/{len(queue)} concluídos")
+            with stages_lock:
+                if agent=='complete':
+                    active_slots.pop(slot,None)
+                else:
+                    active_slots[slot]={'worker':slot,'agent':agent,'cycle':cycle,
+                                        'file':row['file'],'key':row['key'],
+                                        'detail':detail}
+                snapshot=list(active_slots.values())
+            self.update(active_workers=snapshot,
+                        message=f"{len(snapshot)} worker(s) ativos • {done_count}/{len(queue)} concluídos")
         orchestrate(pending,url,model,int(workers),self.cancel,receive,on_stage=on_stage)
         self.update(active_workers=[])
         # Manual approvals override only the matching entries in the current queue.
