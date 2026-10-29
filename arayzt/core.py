@@ -251,6 +251,7 @@ def select_rows(report: dict, mode: str, files: str = '', unsafe_review: bool = 
     statuses = {'missing'} | ({'identical', 'placeholder_mismatch'} if unsafe_review and mode in ('all', 'review') else set())
     selection = []
     for row in report['rows']:
+        # EN is canonical: never translate or export keys absent from EN.
         stem = Path(row['file']).stem.casefold().removesuffix('_ptbr')
         if stem in PROTECTED_FILES or stem.startswith('survivornames'):
             continue
@@ -265,6 +266,25 @@ def select_rows(report: dict, mode: str, files: str = '', unsafe_review: bool = 
             continue
         selection.append(row)
     return selection
+
+
+def canonical_audit_summary(report: dict) -> dict:
+    """Inventory and key identity diagnostics, with EN as the only authority."""
+    kinds=Counter(p['kind'] for p in report['problems'])
+    return {
+        'english_source_files':report['source_files'],
+        'ptbr_missing_files':report['missing_ptbr_files'],
+        'ptbr_orphan_files':report['orphan_ptbr_files'],
+        'english_keys':len(report['rows']),
+        'missing_keys':sum(r['status']=='missing' for r in report['rows']),
+        'wrong_or_unknown_ptbr_keys':kinds.get('extra_ptbr_key',0),
+        'invalid_files':kinds.get('invalid_translation',0),
+        'unsupported_free_text_files':len(report['free_text']),
+        'files':report['inventory'],
+        'problems':[p for p in report['problems'] if p['kind'] in (
+            'missing_ptbr_file','orphan_ptbr_file','extra_ptbr_key','invalid_translation')],
+        'policy':'Only exact EN keys are eligible; extra PTBR keys are flagged, never guessed, renamed or deleted.',
+    }
 
 
 def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path | None = None) -> dict:
