@@ -24,7 +24,7 @@ def instruct(work, file, instruction, model='gemma3:4b', url='http://127.0.0.1:1
     for index,row in enumerate(items[:max(1,min(int(limit),50))],1):
         english=row.get('english','')
         previous=row.get('translation','')
-        request={'file':file,'key':row['key'],'en':english,
+        request={'file':file,'key':row['key'],'en':english,'status':'missing',
                  'manager_feedback':('INSTRUÇÃO DO REVISOR HUMANO (prioritária, desde que preserve '
                   'o significado do texto original e todos os marcadores): '+instruction),
                  'previous_translation':previous}
