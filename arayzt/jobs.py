@@ -128,5 +128,5 @@ class Pipeline:
         except (ValueError,OSError) as exc:
             exported={'translated':0,'files':0,'output':str(work/'export'),'export_error':str(exc)}
         result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':skipped+len(pending) if not self.cancel.is_set() else len(approved)+len(review_items)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path),'agent_history':str(history_path)})
-        self.update(phase='export_failed' if exported.get('export_error') else 'done',message=exported.get('export_error') or ('Cancelado parcialmente' if self.cancel.is_set() else 'Concluído'))
+        self.update(phase='export_failed' if exported.get('export_error') else ('export_partial' if exported.get('blocked_files') else 'done'),message=exported.get('export_error') or (f"{len(exported.get('blocked_files',[]))} arquivo(s) bloqueado(s) na validação" if exported.get('blocked_files') else ('Cancelado parcialmente' if self.cancel.is_set() else 'Concluído')))
         return result
