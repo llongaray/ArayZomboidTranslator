@@ -10,6 +10,7 @@ from .quality import review
 from .validation import validate_candidate
 from .manual_review import read_decisions
 from .agents import orchestrate
+from .staged_pipeline import orchestrate_pipeline
 
 class Cancelled(Exception): pass
 
@@ -130,7 +131,7 @@ class Pipeline:
                 snapshot=list(active_slots.values())
             self.update(active_workers=snapshot,
                         message=f"{len(snapshot)} worker(s) ativos • {done_count}/{len(queue)} concluídos")
-        orchestrate(pending,url,model,int(workers),self.cancel,receive,on_stage=on_stage)
+        orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,on_stage=on_stage)
         self.update(active_workers=[])
         # Manual approvals override only the matching entries in the current queue.
         decisions=read_decisions(work)
