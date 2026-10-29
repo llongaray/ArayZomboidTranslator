@@ -37,3 +37,15 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 ### Notes
 - Automated quality rules are conservative heuristics and do not replace manual review.
 - Previous v0.4.0 checkpoints remain readable.
+
+## [0.5.1] - 2026-10-28
+
+### Stability
+- Bound Ollama HTTP calls to 35 seconds and reduce model context to 4096 tokens / output cap to 768 tokens.
+- Fall back to individual translations when a batch fails, to isolate problematic entries.
+- Display active batch, elapsed seconds and last-batch duration in the dashboard.
+- Preserve legacy checkpoints and process cooperative cancellation between bounded requests.
+
+### Limitations
+- Cancellation is bounded by the active HTTP request timeout, not an instantaneous cancellation of GPU inference.
+- Very long translations can fail with the 768-token cap; review and rerun these separately.

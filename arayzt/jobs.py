@@ -1,6 +1,6 @@
 """Pipeline resumível, cancelável e com exportação transacional da tradução."""
 from __future__ import annotations
-import csv, hashlib, json, os, threading
+import csv, hashlib, json, os, threading, time
 from collections import Counter
 from pathlib import Path
 from .core import audit, select_rows, export_overlay, tokens, write_json
@@ -77,7 +77,27 @@ class Pipeline:
         for start in range(0,len(pending),batch):
             if self.cancel.is_set():break
             current=pending[start:start+batch]
-            done,failed=translate_rows(client,current,batch_size=batch,retries=1)
+            batch_no=start//batch+1
+            t0=time.monotonic()
+            self.update(phase='translate',batch_current=batch_no,batch_size=len(current),
+                        batch_started_at=time.time(),message=f'Lote {batch_no}: aguardando Ollama')
+            try:
+                done,failed=translate_rows(client,current,batch_size=batch,retries=0)
+            except Exception as exc:
+                done,failed=[],[{'file':r['file'],'key':r['key'],'error':str(exc)} for r in current]
+            # Um lote malformado pode conter apenas uma entrada problemática.
+            # Divide o lote em itens únicos, mantendo timeout e respeitando cancelamento.
+            if failed and len(current)>1 and not self.cancel.is_set():
+                self.update(message=f'Lote {batch_no}: isolando entradas com falha')
+                done=[];failed=[]
+                for r in current:
+                    if self.cancel.is_set():break
+                    one,err=translate_rows(client,[r],batch_size=1,retries=0)
+                    done.extend(one);failed.extend(err)
+            if self.cancel.is_set():
+                # Não iniciar novas requisições após cancelar; resultados concluídos
+                # antes da solicitação ainda poderão ser armazenados.
+                self.update(message='Cancelamento solicitado; salvando resultados')
             for item in done:
                 r=next(r for r in current if r['file']==item['file'] and r['key']==item['key'])
                 state,reasons=review(r['en'],item['translation'],r['key'])
@@ -87,12 +107,12 @@ class Pipeline:
                 else:failed.append({'file':r['file'],'key':r['key'],'error':','.join(reasons)})
             errors.extend(failed)
             atomic_json(checkpoint,memory)
-            self.update(phase='translate',progress=skipped+start+len(current),total=len(queue),accepted=len(approved),needs_review=len(review_items),failed=len(errors),message=f'Lote {start//batch+1} concluído')
+            self.update(phase='translate',progress=skipped+start+len(current),total=len(queue),accepted=len(approved),needs_review=len(review_items),failed=len(errors),batch_elapsed_seconds=round(time.monotonic()-t0,1),batch_started_at=None,message=f'Lote {batch_no} concluído')
         # Mesmo se cancelado, exporta somente traduções já validadas em pasta separada.
         self.update(phase='export',message='Validando e exportando arquivos')
         accepted_path=work/'accepted.json';atomic_json(accepted_path,{'translations':approved,'needs_review':review_items,'failed':errors,'cancelled':self.cancel.is_set()})
         review_path=work/'quality-review.json';atomic_json(review_path,{'needs_review':review_items,'rejected':errors,'approved_count':len(approved)})
         exported=export_overlay(report,approved,work/'export',work/'backup') if approved else {'translated':0,'files':0,'output':str(work/'export')}
-        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':len(approved)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path)})
+        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':skipped+len(pending) if not self.cancel.is_set() else len(approved)+len(review_items)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path)})
         self.update(phase='done',message='Cancelado parcialmente' if self.cancel.is_set() else 'Concluído')
         return result

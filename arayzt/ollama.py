@@ -1,13 +1,14 @@
 """Cliente Ollama com schema, marcadores protegidos e retries."""
 import json
 import time
+import socket
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from .core import protect, restore, tokens
 from .quality import GLOSSARY
 
 class OllamaClient:
-    def __init__(self, url="http://127.0.0.1:11434", model="gemma3:4b", timeout=240):
+    def __init__(self, url="http://127.0.0.1:11434", model="gemma3:4b", timeout=35):
         self.url = url.rstrip("/")
         if not self.url.startswith(("http://127.0.0.1:", "http://localhost:", "http://[::1]:")):
             raise ValueError("Por segurança, use Ollama local (localhost/127.0.0.1)")
@@ -27,12 +28,12 @@ class OllamaClient:
                   "Glossário: Bandage = bandagem; Bleeding = sangramento; Hunger = fome; Pain = dor; "
                   "Minor Bleeding = sangramento leve. Traduza verbos de menus no infinitivo; nunca repita inglês sem tradução. "
                   "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Itens: " + json.dumps(protected,ensure_ascii=False))
-        payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0}}
+        payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":4096,"num_predict":768}}
         request = Request(self.url + "/api/generate", data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
         try:
             with urlopen(request, timeout=self.timeout) as response:
                 result = json.load(response)
-        except (HTTPError,URLError,TimeoutError) as exc:
+        except (HTTPError,URLError,TimeoutError,socket.timeout) as exc:
             raise RuntimeError(f"Falha ao acessar Ollama: {exc}") from exc
         try:
             translations = json.loads(result["response"])["translations"]
