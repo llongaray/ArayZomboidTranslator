@@ -126,3 +126,9 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Save workspace/en-reference-audit.json for manager review, including canonical file inventory.
 - Use all supported translation groups by default in the React dashboard; preserve existing checkpoint and exported source files.
 - Separate special RadioData, Recorded_Media and SurvivorNames formats for dedicated handling rather than falsely claiming full automatic coverage.
+
+## [0.9.9] - 2026-10-29
+- Track each concurrent worker independently through translator, supervisor and manager stages.
+- Publish live worker telemetry on /api/status without serializing independent translation tasks.
+- Update React dashboard to display simultaneously active agents and worker-specific key/cycle.
+- Add barrier-based regression verifying three workers are active concurrently.
