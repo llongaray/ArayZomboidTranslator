@@ -304,8 +304,12 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
                 if comparison['preexisting']:
                     preexisting_warnings.append({'file':str(relative),'count':len(comparison['preexisting']),'examples':comparison['preexisting'][:5]})
                 if problems:
+                    quarantine=Path(output).resolve().parent/'quarantine'/'PTBR'/relative
+                    quarantine.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copy2(output_file,quarantine)
                     output_file.unlink(missing_ok=True)
-                    blocked.append({'file':str(relative),'issues':problems[:20],'issue_count':len(problems)})
+                    blocked.append({'file':str(relative),'issues':problems[:20],
+                                    'issue_count':len(problems),'candidate_file':str(quarantine)})
                     continue
             except ValueError as exc:
                 output_file.unlink(missing_ok=True)
