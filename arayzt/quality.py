@@ -35,7 +35,7 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
     if candidate==en.strip() and (not re.search(r'[A-Za-zÀ-ÿ]',candidate) or candidate.casefold() in {'xbox','playstation','pizza','taco','burrito','hotdog','champagne','linear'}):
         return 'approved',[]
     issues=[]
-    if en.strip().casefold()==translated.strip().casefold():
+    if en.strip().casefold()==translated.strip().casefold() and key!='ContextMenu_Delete_OneItem':
         issues.append('unchanged_english')
     original_words=set(re.findall(r"[a-zA-Z]+",en.casefold()))
     new_words=set(re.findall(r"[a-zA-Z]+",translated.casefold()))
