@@ -132,3 +132,9 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Publish live worker telemetry on /api/status without serializing independent translation tasks.
 - Update React dashboard to display simultaneously active agents and worker-specific key/cycle.
 - Add barrier-based regression verifying three workers are active concurrently.
+
+## [0.10.0] - 2026-10-29
+- Replace rigid agent pipeline cards with illustrated, lightweight animated SVG robot workstations; statuses Working/Waiting/Finished follow live worker telemetry.
+- Add per-file human instructions: send Brazilian Portuguese guidance to the local Ollama for pending review keys without source-code changes.
+- Validate every proposed translation and persist approved decisions in workspace/manual-decisions.json for the next safe export.
+- Add asynchronous review API with progress state and React form, preserving game files and prior checkpoint.
