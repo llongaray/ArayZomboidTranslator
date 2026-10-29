@@ -43,7 +43,7 @@ def repair_legacy(text: str):
             safe=[];i=0
             while i<len(raw):
                 if raw[i]=='\\' and i+1<len(raw):
-                    if raw[i+1] in ('%',):
+                    if raw[i+1] not in ('a','b','f','n','r','t','v','z','x','u','\\','"',"'",'\n') and not raw[i+1].isdigit():
                         safe.append('\\\\'+raw[i+1])
                         fixes.append({'line':index,'kind':'invalid_escape'})
                     else:safe.append(raw[i:i+2])
