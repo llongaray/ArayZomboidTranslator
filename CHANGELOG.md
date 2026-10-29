@@ -96,3 +96,10 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Exclude empty English entries from translation selection instead of consuming agent retries.
 - Apply curated Portuguese translations even when an older cached translation had previously passed heuristic review.
 - Add regression tests for malformed strings, blocked output, original preservation and blank entries.
+
+## [0.9.4] - 2026-10-29
+- Repair invalid legacy Lua bare keys containing spaces into bracket-string field syntax in export copies.
+- Correct literal invalid backslash-percent escapes and internal quotes in simple entries.
+- Comment out orphaned continuation strings following commented-out concatenation headers.
+- Retain Lua full-grammar validation and reject anything still invalid; original game files untouched.
+- Added regression tests for actual ContextMenu/UI syntax patterns from the PTBR reports.
