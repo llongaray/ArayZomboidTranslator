@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 # Tokens que não devem ser alterados por um tradutor.
-TOKEN_RE = re.compile(r"%(?:\d+\$)?[-+#0 ]*\d*(?:\.\d+)?[sdif]|%\d+|\{[A-Za-z_][\w.:-]*\}|\$\{[^{}]+\}|<[^<>]+>|\\[nrt]|\[/?(?:color|img|icon|b|i)[^\]]*\]", re.I)
+TOKEN_RE = re.compile(r"(?<!\d)%(?:\d+\$)?[-+#0 ]*\d*(?:\.\d+)?[sdif]|(?<!\d)%\d+|\{[A-Za-z_][\w.:-]*\}|\$\{[^{}]+\}|<[^<>]+>|\\[nrt]|\[/?(?:color|img|icon|b|i)[^\]]*\]", re.I)
 WORD_RE = re.compile(r"[A-Za-z]{3,}")
 
 
