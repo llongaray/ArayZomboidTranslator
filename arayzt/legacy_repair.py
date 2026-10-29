@@ -4,7 +4,7 @@ Works on export copies only. Validation using luaparser remains mandatory.
 """
 import re
 
-SPACED = re.compile(r'^(\s*)([A-Za-z_][\w]*(?:[\w ]*[\w])?)\s*=\s*(?=")')
+SPACED = re.compile(r'^(\s*)([A-Za-z_][\w]*(?:[\w /-]*[\w])?)\s*=\s*(?=")')
 QUOTED = re.compile(r'^(\s*(?:\["[^"]+"\]|[A-Za-z_][\w.]*)\s*=\s*)"(.*)"(\s*,?\s*(?:--.*)?)$')
 CONT = re.compile(r'^\s*".*"(?:\s*\.\.\s*|\s*,?\s*)$')
 COMMENTED_CONCAT = re.compile(r'^\s*--\s*[A-Za-z_]\w*\s*=\s*".*"\s*\.\.\s*$')
@@ -31,7 +31,7 @@ def repair_legacy(text: str):
         m=SPACED.match(core)
         if m:
             key=m.group(2).rstrip()
-            if ' ' in key:
+            if not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*', key):
                 prefix=m.group(1)+'["'+key+'"] = '
                 core=prefix+core[m.end():]
                 fixes.append({'line':index,'kind':'bracket_key','key':key})
