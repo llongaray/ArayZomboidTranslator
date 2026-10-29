@@ -32,6 +32,14 @@ def translate_atom(row,url,model,cancel):
             state,reasons=validate_candidate(row["en"],row["en"],row["key"])
             if state=="approved":
                 return {"row":row,"status":"approved","translation":row["en"],"reasons":[],"attempts":0,"history":[{"agent":"supervisor","cycle":0,"status":"approved","reasons":["invariant"]}]}
+        from .context_glossary import CURATED, INVARIANT
+        suggested=CURATED.get(row["key"])
+        if suggested is not None:
+            candidate_status,candidate_reasons=validate_candidate(row["en"],suggested,row["key"])
+            if candidate_status=="approved":
+                return {"row":row,"status":"approved","translation":suggested,"reasons":[],"attempts":0,"history":[{"agent":"supervisor","cycle":0,"status":"approved","reasons":["curated"]}]}
+        if row["key"] in INVARIANT and row["en"].strip():
+            return {"row":row,"status":"approved","translation":row["en"],"reasons":[],"attempts":0,"history":[{"agent":"supervisor","cycle":0,"status":"approved","reasons":["invariant_key"]}]}
         request=dict(row)
         if feedback:
             request["manager_feedback"]=feedback
