@@ -39,6 +39,13 @@ def repair_legacy(text: str):
         m=QUOTED.match(core)
         if m:
             raw=m.group(2)
+            # A single trailing backslash escapes the closing Lua quote.
+            # Duplicate only the unmatched trailing slash, preserving the
+            # translated path's intended final backslash.
+            trailing=len(raw)-len(raw.rstrip('\\'))
+            if trailing % 2:
+                raw += '\\'
+                fixes.append({'line':index,'kind':'trailing_escape_before_quote'})
             # Quote all unescaped internal quote characters.
             safe=[];i=0
             while i<len(raw):
