@@ -19,6 +19,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         return
     translation, supervision, management = Queue(), Queue(), Queue()
     state_lock = Lock()
+    completion_lock = Lock()
     pending = {i: row for i, row in enumerate(rows)}
     fatal = []
     inflight = Event()
@@ -34,23 +35,28 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
 
     def finish(job, status, reasons):
         job_id = job["id"]
-        with state_lock:
-            if job_id not in pending:
-                return
-            del pending[job_id]
-            if not pending:
-                inflight.clear()
-        result = {
-            "row": job["row"], "status": status, "translation": job.get("candidate", ""),
-            "reasons": reasons, "attempts": job["cycle"], "history": job["history"]
-        }
-        try:
-            on_result(result)
-        except Exception as exc:
+        # Serialize result persistence and terminal state transitions. Another
+        # thread may attempt to cancel this job while its result is being saved.
+        with completion_lock:
             with state_lock:
-                fatal.append(exc)
-        finally:
-            emit(job.get("slot", 0), job, "complete", {"status": status})
+                if job_id not in pending:
+                    return
+            result = {
+                "row": job["row"], "status": status, "translation": job.get("candidate", ""),
+                "reasons": reasons, "attempts": job["cycle"], "history": job["history"]
+            }
+            try:
+                on_result(result)
+            except Exception as exc:
+                with state_lock:
+                    fatal.append(exc)
+                cancel.set()
+            finally:
+                with state_lock:
+                    pending.pop(job_id, None)
+                    if not pending:
+                        inflight.clear()
+                emit(job.get("slot", 0), job, "complete", {"status": status})
 
     def infrastructure_error(exc):
         # Network errors and service outages must not turn into human review.
