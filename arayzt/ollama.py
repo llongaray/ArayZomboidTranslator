@@ -4,6 +4,7 @@ import time
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from .core import protect, restore, tokens
+from .quality import GLOSSARY
 
 class OllamaClient:
     def __init__(self, url="http://127.0.0.1:11434", model="gemma3:4b", timeout=240):
@@ -24,7 +25,8 @@ class OllamaClient:
                   "Responda EXCLUSIVAMENTE no JSON requerido. Preserve integralmente símbolos especiais, marcadores ⟦AZT0000⟧, "
                   "nomes próprios, quebras, símbolos de formatação e significado. Não traduza chaves; use IDs como chaves. "
                   "Glossário: Bandage = bandagem; Bleeding = sangramento; Hunger = fome; Pain = dor; "
-                  "Minor Bleeding = sangramento leve. Itens: " + json.dumps(protected,ensure_ascii=False))
+                  "Minor Bleeding = sangramento leve. Traduza verbos de menus no infinitivo; nunca repita inglês sem tradução. "
+                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Itens: " + json.dumps(protected,ensure_ascii=False))
         payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0}}
         request = Request(self.url + "/api/generate", data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
         try:

@@ -26,3 +26,14 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 
 [Unreleased]: https://github.com/llongaray/ArayZomboidTranslator/compare/v0.4.0...HEAD
 [0.4.0]: https://github.com/llongaray/ArayZomboidTranslator/releases/tag/v0.4.0
+
+## [0.5.0] - 2026-10-28
+
+### Added
+- Quality review for unchanged English, suspicious English, glossary disagreements, and unusual length.
+- New quality-review.json output; suspect strings are not automatically exported.
+- Dashboard quality counters, glossary hints, legacy checkpoint loading.
+
+### Notes
+- Automated quality rules are conservative heuristics and do not replace manual review.
+- Previous v0.4.0 checkpoints remain readable.

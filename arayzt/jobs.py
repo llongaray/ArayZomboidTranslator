@@ -6,6 +6,7 @@ from pathlib import Path
 from .core import audit, select_rows, export_overlay, tokens, write_json
 from .ollama import OllamaClient, translate_rows
 from .summary import summarize
+from .quality import review
 
 class Cancelled(Exception): pass
 
@@ -59,13 +60,19 @@ class Pipeline:
         if not selected:raise ValueError('Nenhuma tradução elegível no filtro atual')
         queue=selected[:limit] if limit else selected
         checkpoint=work/'checkpoint-v040.json';memory=load_memory(checkpoint)
-        approved=[];pending=[];skipped=0
+        approved=[];pending=[];skipped=0;review_items=[]
         for row in queue:
             key=fingerprint(row);existing=memory.get(key)
-            if isinstance(existing,str) and existing.strip() and tokens(row['en'])==tokens(existing):
-                approved.append({'file':row['file'],'key':row['key'],'translation':existing,'source':row['status']});skipped+=1
+            if isinstance(existing,(str,dict)):
+                value=existing if isinstance(existing,str) else existing.get('translation','')
+                state,reasons=review(row['en'],value,row['key'])
+                if state=='approved':
+                    approved.append({'file':row['file'],'key':row['key'],'translation':value,'source':row['status']});skipped+=1
+                elif state=='needs_review':
+                    review_items.append({'file':row['file'],'key':row['key'],'english':row['en'],'translation':value,'quality':state,'reasons':reasons});skipped+=1
+                else:pending.append(row)
             else:pending.append(row)
-        self.update(phase='translate',total=len(queue),progress=skipped,accepted=skipped,failed=0,message='Traduzindo lotes com checkpoint')
+        self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,message='Traduzindo lotes com checkpoint')
         client=OllamaClient(url,model);errors=[]
         for start in range(0,len(pending),batch):
             if self.cancel.is_set():break
@@ -73,14 +80,19 @@ class Pipeline:
             done,failed=translate_rows(client,current,batch_size=batch,retries=1)
             for item in done:
                 r=next(r for r in current if r['file']==item['file'] and r['key']==item['key'])
-                memory[fingerprint(r)]=item['translation']
-            approved.extend(done);errors.extend(failed)
+                state,reasons=review(r['en'],item['translation'],r['key'])
+                memory[fingerprint(r)]={'translation':item['translation'],'quality':state,'reasons':reasons}
+                if state=='approved':approved.append(item)
+                elif state=='needs_review':review_items.append({**item,'english':r['en'],'quality':state,'reasons':reasons})
+                else:failed.append({'file':r['file'],'key':r['key'],'error':','.join(reasons)})
+            errors.extend(failed)
             atomic_json(checkpoint,memory)
-            self.update(phase='translate',progress=skipped+start+len(current),total=len(queue),accepted=len(approved),failed=len(errors),message=f'Lote {start//batch+1} concluído')
+            self.update(phase='translate',progress=skipped+start+len(current),total=len(queue),accepted=len(approved),needs_review=len(review_items),failed=len(errors),message=f'Lote {start//batch+1} concluído')
         # Mesmo se cancelado, exporta somente traduções já validadas em pasta separada.
         self.update(phase='export',message='Validando e exportando arquivos')
-        accepted_path=work/'accepted.json';atomic_json(accepted_path,{'translations':approved,'failed':errors,'cancelled':self.cancel.is_set()})
+        accepted_path=work/'accepted.json';atomic_json(accepted_path,{'translations':approved,'needs_review':review_items,'failed':errors,'cancelled':self.cancel.is_set()})
+        review_path=work/'quality-review.json';atomic_json(review_path,{'needs_review':review_items,'rejected':errors,'approved_count':len(approved)})
         exported=export_overlay(report,approved,work/'export',work/'backup') if approved else {'translated':0,'files':0,'output':str(work/'export')}
-        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':len(approved)+len(errors),'reused':skipped})
+        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':len(approved)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path)})
         self.update(phase='done',message='Cancelado parcialmente' if self.cancel.is_set() else 'Concluído')
         return result
