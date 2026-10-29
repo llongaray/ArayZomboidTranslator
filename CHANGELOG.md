@@ -138,3 +138,9 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Add per-file human instructions: send Brazilian Portuguese guidance to the local Ollama for pending review keys without source-code changes.
 - Validate every proposed translation and persist approved decisions in workspace/manual-decisions.json for the next safe export.
 - Add asynchronous review API with progress state and React form, preserving game files and prior checkpoint.
+
+## [0.10.1] - 2026-10-29
+- Separate translation into independent queues and dedicated concurrent translator, supervisor, and manager stages.
+- Let each translator start another item immediately after sending the previous one to the supervisor.
+- Retries return only rejected items to the translation queue, with manager feedback and bounded cycles.
+- Publish stages independently for the dashboard; test actual supervisor/translator overlap.
