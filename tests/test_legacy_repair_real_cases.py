@@ -34,3 +34,10 @@ def test_hyphenated_keys_and_partial_repair_survive():
     assert '["UI_bindings_Rack Firearm"]' in normalized
     fixed,_=safe_repair(normalized)
     assert syntax_error(fixed) is None
+
+def test_trailing_backslash_from_real_ui_map_tooltip():
+    source = 'UI_PTBR = {\n    UI_ServerOption_Map_tooltip = "Em \\\\Steam\\\\steamapps\\\\media\\\\maps\\",\n    UI_ServerOption_MaxPlayers_tooltip = "Número máximo de jogadores",\n}\n'
+    normalized,fixes=repair_legacy(source)
+    assert any(f['kind']=='trailing_escape_before_quote' for f in fixes)
+    assert 'maps\\\\",' in normalized
+    assert syntax_error(normalized) is None
