@@ -303,11 +303,15 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
                                      'error':certification['error'],
                                      'suspected_lines':certification.get('suspected_lines',[]),
                                      'attempted_fixes':certification.get('fixes',[])})
-                if certification['valid'] and certification['repaired']:
+                if certification['valid']:
                     # A repaired file must still preserve every accepted translation.
                     parsed=read_lua(output_file)
                     if any(parsed.get(k)!=v for k,v in changes.items()):
                         problems.append(('repaired_file_mutated_translation',str(relative)))
+                    if recovery and recovery.get('valid'):
+                        original_entries=read_lua(source_file)
+                        if any(parsed.get(k)!=v for k,v in original_entries.items() if k not in changes):
+                            problems.append(('recovery_lost_original_translation',str(relative)))
                 if comparison['preexisting']:
                     preexisting_warnings.append({'file':str(relative),'count':len(comparison['preexisting']),'examples':comparison['preexisting'][:5]})
                 if problems:
