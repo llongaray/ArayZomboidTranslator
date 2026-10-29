@@ -22,6 +22,8 @@ class OllamaClient:
             protected[r["key_id"]] = value
             maps[r["key_id"]] = mapping
         schema = {"type":"object","properties":{"translations":{"type":"object","properties":{r["key_id"]:{"type":"string"} for r in records},"required":[r["key_id"] for r in records],"additionalProperties":False}},"required":["translations"],"additionalProperties":False}
+        feedback=records[0].get("manager_feedback","") if len(records)==1 else ""
+        previous=records[0].get("previous_translation","") if len(records)==1 else ""
         prompt = ("Traduza textos de interface do jogo Project Zomboid de inglês para português brasileiro natural. "
                   "Responda EXCLUSIVAMENTE no JSON requerido. Preserve integralmente símbolos especiais, marcadores ⟦AZT0000⟧, "
                   "nomes próprios, quebras, símbolos de formatação e significado. Não traduza chaves; use IDs como chaves. "
@@ -29,7 +31,7 @@ class OllamaClient:
                   "Minor Bleeding = sangramento leve. Traduza verbos de menus no infinitivo; nunca repita inglês sem tradução. "
                   "Nunca retorne nomes de arquivos .txt, IDs, chaves ou metadados como tradução. "
                   "Produza um campo translations com exatamente os IDs do lote. "
-                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Textos: " + json.dumps(protected,ensure_ascii=False))
+                  "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Textos: " + json.dumps(protected,ensure_ascii=False) + (" GERENTE: "+feedback+" ANTERIOR: "+previous if feedback else ""))
         payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":4096,"num_predict":768}}
         request = Request(self.url + "/api/generate", data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
         try:

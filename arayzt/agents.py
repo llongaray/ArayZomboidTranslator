@@ -1,51 +1,60 @@
-"""Orquestrador de traducao atomica; workers concorrentes, supervisor e gerente.
-
-Cada unidade e uma entrada. Somente a thread orquestradora persiste checkpoints,
-evitando corrupcao e garantindo retomada por fingerprint.
-"""
+"""Agentes ciclicos de traducao com feedback de gerente e supervisao baseada em regras."""
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from .ollama import OllamaClient, translate_rows
 from .validation import validate_candidate
 
-def translate_atom(row, url, model, cancel):
-    if cancel.is_set():
-        return {"row": row, "status": "cancelled", "translation": "", "reasons": ["cancelled"], "attempts": 0}
-    client = OllamaClient(url, model)
-    failures = []
-    for attempt in range(2):
-        if cancel.is_set():
-            return {"row": row, "status": "cancelled", "translation": "", "reasons": ["cancelled"], "attempts": attempt}
-        # Translator: one isolated generation per atomic entry.
-        done, errors = translate_rows(client, [row], batch_size=1, retries=0)
-        if done:
-            candidate = done[0]["translation"]
-            # Supervisor: structural and language heuristics.
-            status, reasons = validate_candidate(row["en"], candidate, row["key"])
-            if status == "approved":
-                return {"row":row,"status":status,"translation":candidate,"reasons":[],"attempts":attempt+1}
-            failures.append((status,candidate,reasons))
-        else:
-            failures.append(("rejected","", [str(e.get("error","ollama_error")) for e in errors]))
-        # Manager: one bounded rework attempt, then escalate to human review.
-    if failures:
-        status, candidate, reasons = failures[-1]
-        if status == "rejected" and not candidate:
-            return {"row":row,"status":"rejected","translation":"","reasons":reasons,"attempts":2}
-        return {"row":row,"status":"needs_review","translation":candidate,"reasons":reasons or ["supervisor_escalation"],"attempts":2}
-    return {"row":row,"status":"rejected","translation":"","reasons":["no_result"],"attempts":2}
+MAX_CYCLES=3
 
-def orchestrate(rows, url, model, workers, cancel, on_result):
-    """Bounded outstanding tasks; commits in the calling thread as results complete."""
+def manager_decision(status,reasons,cycle,max_cycles=MAX_CYCLES):
+    if status=="approved":
+        return {"decision":"approve","reason":"supervisor_passed","context":""}
+    if cycle>=max_cycles:
+        return {"decision":"human_review","reason":"max_cycles","context":",".join(reasons)}
+    guide={"unchanged_english":"Traduza realmente o texto, sem deixar o original em ingles.",
+           "suspected_english":"Corrija termos nao traduzidos para portugues brasileiro.",
+           "glossary_mismatch":"Use rigorosamente o glossario de termos do jogo.",
+           "placeholder_mismatch":"Mantenha todos os placeholders inalterados.",
+           "structural_echo":"Nao retorne nomes de arquivos, identificadores ou chaves.",
+           "metadata_echo":"Nunca retorne metadados ou estruturas JSON como traducao.",
+           "empty_translation":"Forneca uma traducao nao vazia."}
+    context=" ".join(guide.get(r,"Corrija o erro: "+r) for r in reasons)
+    return {"decision":"retry","reason":",".join(reasons),"context":context[:900]}
+
+def translate_atom(row,url,model,cancel):
+    history=[];feedback="";previous="";reasons=[]
+    for cycle in range(1,MAX_CYCLES+1):
+        if cancel.is_set():
+            return {"row":row,"status":"cancelled","translation":previous,"reasons":["cancelled"],"attempts":cycle-1,"history":history}
+        request=dict(row)
+        if feedback:
+            request["manager_feedback"]=feedback
+            request["previous_translation"]=previous
+        done,errors=translate_rows(OllamaClient(url,model),[request],batch_size=1,retries=0)
+        if done:
+            candidate=done[0]["translation"]
+            status,reasons=validate_candidate(row["en"],candidate,row["key"])
+        else:
+            candidate="";status="rejected"
+            reasons=[e.get("error","ollama_error") for e in errors] or ["ollama_error"]
+        history.append({"agent":"translator","cycle":cycle,"translation":candidate})
+        history.append({"agent":"supervisor","cycle":cycle,"status":status,"reasons":reasons})
+        decision=manager_decision(status,reasons,cycle)
+        history.append({"agent":"manager","cycle":cycle,**decision})
+        if decision["decision"]=="approve":
+            return {"row":row,"status":"approved","translation":candidate,"reasons":[],"attempts":cycle,"history":history}
+        feedback=decision["context"];previous=candidate
+    return {"row":row,"status":"needs_review","translation":previous,"reasons":reasons,"attempts":MAX_CYCLES,"history":history}
+
+def orchestrate(rows,url,model,workers,cancel,on_result):
     workers=max(1,min(int(workers),4))
-    it=iter(rows)
+    iterator=iter(rows)
     with ThreadPoolExecutor(max_workers=workers,thread_name_prefix="aray-agent") as pool:
         active={}
         def submit():
-            if cancel.is_set():return False
-            try:row=next(it)
-            except StopIteration:return False
+            if cancel.is_set():return
+            try:row=next(iterator)
+            except StopIteration:return
             active[pool.submit(translate_atom,row,url,model,cancel)]=row
-            return True
         for _ in range(workers):submit()
         while active:
             finished,_=wait(active,return_when=FIRST_COMPLETED)
@@ -53,6 +62,6 @@ def orchestrate(rows, url, model, workers, cancel, on_result):
                 row=active.pop(future)
                 try:result=future.result()
                 except Exception as exc:
-                    result={"row":row,"status":"rejected","translation":"","reasons":[str(exc)],"attempts":1}
+                    result={"row":row,"status":"needs_review","translation":"","reasons":[str(exc)],"attempts":0,"history":[]}
                 on_result(result)
                 submit()

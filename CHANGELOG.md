@@ -72,3 +72,12 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 ### Notes
 - Concurrent requests share the configured Ollama endpoint/model, not independent VRAM model copies.
 - A single RX 6600 may perform best with one worker; measure throughput before increasing concurrency.
+
+## [0.8.0] - 2026-10-28
+
+- Cyclic translator-supervisor-manager review with up to three feedback-guided attempts.
+- Suspect checkpoint entries return to retranslation instead of staying permanently in review.
+- Agent history persisted in agent-history.json.
+- Explicit export_error and failed delivery status.
+- Improved dashboard progress typography, pipeline stages and hover effects.
+- Supervisor and manager are deterministic rules, not independent LLM agents.

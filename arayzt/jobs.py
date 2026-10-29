@@ -64,7 +64,7 @@ class Pipeline:
         if not selected:raise ValueError('Nenhuma tradução elegível no filtro atual')
         queue=selected[:limit] if limit else selected
         checkpoint=work/'checkpoint-v040.json';memory=load_memory(checkpoint)
-        approved=[];pending=[];skipped=0;review_items=[]
+        approved=[];pending=[];skipped=0;review_items=[];histories=[]
         for row in queue:
             key=fingerprint(row);existing=memory.get(key)
             if isinstance(existing,(str,dict)):
@@ -73,7 +73,7 @@ class Pipeline:
                 if state=='approved':
                     approved.append({'file':row['file'],'key':row['key'],'translation':value,'source':row['status']});skipped+=1
                 elif state=='needs_review':
-                    review_items.append({'file':row['file'],'key':row['key'],'english':row['en'],'translation':value,'quality':state,'reasons':reasons});skipped+=1
+                    pending.append(row) # Reavalia com feedback no ciclo multiagente
                 else:pending.append(row)
             else:pending.append(row)
         self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,message='Traduzindo lotes com checkpoint')
@@ -83,13 +83,14 @@ class Pipeline:
             nonlocal done_count
             row=out['row']
             status=out['status']
+            histories.append({'file':row['file'],'key':row['key'],'status':status,'history':out.get('history',[])})
             if status=='approved':
                 approved.append({'file':row['file'],'key':row['key'],'translation':out['translation'],'source':row['status']})
             elif status=='needs_review':
                 review_items.append({'file':row['file'],'key':row['key'],'english':row['en'],'translation':out['translation'],'quality':status,'reasons':out['reasons']})
             elif status=='rejected':
                 errors.append({'file':row['file'],'key':row['key'],'error':','.join(out['reasons'])})
-            if out['translation']:
+            if out['translation'] and status=='approved':
                 memory[fingerprint(row)]={'translation':out['translation'],'quality':status,'reasons':out['reasons']}
                 # Atomic disk write by orchestrator only; no worker mutates the checkpoint.
                 atomic_json(checkpoint,memory)
@@ -119,9 +120,13 @@ class Pipeline:
                 review_items.append({'file':original['file'],'key':original['key'],'english':original['en'],'translation':d['translation'],'quality':'rejected_by_human','reasons':['manual_rejection']})
         # Mesmo se cancelado, exporta somente traduções já validadas em pasta separada.
         self.update(phase='export',message='Validando e exportando arquivos')
+        history_path=work/'agent-history.json';atomic_json(history_path,{'items':histories})
         accepted_path=work/'accepted.json';atomic_json(accepted_path,{'translations':approved,'needs_review':review_items,'failed':errors,'cancelled':self.cancel.is_set()})
         review_path=work/'quality-review.json';atomic_json(review_path,{'needs_review':review_items,'rejected':errors,'approved_count':len(approved)})
-        exported=export_overlay(report,approved,work/'export',work/'backup') if approved else {'translated':0,'files':0,'output':str(work/'export')}
-        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':skipped+len(pending) if not self.cancel.is_set() else len(approved)+len(review_items)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path)})
-        self.update(phase='done',message='Cancelado parcialmente' if self.cancel.is_set() else 'Concluído')
+        try:
+            exported=export_overlay(report,approved,work/'export',work/'backup') if approved else {'translated':0,'files':0,'output':str(work/'export')}
+        except (ValueError,OSError) as exc:
+            exported={'translated':0,'files':0,'output':str(work/'export'),'export_error':str(exc)}
+        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':skipped+len(pending) if not self.cancel.is_set() else len(approved)+len(review_items)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path),'agent_history':str(history_path)})
+        self.update(phase='export_failed' if exported.get('export_error') else 'done',message=exported.get('export_error') or ('Cancelado parcialmente' if self.cancel.is_set() else 'Concluído'))
         return result
