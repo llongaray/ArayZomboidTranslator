@@ -60,6 +60,46 @@ def review_decision():
         return jsonify(saved=True,item=item)
     except (ValueError,OSError,KeyError,TypeError) as exc:return jsonify(error=str(exc)),400
 
+_instruction_lock=threading.Lock()
+_instruction_state={'status':'idle','progress':0,'total':0,'result':None,'error':None}
+
+@app.get('/api/review/instruction-status')
+def instruction_status():
+    with _instruction_lock:
+        return jsonify(dict(_instruction_state))
+
+@app.post('/api/review/instruct')
+def instruction_start():
+    with _lock:
+        if _state['status']=='running':
+            return jsonify(error='Conclua a execução atual antes da revisão'),409
+    data=request.get_json(silent=True) or {}
+    work=Path(str(data.get('work','./workspace'))).expanduser().resolve()
+    file=str(data.get('file',''))
+    instruction=str(data.get('instruction','')).strip()
+    if not file or not instruction or len(instruction)>1200:
+        return jsonify(error='Arquivo e instrução (até 1200 caracteres) são obrigatórios'),400
+    with _instruction_lock:
+        if _instruction_state['status']=='running':
+            return jsonify(error='Já existe revisão por LLM em andamento'),409
+        _instruction_state.update(status='running',progress=0,total=0,result=None,error=None)
+    def task_instruction():
+        try:
+            from .review_instructions import instruct
+            def progress(done,total,item):
+                with _instruction_lock:
+                    _instruction_state.update(progress=done,total=total,last=item)
+            result=instruct(work,file,instruction,model=str(data.get('model','gemma3:4b')),
+                           url=str(data.get('url','http://127.0.0.1:11434')),
+                           key=data.get('key'),limit=int(data.get('limit',20)),on_progress=progress)
+            with _instruction_lock:
+                _instruction_state.update(status='done',result=result)
+        except Exception as exc:
+            with _instruction_lock:
+                _instruction_state.update(status='error',error=str(exc))
+    threading.Thread(target=task_instruction,daemon=True).start()
+    return jsonify(started=True),202
+
 @app.get('/api/preview')
 def preview():
     with _lock:
