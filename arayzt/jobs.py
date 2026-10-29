@@ -65,7 +65,17 @@ class Pipeline:
         queue=selected[:limit] if limit else selected
         checkpoint=work/'checkpoint-v040.json';memory=load_memory(checkpoint)
         approved=[];pending=[];skipped=0;review_items=[];histories=[];invalidated=[]
+        from .context_glossary import CURATED
         for row in queue:
+            # Reviewed glossary entries take precedence over old checkpoint guesses.
+            if row['key'] in CURATED:
+                candidate=CURATED[row['key']]
+                quality,why=validate_candidate(row['en'],candidate,row['key'])
+                if quality=='approved':
+                    approved.append({'file':row['file'],'key':row['key'],'translation':candidate,'source':row['status']})
+                    memory[fingerprint(row)]={'translation':candidate,'quality':'approved','reasons':['curated']}
+                    skipped+=1
+                    continue
             key=fingerprint(row);existing=memory.get(key)
             if isinstance(existing,(str,dict)):
                 value=existing if isinstance(existing,str) else existing.get('translation','')
