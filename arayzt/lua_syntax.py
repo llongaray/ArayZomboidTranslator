@@ -19,21 +19,48 @@ def syntax_error(text: str) -> str | None:
         return str(exc)[:500]
 
 def safe_repair(text: str) -> tuple[str,list[str]]:
-    """Only add a missing separator after an unambiguous complete string entry."""
+    """Repair only quoted Lua table entries with unambiguous outer delimiters.
+
+    Preserve source separately. Every repaired output must pass the full Lua parser
+    and accepted translation equality checks before being delivered.
+    """
     lines=text.splitlines(keepends=True)
     fixes=[]
-    for i in range(len(lines)-1):
-        raw=lines[i]
-        body=raw.rstrip('\r\n')
-        match=ASSIGN.fullmatch(body)
-        if not match or ',' in match.group(3).split('--',1)[0]:
+    for i,original in enumerate(lines):
+        body=original.rstrip('\r\n')
+        eol=original[len(body):]
+        start=re.match(r'^(\s*[A-Za-z_][\w.]*\s*=\s*)"',body)
+        if not start:
             continue
-        nxt=lines[i+1]
-        if SIMPLE_START.match(nxt):
-            before=lines[i]
-            line_end='\r\n' if before.endswith('\r\n') else ('\n' if before.endswith('\n') else '')
-            lines[i]=body.rstrip()+','+line_end
-            fixes.append(f'added_separator_line_{i+1}')
+        # Last non-comment string quote is the closing Lua delimiter.
+        tail=re.search(r'"\s*,?\s*(?:--.*)?$',body)
+        if not tail or tail.start()<=start.end()-1:
+            continue
+        inner=body[start.end():tail.start()]
+        escaped=[]
+        j=0
+        while j<len(inner):
+            if inner[j]=='\\' and j+1<len(inner):
+                escaped.append(inner[j:j+2]);j+=2
+            elif inner[j]=='"':
+                escaped.append(r'\"');j+=1
+            else:
+                escaped.append(inner[j]);j+=1
+        fixed=body[:start.end()]+''.join(escaped)+body[tail.start():]
+        if fixed!=body:
+            fixes.append(f'escaped_internal_quotes_line_{i+1}')
+        match=ASSIGN.fullmatch(fixed)
+        if match and ',' not in match.group(3).split('--',1)[0]:
+            following=next((n.strip() for n in lines[i+1:] if n.strip() and not n.lstrip().startswith('--')), '')
+            if SIMPLE_START.match(following):
+                # Insert before trailing comment rather than inside it.
+                comment_at=fixed.find('--',match.end(2)+1)
+                if comment_at>=0:
+                    fixed=fixed[:comment_at].rstrip()+', '+fixed[comment_at:]
+                else:
+                    fixed=fixed.rstrip()+','
+                fixes.append(f'added_separator_line_{i+1}')
+        lines[i]=fixed+eol
     return ''.join(lines),fixes
 
 def certify(path: Path) -> dict:
