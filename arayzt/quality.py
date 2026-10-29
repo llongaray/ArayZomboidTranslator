@@ -22,7 +22,7 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
     if tokens(en) != tokens(translated):
         return 'rejected',['placeholder_mismatch']
     candidate=translated.strip()
-    if re.search(r'(?i)(GERENTE|SUPERVISOR|TRADUTOR)\\s*:',candidate):
+    if re.search(r'(?i)(GERENTE|SUPERVISOR|TRADUTOR)\s*:',candidate):
         return 'rejected',['agent_feedback_leak']
     if '⟦' in candidate or '⟧' in candidate:
         return 'rejected',['unrestored_marker']
