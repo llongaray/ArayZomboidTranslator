@@ -88,3 +88,11 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Reclassify invariant values, brand terms and empty original strings.
 - Revalidate checkpoint approvals; record invalidations for recovery.
 - Compare Lua export parser warnings against the original PTBR files.
+
+## [0.9.3] - 2026-10-29
+- Validate complete generated PTBR Lua files using luaparser, never execute the game scripts.
+- Repair unambiguous missing commas and unescaped inner quotes in working copies only, requiring full syntax validation and exact translated-key preservation.
+- Block files that fail certification; keep originals untouched and report failures.
+- Exclude empty English entries from translation selection instead of consuming agent retries.
+- Apply curated Portuguese translations even when an older cached translation had previously passed heuristic review.
+- Add regression tests for malformed strings, blocked output, original preservation and blank entries.
