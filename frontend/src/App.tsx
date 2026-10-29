@@ -1,45 +1,145 @@
-import ReviewByFile from './ReviewByFile';
+import {useEffect, useState, type FormEvent} from 'react';
+import {Activity, ArrowDownToLine, ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, ClipboardCheck, FolderOpen, Layers3, LoaderCircle, Play, RefreshCw, Settings2, ShieldCheck, Square, Terminal, Wifi, WifiOff, X} from 'lucide-react';
+import {motion, useReducedMotion} from 'motion/react';
 import AgentRobot from './AgentRobot';
-import {useEffect,useState} from 'react';
-import {motion,useReducedMotion} from 'motion/react';
-import {BookOpen,Workflow,Languages,ShieldCheck,ClipboardCheck,Flag,Play,Square,RefreshCw} from 'lucide-react';
-type Entry={file:string;key:string;status:string;history:{agent:string;cycle?:number}[]};
-type Summary={total?:number;counts?:{translated?:number;missing?:number;identical?:number;placeholder_mismatch?:number}};
-type ActiveWorker={worker:number;agent:string;cycle:number;file:string;key:string;detail?:Record<string,unknown>};
-type State={active_workers?:ActiveWorker[];status?:string;phase?:string;progress?:number;total?:number;accepted?:number;needs_review?:number;errors?:number;workers?:number;message?:string;agent_recent?:Entry[];summary?:Summary;result?:{files?:number;blocked_files?:unknown[];export_error?:string;output?:string;accepted?:string;quality_review?:string;agent_history?:string}};
-type ReviewItem={file:string;key:string;english:string;translation:string;reasons?:string[]};
-const agents=[{name:'Orquestrador',description:'Distribui tarefas e workers',color:'#a477fb',icon:Workflow},{name:'Tradutor',description:'Traduz usando Ollama',color:'#2e9cfb',icon:Languages},{name:'Supervisor',description:'Qualidade e placeholders',color:'#29d3aa',icon:ShieldCheck},{name:'Gerente',description:'Revisão e feedback',color:'#ffcb50',icon:ClipboardCheck},{name:'Entrega',description:'Exportação validada',color:'#22d8a5',icon:Flag}];
-const format=(x?:number)=>Number(x||0).toLocaleString('pt-BR');
-export default function App(){
-const [s,setS]=useState<State>({}),[game,setGame]=useState(''),[work,setWork]=useState('./workspace'),[model,setModel]=useState('gemma3:4b'),[workers,setWorkers]=useState('1'),[batch,setBatch]=useState('4'),[limit,setLimit]=useState('0'),[filter,setFilter]=useState(''),[mode,setMode]=useState('all'),[operation,setOperation]=useState('translate'),[reviews,setReviews]=useState<ReviewItem[]>([]),[error,setError]=useState(''),[events,setEvents]=useState<string[]>([]);
-const reduced=useReducedMotion();
-useEffect(()=>{let active=true;const refresh=()=>fetch('/api/status').then(r=>r.json()).then((state:State)=>{if(!active)return;setS(state);if(state.message)setEvents(old=>old[0]===state.message?old:[state.message!,...old].slice(0,35))}).catch(()=>{});refresh();const id=setInterval(refresh,1000);return()=>{active=false;clearInterval(id)}},[]);
-const pct=s.total?Math.min(100,100*(s.progress||0)/s.total):0;
-const last=s.agent_recent?.at(-1),current=last?.history?.at(-1)?.agent;
-const stage=s.phase==='export'?4:current==='translator'?1:current==='supervisor'?2:current==='manager'?3:0;
-const active=s.active_workers||[];
-const running=s.status==='running';
-async function start(){setError('');try{const res=await fetch('/api/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({game,work,model,url:'http://127.0.0.1:11434',workers:Number(workers),batch:Number(batch),limit:Number(limit),mode,files:filter,operation})});if(!res.ok)setError((await res.json()).error||'Não foi possível iniciar')}catch(e){setError(String(e))}}
-async function loadReviews(){try{const res=await fetch('/api/review?work='+encodeURIComponent(work)),data=await res.json();if(!res.ok)throw Error(data.error||'Erro ao carregar');setReviews(data.items||[])}catch(e){setError(String(e))}}
-const summary=s.summary,counts=summary?.counts||{};
-const metrics=[['Aprovadas',s.accepted,'#27d7a3'],['Revisão humana',s.needs_review,'#ffbf4b'],['Falhas',s.errors,'#fa6580'],['Selecionadas',s.total,'#38adff'],['Traduzidas na origem',counts.translated,'#aa8dff'],['Ausentes na origem',counts.missing,'#9ac0ec'],['Idênticas',counts.identical,'#ad84ff'],['Placeholders',counts.placeholder_mismatch,'#ffca50']];
-return <><header className="header"><div className="brand"><div className="brand-icon"><BookOpen size={28}/></div><div><h1>Aray <b>Zomboid</b> Translator <span className="version">v0.10.1</span></h1><div className="muted">Painel de orquestração de agentes · React + TypeScript + Motion</div></div></div><div className="connection"><span className="led"/>Backend Python · Porta 8767</div></header>
-<main className="shell">
-<section className="panel configuration"><div className="section-head"><h2>Configuração da execução</h2><span className="pill">Ollama local</span></div><div className="fields">
-<label>Diretório do jogo<input placeholder="E:\\Games\\Project.Zomboid...\\Translate" value={game} onChange={e=>setGame(e.target.value)}/></label>
-<label>Workspace<input value={work} onChange={e=>setWork(e.target.value)}/></label>
-<label>Modelo<input value={model} onChange={e=>setModel(e.target.value)}/></label>
-<label>Workers (1–4)<select value={workers} onChange={e=>setWorkers(e.target.value)}>{[1,2,3,4].map(n=><option key={n}>{n}</option>)}</select></label>
-<label>Itens por lote<input type="number" min="1" max="32" value={batch} onChange={e=>setBatch(e.target.value)}/></label>
-<label>Limite (0 = todos)<input type="number" min="0" value={limit} onChange={e=>setLimit(e.target.value)}/></label>
-<label>Arquivos (vazio = todos os grupos)<input value={filter} onChange={e=>setFilter(e.target.value)} title="Vazio significa todos os arquivos Lua/JSON reconhecidos. EN é a referência de chaves. Rádio, mídia e textos livres exigem processamento específico." /></label>
-<label>Operação<select value={operation} onChange={e=>setOperation(e.target.value)}><option value="translate">Traduzir e exportar</option><option value="audit">Somente auditar</option></select></label>
-<label>Auditoria<select value={mode} onChange={e=>setMode(e.target.value)}><option value="all">Completa</option><option value="missing">Ausentes</option><option value="review">Revisão</option></select></label>
-</div><div className="form-actions"><button disabled={!game.trim()||running} onClick={start}><Play size={13} style={{verticalAlign:'middle'}}/> Executar</button><button className="danger" disabled={!running} onClick={()=>fetch('/api/cancel',{method:'POST'})}><Square size={12} style={{verticalAlign:'middle'}}/> Cancelar</button><p className="muted">{error||'O jogo e os mods podem ter fontes de tradução diferentes. Faça auditoria antes de traduzir todos os grupos.'}</p></div></section>
-<section className="panel overview"><div><h2 className="status-title">{running?'Execução em andamento':s.status==='done'?'Processamento concluído':s.status==='partial'?'Entrega parcial':s.status==='error'?'Erro na execução':'Pronto para executar'}</h2><div className="run-state">{running?'● Processando':s.status==='done'?'● Concluído':'● Aguardando'}</div><p className="muted" style={{margin:'8px 0 0'}}>{s.message||'Aguardando início da auditoria.'}</p></div><div><div className="percent">{pct.toFixed(1).replace('.',',')}%</div><div className="track"><motion.div animate={{width:pct+'%'}} transition={{duration:reduced?0:.4}}/></div><p className="muted" style={{margin:'7px 0 0'}}>{format(s.progress)} / {format(s.total)} entradas processadas</p></div><div className="status-stats"><strong>{format(s.accepted)}</strong> aprovadas · <strong>{format(s.needs_review)}</strong> em revisão · <strong>{format(s.errors)}</strong> falhas<br/><span className="muted">{s.phase||'idle'} · {format(s.workers||1)} instância(s)</span></div></section>
-<section className="panel"><div className="section-head"><div><h2>Pipeline de agentes</h2><p className="muted">Fluxo de processamento, validação e entrega de cada entrada</p></div><span className="pill">{running?'● Agentes em atividade':'Sem tarefas ativas'}</span></div><div className="robot-pipeline">{agents.map((agent,i)=>{const ids=['orchestrator','translator','supervisor','manager','delivery'];const count=active.filter(w=>w.agent===ids[i]).length;const status=running&&(count>0||(i===0&&active.length>0))?'working':!running&&s.status==='done'?'done':'waiting';return <AgentRobot key={agent.name} name={agent.name} color={agent.color} status={status} count={count} detail={agent.description} workers={count}/>})}</div><div className="section-head" style={{marginTop:12,marginBottom:8}}><strong style={{fontSize:12}}>Workers simultâneos ({active.length}/{s.workers||1})</strong><span className="muted">Cada worker processa sua própria entrada independentemente</span></div><div className="metrics" style={{gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',marginBottom:12}}>{active.map(w=><motion.div layout className="metric" key={w.worker} style={{borderTop:'2px solid '+(w.agent==='translator'?'#329bff':w.agent==='supervisor'?'#28cea4':'#ffcb54')}}><b style={{fontSize:15}}>Worker {w.worker}</b><span>{w.agent} • ciclo {w.cycle}</span><div className="key" style={{fontSize:10,marginTop:6,overflowWrap:'anywhere'}}>{w.key}</div></motion.div>)}{running&&active.length===0&&<span className="muted">Distribuindo entradas ou recuperando checkpoint...</span>}</div><div className="feedback"><RefreshCw size={12} style={{verticalAlign:'middle'}}/> Retradução com feedback do gerente → supervisor → decisão ou revisão humana</div></section>
-<section className="metrics">{metrics.map(([name,value,color])=><div key={String(name)} className="metric" style={{borderTop:'2px solid '+color}}><b>{format(value as number)}</b><span>{name}</span></div>)}</section>
-<div className="bottom"><section className="panel"><h2>Fila e histórico dos agentes</h2><div className="queue"><table><thead><tr><th>Arquivo / chave</th><th>Agente</th><th>Ciclos</th><th>Resultado</th></tr></thead><tbody>{(s.agent_recent||[]).slice().reverse().map((item,i)=><tr key={i}><td className="key">{item.file} / {item.key}</td><td>{item.history?.at(-1)?.agent||'—'}</td><td>{item.history?.filter(h=>h.agent==='translator').length||0}</td><td><span className="pill">{item.status}</span></td></tr>)}</tbody></table>{!s.agent_recent?.length&&<div className="empty">As tarefas aparecerão aqui quando a execução começar.</div>}</div></section><section className="panel"><h2>Cobertura da tradução original</h2><div className="coverage"><div style={{width:(summary?.total?100*(counts.translated||0)/summary.total:0)+'%'}}/></div><p className="muted">{format(counts.translated)} traduzidas de {format(summary?.total)} entradas na origem</p><h2 style={{marginTop:18}}>Atividade recente</h2><div className="logs">{events.map((event,i)=><div className="log" key={i}>{event}</div>)}{!events.length&&<div className="empty">Nenhuma atividade registrada.</div>}</div></section></div>
-<div className="bottom" style={{marginTop:14}}><section className="panel"><h2>Entrega e arquivos</h2><p className={s.result?.blocked_files?.length?'warning':'muted'}>{s.result?.blocked_files?.length?format(s.result.blocked_files.length)+' arquivo(s) bloqueado(s)':s.result?.files!=null?format(s.result.files)+' arquivo(s) gerado(s)':'Aguardando exportação'}</p><div className="file-list">{s.result?.output||'Nenhum pacote disponível nesta execução.'}</div>{(s.result?.blocked_files||[]).map((b:any,i:number)=><div className="reviewItem" key={i}><strong className="warning">Arquivo bloqueado: {String(b.file||'desconhecido')}</strong><pre>{(b.issues||[]).slice(0,8).map((x:unknown)=>JSON.stringify(x)).join('\\n')}</pre></div>)}<details><summary>Detalhes da entrega</summary><pre>{JSON.stringify(s.result||{},null,2)}</pre></details></section><section className="panel"><div className="section-head"><h2>Revisão humana</h2><button className="ghost" onClick={loadReviews}>Carregar pendências</button></div><p className="muted">Revisar casos após os ciclos automáticos, sem aprovações indiscriminadas.</p><ReviewByFile reviews={reviews} work={work} model={model} onRefresh={loadReviews}/><div className="queue">{reviews.map((r,i)=><Review key={r.file+r.key+i} item={r} work={work}/>)}</div></section></div>
-</main></>}
-function Review({item,work}:{item:ReviewItem;work:string}){const [value,setValue]=useState(item.translation||''),[feedback,setFeedback]=useState('');async function decide(action:'approve'|'reject'){try{const r=await fetch('/api/review/decision',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({work,file:item.file,key:item.key,translation:value,action})}),data=await r.json();setFeedback(r.ok?'Decisão registrada':data.error||'Erro ao salvar')}catch(e){setFeedback(String(e))}}return <div className="reviewItem"><strong className="key">{item.key}</strong><p className="muted" style={{margin:'7px 0'}}>Inglês: {item.english||'(vazio)'}</p><textarea value={value} onChange={e=>setValue(e.target.value)}/><div className="actions"><button onClick={()=>decide('approve')}>Aprovar</button><button className="danger" onClick={()=>decide('reject')}>Rejeitar</button></div>{feedback&&<p className="muted">{feedback}</p>}</div>}
+import ReviewByFile from './ReviewByFile';
+import {post, api, usePoll} from './api';
+import {defaults, format, labels, type Config, type JobState, type OllamaState, type ReviewItem} from './types';
+
+function readConfig(): Config {
+  try {
+    const saved = JSON.parse(localStorage.getItem('arayzt.config.v1') || '{}');
+    const config = {...defaults};
+    for (const key of Object.keys(defaults) as (keyof Config)[]) {
+      if (typeof saved[key] === typeof defaults[key]) Object.assign(config, {[key]: saved[key]});
+    }
+    return config;
+  } catch { return defaults }
+}
+const agents = [
+  {id: 'orchestrator', name: 'Orquestrador', detail: 'Distribuição de tarefas', color: '#b6a0ed'},
+  {id: 'translator', name: 'Tradutor', detail: 'Tradução com Ollama', color: '#7bb8f2'},
+  {id: 'supervisor', name: 'Supervisor', detail: 'Validação e qualidade', color: '#72c7ad'},
+  {id: 'manager', name: 'Gerente', detail: 'Decisão e correções', color: '#e6bc68'},
+  {id: 'delivery', name: 'Entrega', detail: 'Exportação validada', color: '#a9c780'},
+];
+export default function App() {
+  const [config, setConfig] = useState(readConfig);
+  const [tab, setTab] = useState('overview');
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [cancelRequested, setCancelRequested] = useState(false);
+  const job = usePoll<JobState>('/api/status', 1200);
+  const health = usePoll<OllamaState>('/api/ollama/status?model=' + encodeURIComponent(config.model), 10000);
+  const s = job.data || {};
+  const running = s.status === 'running';
+  const offline = Boolean(job.error);
+  const busy = running || submitting;
+  const reduced = useReducedMotion();
+  const active = running ? s.active_workers || [] : [];
+  const translators = active.filter(w => w.agent === 'translator').length;
+  const auditDone = s.status === 'done' && s.phase === 'audit_done';
+  const pct = auditDone ? 100 : s.total ? Math.max(0, Math.min(100, 100 * (s.progress || 0) / s.total)) : s.status === 'done' ? 100 : 0;
+  const [events, setEvents] = useState<{message: string; time: string}[]>([]);
+  useEffect(() => {try {localStorage.setItem('arayzt.config.v1', JSON.stringify(config))} catch { /* Storage may be disabled. */ }}, [config]);
+  useEffect(() => {
+    if (s.message) setEvents(old => old[0]?.message === s.message ? old : [{message: s.message!, time: new Date().toLocaleTimeString('pt-BR')}, ...old].slice(0, 40));
+  }, [s.message]);
+  useEffect(() => {if (!running) setCancelRequested(false)}, [running]);
+  function field<K extends keyof Config>(key: K, value: Config[K]) {setConfig(old => ({...old, [key]: value}))}
+  async function start(event: FormEvent) {
+    event.preventDefault(); setError(''); setSubmitting(true);
+    try {await post('/api/start', {...config, batch: 1, url: 'http://127.0.0.1:11434'}); setTab('overview')}
+    catch (e) {setError(e instanceof Error ? e.message : 'Não foi possível iniciar.')}
+    finally {setSubmitting(false)}
+  }
+  async function cancel() {
+    setError(''); setCancelRequested(true);
+    try {await post('/api/cancel')} catch (e) {setCancelRequested(false); setError(e instanceof Error ? e.message : 'Não foi possível cancelar.')}
+  }
+  const counts = s.summary?.counts || {};
+  return <>
+    <a className="skip-link" href="#content">Ir para o conteúdo</a>
+    <header className="header"><div className="header-inner">
+      <a className="brand" href="#content" aria-label="Aray Zomboid Translator, início"><span className="brand-icon"><BookOpen size={23}/></span><span><strong>Aray <b>Zomboid</b> Translator</strong><small>Central de tradução <span className="version">v0.10.1</span></small></span></a>
+      <div className="header-status"><span className={'connection ' + (offline ? 'bad' : job.data ? 'good' : '')}>{offline ? <WifiOff size={14}/> : <Wifi size={14}/>} {offline ? 'Backend desconectado' : job.data ? 'Backend conectado' : 'Conectando…'}</span><span className="local-label">EN <ArrowRight size={13}/> PT-BR</span></div>
+    </div></header>
+    <main className="shell" id="content">
+      <div className="page-heading"><div><div className="eyebrow">PROJECT ZOMBOID · BUILD 42</div><h1>Do original ao <span>sobrevivente.</span></h1><p>Audite, traduza e revise os textos do jogo em um só lugar.</p></div><a className="text-link" href="#configuration"><Settings2 size={16}/> Configurar execução <ArrowRight size={14}/></a></div>
+      {offline && <div className="notice error" role="alert"><WifiOff size={19}/><div><strong>Conexão com o backend interrompida</strong><p>{job.error} A reconexão é automática; os dados exibidos podem estar desatualizados.</p></div></div>}
+      {error && <div className="notice error" role="alert"><CircleHelp size={19}/><span>{error}</span><button className="icon-button" onClick={() => setError('')} aria-label="Fechar aviso"><X size={16}/></button></div>}
+      <div className="workspace-layout">
+        <aside className="configuration panel" id="configuration">
+          <div className="section-heading"><span className="section-icon"><Settings2 size={18}/></span><div><h2>Nova execução</h2><p>Prepare seu workspace</p></div></div>
+          <form onSubmit={start}>
+            <fieldset disabled={busy}>
+              <label>Diretório do jogo <span className="required">*</span><div className="input-icon"><FolderOpen size={16}/><input required value={config.game} onChange={e => field('game', e.target.value)} placeholder="E:\Games\…\Translate" autoComplete="off"/></div></label>
+              <label>Workspace<input required value={config.work} onChange={e => field('work', e.target.value)} autoComplete="off"/><small>Auditoria, checkpoint e arquivos exportados.</small></label>
+              <div className="field-divider"/>
+              <label>Operação<select value={config.operation} onChange={e => field('operation', e.target.value)}><option value="audit">Auditar arquivos</option><option value="translate">Traduzir e exportar</option></select></label>
+              <label>Escopo da auditoria<select value={config.mode} onChange={e => field('mode', e.target.value)}><option value="all">Todas as entradas elegíveis</option><option value="missing">Somente ausentes</option><option value="review">Entradas para revisão</option></select></label>
+              <label>Grupos de arquivos<input value={config.files} onChange={e => field('files', e.target.value)} placeholder="Ex.: UI, ContextMenu, Moodles"/><small>Deixe vazio para incluir todos os grupos elegíveis.</small></label>
+              <details className="advanced"><summary>Ajustes de tradução <ChevronDown size={14}/></summary><div className="advanced-body">
+                <label>Modelo Ollama<input required value={config.model} onChange={e => field('model', e.target.value)} list="ollama-models"/><datalist id="ollama-models">{health.data?.models?.map(name => <option key={name} value={name}/>)}</datalist></label>
+                <div className="field-pair"><label>Tradutores<select value={config.workers} onChange={e => field('workers', Number(e.target.value))}>{[1, 2, 3, 4].map(n => <option key={n} value={n}>{n} worker{n > 1 ? 's' : ''}</option>)}</select></label><label>Limite de entradas<input type="number" required min="0" step="1" value={config.limit} onChange={e => field('limit', Number(e.target.value))}/></label></div><small>Limite 0 processa todas as entradas selecionadas.</small>
+              </div></details>
+            </fieldset>
+            <div className={'ollama-card ' + (health.data?.ready && !health.error ? 'good' : 'warn')} role="status"><span className="status-dot"/><div><strong>{health.error ? 'Diagnóstico indisponível' : health.data?.ready ? 'Ollama disponível' : health.data?.online ? 'Modelo não instalado' : health.data ? 'Ollama indisponível' : 'Verificando Ollama…'}</strong><small>{health.error || (health.data?.ready ? config.model + ' · ' + health.data.latency_ms + ' ms' : health.data?.message || 'Consultando o serviço local')}</small></div></div>
+            <button className="primary start-button" type="submit" disabled={busy || offline || !config.game.trim() || !config.work.trim()}>{submitting ? <LoaderCircle className="spin" size={17}/> : <Play size={16}/>} {submitting ? 'Iniciando…' : config.operation === 'audit' ? 'Iniciar auditoria' : 'Traduzir e exportar'}<ArrowRight size={16}/></button>
+            {running && <button className="danger full" type="button" disabled={cancelRequested} onClick={cancel}><Square size={14}/>{cancelRequested ? 'Cancelamento solicitado…' : 'Cancelar execução'}</button>}
+            <p className="safe-note"><ShieldCheck size={15}/> A exportação é salva no workspace, separada dos arquivos do jogo.</p>
+          </form>
+        </aside>
+        <div className="workspace-main">
+          <nav className="tab-bar" aria-label="Seções do workspace">{[{id: 'overview', label: 'Visão geral', icon: Activity}, {id: 'review', label: 'Revisão humana', icon: ClipboardCheck}, {id: 'delivery', label: 'Entrega', icon: ArrowDownToLine}].map(({id, label, icon: Icon}) => <button key={id} aria-current={tab === id ? 'page' : undefined} onClick={() => setTab(id)}><Icon size={16}/>{label}{id === 'review' && Boolean(s.needs_review) && <span className="count-badge">{format(s.needs_review)}</span>}</button>)}</nav>
+          {tab === 'overview' && <>
+            <section className="panel overview"><div className="overview-top"><div><span className={'status-label ' + (s.status === 'error' ? 'bad' : running ? 'warn' : 'good')}><span className="status-dot"/>{labels[s.status || 'idle'] || s.status}</span><h2>{running ? labels[s.phase || ''] || 'Processando entradas' : s.status === 'done' ? 'Execução concluída' : s.status === 'cancelled' ? 'Execução cancelada' : s.status === 'error' ? 'A execução precisa de atenção' : s.status === 'partial' ? 'Alguns arquivos precisam de revisão' : 'Seu próximo mundo, em português.'}</h2><p>{s.message || 'Configure a execução ao lado. Comece com uma auditoria para conhecer os arquivos.'}</p></div><div className="progress-number">{pct.toFixed(1).replace('.', ',')}<span>%</span></div></div>
+              <div className="track" role="progressbar" aria-label="Progresso da execução" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}><motion.div animate={{width: pct + '%'}} transition={{duration: reduced ? 0 : .4}}/></div><div className="progress-caption"><span>{auditDone ? 'Auditoria concluída' : <>{format(s.progress)} <span className="muted">de {format(s.total)} entradas processadas</span></>}</span><span>{running ? 'Atualização automática' : 'Pronto para uma nova execução'}</span></div>
+            </section>
+            <section className="metrics" aria-label="Resultados da execução">{[{label: 'Aprovadas', value: s.accepted, icon: Check, color: 'green'}, {label: 'Revisão humana', value: s.needs_review, icon: ClipboardCheck, color: 'amber'}, {label: 'Falhas', value: s.errors, icon: CircleHelp, color: 'red'}, {label: 'Selecionadas', value: s.total, icon: Layers3, color: 'blue'}].map(({label, value, icon: Icon, color}) => <div className={'metric ' + color} key={label}><div className="metric-label"><span>{label}</span><Icon size={16}/></div><strong>{format(value)}</strong><small>{label === 'Selecionadas' ? 'Nesta execução' : 'Entradas'}</small></div>)}</section>
+            <section className="panel pipeline-panel"><div className="section-head"><div><h2>Equipe em campo</h2><p>Cada etapa cuida de uma parte da tradução.</p></div><span className="pill">{translators}/{s.workers || config.workers} tradutores ativos</span></div>
+              <div className="robot-pipeline">{agents.map(agent => {const count = active.filter(w => w.agent === agent.id).length; const working = running && (count > 0 || agent.id === 'orchestrator' || agent.id === 'delivery' && s.phase === 'export'); return <AgentRobot key={agent.id} name={agent.name} color={agent.color} status={working ? 'working' : s.status === 'done' && s.result?.files !== undefined ? 'done' : 'waiting'} count={count} detail={agent.detail} workers={count}/>})}</div>
+              <div className="pipeline-foot"><RefreshCw size={14}/><span>Entradas que precisam de correção retornam ao tradutor com feedback.</span></div>
+              {active.length > 0 && <div className="worker-list">{active.map(w => <div key={w.worker}><span className="status-dot"/><strong>{labels[w.agent] || w.agent}</strong><span className="mono">{w.key}</span><small>Ciclo {w.cycle}</small></div>)}</div>}
+            </section>
+            <div className="data-grid"><section className="panel history-panel"><div className="section-head"><h2>Histórico das entradas</h2><span className="subtle">Últimas {s.agent_recent?.length || 0}</span></div><div className="table-scroll"><table><thead><tr><th scope="col">Arquivo / chave</th><th scope="col">Ciclos</th><th scope="col">Resultado</th></tr></thead><tbody>{s.agent_recent?.slice().reverse().map(item => <tr key={item.file + item.key}><td><strong>{item.file}</strong><span className="mono">{item.key}</span></td><td>{item.history.filter(h => h.agent === 'translator').length}</td><td><span className={'result-tag ' + item.status}>{labels[item.status] || item.status}</span></td></tr>)}</tbody></table></div>{!s.agent_recent?.length && <Empty icon={<Layers3 size={25}/>} title="Nenhuma entrada processada" text="O histórico aparece aqui quando a tradução começar."/>}</section>
+              <section className="panel"><div className="section-head"><h2>Cobertura original</h2><BookOpen size={17} className="muted"/></div><div className="coverage-number">{s.summary?.total ? Math.round(100 * (counts.translated || 0) / s.summary.total) : 0}<span>%</span><small>das entradas já traduzidas</small></div><div className="coverage"><div style={{width: (s.summary?.total ? 100 * (counts.translated || 0) / s.summary.total : 0) + '%'}}/></div><div className="coverage-legend">{[{key: 'translated', label: 'Traduzidas'}, {key: 'missing', label: 'Ausentes'}, {key: 'identical', label: 'Idênticas'}, {key: 'placeholder_mismatch', label: 'Placeholders divergentes'}].map(item => <div key={item.key}><span>{item.label}</span><strong>{format(counts[item.key])}</strong></div>)}</div><p className="subtle">Referência da última auditoria dos arquivos do jogo.</p></section></div>
+            <section className="panel activity-panel"><div className="section-head"><h2><Terminal size={16}/> Atividade recente</h2><span className="subtle">Nesta sessão</span></div>{events.length ? <div className="logs">{events.map((event, i) => <div className="log" key={event.time + i}><time>{event.time}</time><span>{event.message}</span></div>)}</div> : <p className="subtle">Nenhum evento ainda. Tudo pronto para começar.</p>}</section>
+          </>}
+          {tab === 'review' && <ReviewWorkspace work={config.work} model={config.model} running={running}/>}
+          {tab === 'delivery' && <section className="panel delivery-panel"><div className="section-head"><div><h2>Entrega e arquivos</h2><p>Resultados disponíveis no workspace da execução.</p></div><ArrowDownToLine size={22}/></div>{s.result && (s.result.files !== undefined || s.result.export_error) ? <><div className="delivery-summary"><strong>{format(s.result.files)}</strong><span>arquivo(s) exportado(s)</span></div>{s.result.export_error && <div className="notice error" role="alert">{s.result.export_error}</div>}<label>Pasta de saída<div className="file-path mono">{s.result.output || 'Nenhuma pasta de saída informada.'}</div></label>{s.result.blocked_files?.map((file, i) => <details className="blocked-file" key={file.file || i}><summary>{file.file || 'Arquivo desconhecido'} · bloqueado</summary><pre>{JSON.stringify(file.issues, null, 2)}</pre></details>)}<details className="advanced"><summary>Detalhes da exportação <ChevronDown size={14}/></summary><pre>{JSON.stringify(s.result, null, 2)}</pre></details></> : <Empty icon={<FolderOpen size={32}/>} title="Sua entrega aparecerá aqui" text="Execute uma tradução para gerar os arquivos. Somente entradas validadas são exportadas."/>}</section>}
+        </div>
+      </div><footer>Aray Zomboid Translator <span>Tradução local · Inglês → Português brasileiro</span></footer>
+    </main>
+  </>;
+}
+function Empty({icon, title, text}: {icon: React.ReactNode; title: string; text: string}) {return <div className="empty"><div>{icon}</div><strong>{title}</strong><p>{text}</p></div>}
+function ReviewWorkspace({work, model, running}: {work: string; model: string; running: boolean}) {
+  const [reviews, setReviews] = useState<ReviewItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  useEffect(() => {setReviews([]); setLoaded(false)}, [work]);
+  async function load() {
+    setLoading(true); setError('');
+    try {const data = await api<{items: ReviewItem[]}>('/api/review?work=' + encodeURIComponent(work)); setReviews(data.items); setLoaded(true)}
+    catch (e) {setError(e instanceof Error ? e.message : 'Erro ao carregar pendências.')}
+    finally {setLoading(false)}
+  }
+  const visible = reviews.filter(r => (r.file + r.key + r.english).toLocaleLowerCase().includes(search.toLocaleLowerCase()));
+  return <section className="panel"><div className="section-head"><div><h2>Revisão humana</h2><p>Confira traduções e oriente as próximas correções.</p></div><button className="secondary" disabled={loading || running} onClick={load}><RefreshCw size={15} className={loading ? 'spin' : ''}/>{loading ? 'Carregando…' : 'Carregar pendências'}</button></div>{running && <p className="warning">Aguarde a execução terminar para revisar.</p>}{error && <div className="notice error" role="alert">{error}</div>}{reviews.length > 0 ? <><ReviewByFile reviews={reviews} work={work} model={model} onRefresh={load} disabled={running}/><label className="review-search">Buscar pendências<input value={search} onChange={e => setSearch(e.target.value)} placeholder="Arquivo, chave ou texto original"/></label><p className="subtle">{visible.length} de {reviews.length} pendências</p>{visible.map(item => <Review key={work + item.file + item.key + item.translation} item={item} work={work} disabled={running}/>)}</> : <Empty icon={<ClipboardCheck size={30}/>} title={loaded ? 'Nenhuma revisão pendente' : 'Uma segunda leitura faz a diferença'} text={loaded ? 'Não há pendências neste workspace.' : 'Carregue as pendências do workspace para conferir e aprovar cada tradução.'}/>}</section>;
+}
+function Review({item, work, disabled}: {item: ReviewItem; work: string; disabled: boolean}) {
+  const [value, setValue] = useState(item.translation || '');
+  const [feedback, setFeedback] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [saved, setSaved] = useState(false);
+  async function decide(action: 'approve' | 'reject') {
+    setBusy(true); setFeedback('');
+    try {await post('/api/review/decision', {work, file: item.file, key: item.key, translation: value, action}); setSaved(true); setFeedback(action === 'approve' ? 'Aprovação registrada. Execute novamente para exportar.' : 'Rejeição registrada.')}
+    catch (e) {setFeedback(e instanceof Error ? e.message : 'Erro ao salvar.')}
+    finally {setBusy(false)}
+  }
+  return <article className="reviewItem"><small className="subtle">{item.file}</small><h3 className="mono">{item.key}</h3><p className="source-text">{item.english || '(Fonte vazia)'}</p>{item.reasons?.length ? <p className="warning">{item.reasons.join(' · ')}</p> : null}<label>Tradução em português<textarea value={value} disabled={disabled || busy || saved} onChange={e => setValue(e.target.value)} rows={3}/></label><div className="actions"><button disabled={disabled || busy || saved || !value.trim()} onClick={() => decide('approve')}><Check size={15}/> Aprovar</button><button className="secondary" disabled={disabled || busy || saved} onClick={() => decide('reject')}>Rejeitar</button></div>{feedback && <p role="status">{feedback}</p>}</article>;
+}

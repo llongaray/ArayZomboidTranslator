@@ -4,16 +4,52 @@ import time
 import socket
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
+from urllib.parse import urlsplit
 from .core import protect, restore, tokens
 from .quality import GLOSSARY
 
 class OllamaClient:
     def __init__(self, url="http://127.0.0.1:11434", model="gemma3:4b", timeout=35):
         self.url = url.rstrip("/")
-        if not self.url.startswith(("http://127.0.0.1:", "http://localhost:", "http://[::1]:")):
+        parsed = urlsplit(self.url)
+        if (parsed.scheme != 'http' or parsed.hostname not in ('127.0.0.1', 'localhost', '::1')
+                or parsed.username is not None or parsed.password is not None
+                or parsed.path not in ('', '/') or parsed.query or parsed.fragment):
             raise ValueError("Por segurança, use Ollama local (localhost/127.0.0.1)")
+        parsed.port  # Reject malformed ports before making a request.
         self.model = model
         self.timeout = timeout
+
+    def health(self):
+        """Read installed models without loading a model or generating tokens.
+
+        A successful check confirms API reachability and model installation only;
+        it does not guarantee enough memory or that inference will succeed.
+        """
+        started = time.monotonic()
+        state = dict(url=self.url, model=self.model, online=False, ready=False,
+                     status='offline', models=[], model_available=False)
+        try:
+            with urlopen(self.url + '/api/tags', timeout=self.timeout) as response:
+                data = json.load(response)
+            models = data['models']
+            if not isinstance(models, list):
+                raise ValueError('Lista de modelos inválida')
+            names = sorted({m['name'] for m in models if isinstance(m, dict)
+                            and isinstance(m.get('name'), str)})
+            wanted = self.model if ':' in self.model else self.model + ':latest'
+            available = any((name if ':' in name else name + ':latest') == wanted for name in names)
+            state.update(online=True, ready=available, models=names,
+                         model_available=available,
+                         status='ready' if available else 'model_missing',
+                         message='Ollama acessível; modelo instalado' if available
+                         else f'Ollama acessível; modelo {self.model} não instalado')
+        except (HTTPError, URLError, TimeoutError, OSError) as exc:
+            state.update(message=f'Ollama indisponível: {exc}')
+        except (ValueError, KeyError, TypeError) as exc:
+            state.update(status='invalid_response', message=f'Resposta inválida do Ollama: {exc}')
+        state['latency_ms'] = round((time.monotonic() - started) * 1000)
+        return state
 
     def generate(self, records):
         protected, maps = {}, {}
