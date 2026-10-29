@@ -8,6 +8,7 @@ from .ollama import OllamaClient, translate_rows
 from .summary import summarize
 from .quality import review
 from .validation import validate_candidate
+from .manual_review import read_decisions
 
 class Cancelled(Exception): pass
 
@@ -111,6 +112,21 @@ class Pipeline:
             errors.extend(failed)
             atomic_json(checkpoint,memory)
             self.update(phase='translate',progress=skipped+start+len(current),total=len(queue),accepted=len(approved),needs_review=len(review_items),failed=len(errors),batch_elapsed_seconds=round(time.monotonic()-t0,1),batch_started_at=None,message=f'Lote {batch_no} concluído')
+        # Manual approvals override only the matching entries in the current queue.
+        decisions=read_decisions(work)
+        by_key={(r['file'],r['key']):r for r in queue}
+        for d in decisions.values():
+            identity=(d['file'],d['key'])
+            original=by_key.get(identity)
+            if original is None:continue
+            approved=[r for r in approved if (r['file'],r['key'])!=identity]
+            review_items=[r for r in review_items if (r['file'],r['key'])!=identity]
+            if d['action']=='approve':
+                status,reasons=validate_candidate(original['en'],d['translation'],original['key'])
+                if status!='rejected':
+                    approved.append({'file':original['file'],'key':original['key'],'translation':d['translation'],'source':original['status'],'review_approved':True})
+            else:
+                review_items.append({'file':original['file'],'key':original['key'],'english':original['en'],'translation':d['translation'],'quality':'rejected_by_human','reasons':['manual_rejection']})
         # Mesmo se cancelado, exporta somente traduções já validadas em pasta separada.
         self.update(phase='export',message='Validando e exportando arquivos')
         accepted_path=work/'accepted.json';atomic_json(accepted_path,{'translations':approved,'needs_review':review_items,'failed':errors,'cancelled':self.cancel.is_set()})
