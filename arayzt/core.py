@@ -118,12 +118,13 @@ def write_lua_overlay(path: Path, source: Path, english_source: Path, changes: d
         if syntax_error(text):
             from .legacy_repair import repair_legacy
             normalized, repairs = repair_legacy(text)
-            if repairs and syntax_error(normalized) is None:
+            # Keep independently safe normalizations even when other legacy
+            # syntax defects remain; the finished overlay must pass certify().
+            if repairs:
                 text = normalized
-            else:
-                repaired, fixes = safe_repair(text)
-                if fixes and syntax_error(repaired) is None:
-                    text = repaired
+            repaired, fixes = safe_repair(text)
+            if fixes:
+                text = repaired
     else:
         # Criar arquivo compatível com o nome da tabela inglesa, porém sem copiar
         # automaticamente entradas ainda não traduzidas.
