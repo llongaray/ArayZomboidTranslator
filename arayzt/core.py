@@ -114,6 +114,12 @@ def likely_fixed(value: str) -> bool:
 def write_lua_overlay(path: Path, source: Path, english_source: Path, changes: dict):
     if source.is_file():
         text = source.read_text(encoding='utf-8-sig')
+        from .lua_syntax import syntax_error, safe_repair
+        if syntax_error(text):
+            repaired, fixes = safe_repair(text)
+            if fixes and syntax_error(repaired) is None:
+                # Repair a working copy before matching entries, never the game original.
+                text = repaired
     else:
         # Criar arquivo compatível com o nome da tabela inglesa, porém sem copiar
         # automaticamente entradas ainda não traduzidas.
