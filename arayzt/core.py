@@ -255,7 +255,9 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
             item=accepted_map.get((relative,r['key']))
             if not item:continue
             value=item['translation']
-            if not isinstance(value,str) or not value.strip() or tokens(r['en'])!=tokens(value):
+            from .validation import validate_candidate
+            quality, reasons = validate_candidate(r['en'],value,r['key'])
+            if quality=='rejected' or not isinstance(value,str) or not value.strip() or tokens(r['en'])!=tokens(value):
                 raise ValueError(f'Tradução inválida: {relative}/{r["key"]}')
             if r['status']=='translated':continue
             if r['status'] in {'identical','placeholder_mismatch'} and not item.get('review_approved',False):
@@ -274,5 +276,10 @@ def export_overlay(report: dict, accepted: dict, output: Path, backup_dir: Path 
         else:
             en_source=root/'EN'/rows[0]['en_file']
             write_lua_overlay(output_file,source_file,en_source,changes)
+            from .validation import validate_lua
+            problems=validate_lua(output_file,changes)
+            if problems:
+                output_file.unlink(missing_ok=True)
+                raise ValueError(f'Overlay Lua inseguro {relative}: {problems[:3]}')
         written+=1;count+=len(changes)
     return {'translated':count,'output':str(target_root),'files':written}

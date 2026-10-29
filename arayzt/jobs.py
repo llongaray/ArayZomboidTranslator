@@ -7,6 +7,7 @@ from .core import audit, select_rows, export_overlay, tokens, write_json
 from .ollama import OllamaClient, translate_rows
 from .summary import summarize
 from .quality import review
+from .validation import validate_candidate
 
 class Cancelled(Exception): pass
 
@@ -65,7 +66,7 @@ class Pipeline:
             key=fingerprint(row);existing=memory.get(key)
             if isinstance(existing,(str,dict)):
                 value=existing if isinstance(existing,str) else existing.get('translation','')
-                state,reasons=review(row['en'],value,row['key'])
+                state,reasons=validate_candidate(row['en'],value,row['key'])
                 if state=='approved':
                     approved.append({'file':row['file'],'key':row['key'],'translation':value,'source':row['status']});skipped+=1
                 elif state=='needs_review':
@@ -102,7 +103,7 @@ class Pipeline:
                 self.update(message='Cancelamento solicitado; salvando resultados')
             for item in done:
                 r=next(r for r in current if r['file']==item['file'] and r['key']==item['key'])
-                state,reasons=review(r['en'],item['translation'],r['key'])
+                state,reasons=validate_candidate(r['en'],item['translation'],r['key'])
                 memory[fingerprint(r)]={'translation':item['translation'],'quality':state,'reasons':reasons}
                 if state=='approved':approved.append(item)
                 elif state=='needs_review':review_items.append({**item,'english':r['en'],'quality':state,'reasons':reasons})
