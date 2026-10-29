@@ -109,3 +109,8 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Normalize PZ localization keys with spaces, hyphens, and slashes into Lua bracket keys.
 - Preserve checkpoint and fail-closed export: any remaining invalid Lua stays quarantined.
 - Add combined regression coverage for UI_PTBR legacy key and escape patterns.
+
+## [0.9.6] - 2026-10-29
+- Repair trailing unpaired Lua backslash before closing quote, preserving a literal trailing path separator.
+- Regression based on actual UI_ServerOption_Map_tooltip file from blocked v0.9.5 export.
+- Keep strict Lua certification, isolated quarantine and persistent checkpoint.
