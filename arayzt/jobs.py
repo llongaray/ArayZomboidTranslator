@@ -84,6 +84,7 @@ class Pipeline:
             row=out['row']
             status=out['status']
             histories.append({'file':row['file'],'key':row['key'],'status':status,'history':out.get('history',[])})
+            self.update(agent_recent=histories[-12:])
             if status=='approved':
                 approved.append({'file':row['file'],'key':row['key'],'translation':out['translation'],'source':row['status']})
             elif status=='needs_review':
