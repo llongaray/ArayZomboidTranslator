@@ -81,3 +81,10 @@ This project follows [Semantic Versioning](https://semver.org/) for releases.
 - Explicit export_error and failed delivery status.
 - Improved dashboard progress typography, pipeline stages and hover effects.
 - Supervisor and manager are deterministic rules, not independent LLM agents.
+
+## [0.9.1] - 2026-10-29
+- Reject contaminated agent feedback and un-restored translation markers.
+- Detect basic hunger/thirst semantic confusion.
+- Reclassify invariant values, brand terms and empty original strings.
+- Revalidate checkpoint approvals; record invalidations for recovery.
+- Compare Lua export parser warnings against the original PTBR files.
