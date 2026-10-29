@@ -12,6 +12,7 @@ import time
 from .agents import manager_decision, MAX_CYCLES
 from .ollama import OllamaClient, translate_rows
 from .validation import validate_candidate
+from .core import likely_fixed, tokens
 
 def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=None):
     workers = max(1, min(int(workers), 4))
@@ -178,6 +179,9 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                "fault": [], "history": []}
         if row.get("status") in ("identical", "placeholder_mismatch") and row.get("ptbr"):
             job["candidate"] = row["ptbr"]
+            supervision.put(job)
+        elif not any(ch.isalpha() for ch in row.get("en", "") if ch not in "") and row.get("en"):
+            job["candidate"] = row["en"]
             supervision.put(job)
         else:
             translation.put(job)
