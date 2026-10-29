@@ -1,110 +1,209 @@
-"""Independent pipeline stages: multiple translator workers + supervisor + manager.
+"""Resilient staged multi-agent pipeline: translation, validation, management.
 
-Queues overlap: the translator never waits for supervisor/manager on another item.
-Only the manager completes a work item or returns feedback to translation.
+Separate queues allow overlapping stages. All jobs get exactly one terminal
+outcome; stage callback failures never kill workers. Infrastructure failures are
+reported separately from content-quality failures and do not trigger LLM retries.
 """
-from queue import Queue
-from threading import Thread, Lock
+from __future__ import annotations
+
+from queue import Queue, Empty
+from threading import Thread, Lock, Event
+import time
 from .agents import manager_decision, MAX_CYCLES
 from .ollama import OllamaClient, translate_rows
 from .validation import validate_candidate
 
-def orchestrate_pipeline(rows,url,model,workers,cancel,on_result,on_stage=None):
-    workers=max(1,min(int(workers),4))
-    translation=Queue();supervision=Queue();management=Queue()
-    lock=Lock()
-    left=len(rows)
-    def emit(slot,row,agent,cycle,detail=None):
-        if on_stage:on_stage(slot,row,agent,cycle,detail or {})
-    def finish(job,status,reasons):
-        nonlocal left
-        row=job['row']
-        result={'row':row,'status':status,'translation':job.get('candidate',''),
-                'reasons':reasons,'attempts':job['cycle'],'history':job['history']}
-        with lock:
-            on_result(result)
-            left-=1
-        emit(job.get('slot',0),row,'complete',job['cycle'],{'status':status})
-    def translator(slot):
-        client=OllamaClient(url,model)
-        while True:
-            job=translation.get()
+def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=None):
+    workers = max(1, min(int(workers), 4))
+    if not rows:
+        return
+    translation, supervision, management = Queue(), Queue(), Queue()
+    state_lock = Lock()
+    pending = {i: row for i, row in enumerate(rows)}
+    fatal = []
+    inflight = Event()
+    inflight.set()
+
+    def emit(slot, job, stage, detail=None):
+        if on_stage is not None:
             try:
-                if job is None:return
-                row=job['row'];job['slot']=slot
+                on_stage(slot, job["row"], stage, job["cycle"], detail or {})
+            except Exception:
+                # Telemetry is best-effort and must never terminate a worker.
+                pass
+
+    def finish(job, status, reasons):
+        job_id = job["id"]
+        with state_lock:
+            if job_id not in pending:
+                return
+            del pending[job_id]
+            if not pending:
+                inflight.clear()
+        result = {
+            "row": job["row"], "status": status, "translation": job.get("candidate", ""),
+            "reasons": reasons, "attempts": job["cycle"], "history": job["history"]
+        }
+        try:
+            on_result(result)
+        except Exception as exc:
+            with state_lock:
+                fatal.append(exc)
+        finally:
+            emit(job.get("slot", 0), job, "complete", {"status": status})
+
+    def infrastructure_error(exc):
+        # Network errors and service outages must not turn into human review.
+        from urllib.error import URLError, HTTPError
+        return isinstance(exc, (URLError, HTTPError, TimeoutError, ConnectionError, OSError))
+
+    def translator(slot):
+        try:
+            client = OllamaClient(url, model)
+        except Exception as exc:
+            with state_lock:
+                fatal.append(exc)
+            cancel.set()
+            return
+        while True:
+            try:
+                job = translation.get(timeout=.2)
+            except Empty:
+                if not inflight.is_set():
+                    return
+                continue
+            try:
                 if cancel.is_set():
-                    finish(job,'cancelled',['cancelled']);continue
-                emit(slot,row,'translator',job['cycle'])
-                request=dict(row,status=row.get('status','missing'))
-                if job['feedback']:
-                    request['manager_feedback']=job['feedback']
-                    request['previous_translation']=job.get('candidate','')
+                    finish(job, "cancelled", ["cancelled"])
+                    continue
+                job["slot"] = slot
+                emit(slot, job, "translator")
+                req = dict(job["row"])
+                if job["feedback"]:
+                    req["manager_feedback"] = job["feedback"]
+                    req["previous_translation"] = job.get("candidate", "")
                 try:
-                    output,errors=translate_rows(client,[request],batch_size=1,retries=0)
-                    candidate=output[0]['translation'] if output else ''
-                    fault=[] if output else [x.get('error','ollama_error') for x in errors]
+                    out, errors = translate_rows(client, [req], batch_size=1, retries=0)
+                    if not out:
+                        reason = "; ".join(str(e.get("error", "ollama_error")) for e in errors)
+                        # Returned errors may be transport errors represented as text.
+                        if any(word in reason.lower() for word in
+                               ("timed out", "connection", "refused", "urlerror", "http error", "unreachable")):
+                            raise ConnectionError(reason)
+                        job["candidate"] = ""
+                        job["fault"] = [reason or "ollama_error"]
+                    else:
+                        job["candidate"] = out[0]["translation"]
+                        job["fault"] = []
                 except Exception as exc:
-                    candidate='';fault=[str(exc)[:250]]
-                job['candidate']=candidate;job['fault']=fault
-                job['history'].append({'agent':'translator','cycle':job['cycle'],
-                                       'translation':candidate})
+                    if infrastructure_error(exc):
+                        with state_lock:
+                            fatal.append(exc)
+                        cancel.set()
+                        finish(job, "cancelled", ["ollama_unavailable"])
+                        continue
+                    job["candidate"] = ""
+                    job["fault"] = [str(exc)[:250]]
+                job["history"].append({"agent": "translator", "cycle": job["cycle"],
+                                       "translation": job["candidate"]})
                 supervision.put(job)
-            finally:translation.task_done()
+            except Exception as exc:
+                finish(job, "needs_review", ["translator_exception: " + str(exc)[:150]])
+            finally:
+                translation.task_done()
+
     def supervisor():
         while True:
-            job=supervision.get()
             try:
-                if job is None:return
-                row=job['row']
-                emit(workers+1,row,'supervisor',job['cycle'])
-                if job['fault']:
-                    status='rejected';reasons=job['fault']
+                job = supervision.get(timeout=.2)
+            except Empty:
+                if not inflight.is_set():
+                    return
+                continue
+            try:
+                if cancel.is_set():
+                    finish(job, "cancelled", ["cancelled"])
+                    continue
+                emit(workers+1, job, "supervisor")
+                if job["fault"]:
+                    status, reasons = "rejected", job["fault"]
                 else:
-                    status,reasons=validate_candidate(row['en'],job['candidate'],row['key'])
-                job['status']=status;job['reasons']=reasons
-                job['history'].append({'agent':'supervisor','cycle':job['cycle'],
-                                       'status':status,'reasons':reasons})
+                    status, reasons = validate_candidate(
+                        job["row"]["en"], job["candidate"], job["row"]["key"])
+                job["status"], job["reasons"] = status, reasons
+                job["history"].append({"agent": "supervisor", "cycle": job["cycle"],
+                                       "status": status, "reasons": reasons})
                 management.put(job)
-            finally:supervision.task_done()
+            except Exception as exc:
+                finish(job, "needs_review", ["supervisor_exception: " + str(exc)[:150]])
+            finally:
+                supervision.task_done()
+
     def manager():
         while True:
-            job=management.get()
             try:
-                if job is None:return
-                row=job['row']
-                emit(workers+2,row,'manager',job['cycle'])
-                decision=manager_decision(job['status'],job['reasons'],job['cycle'])
-                job['history'].append({'agent':'manager','cycle':job['cycle'],**decision})
+                job = management.get(timeout=.2)
+            except Empty:
+                if not inflight.is_set():
+                    return
+                continue
+            try:
                 if cancel.is_set():
-                    finish(job,'cancelled',['cancelled'])
-                elif decision['decision']=='approve':
-                    finish(job,'approved',[])
-                elif decision['decision']=='retry' and job['cycle']<MAX_CYCLES:
-                    job['feedback']=decision['context']
-                    job['cycle']+=1
+                    finish(job, "cancelled", ["cancelled"])
+                    continue
+                emit(workers+2, job, "manager")
+                decision = manager_decision(job["status"], job["reasons"], job["cycle"])
+                job["history"].append({"agent": "manager", "cycle": job["cycle"], **decision})
+                if decision["decision"] == "approve":
+                    finish(job, "approved", [])
+                elif decision["decision"] == "retry" and job["cycle"] < MAX_CYCLES:
+                    job["feedback"] = decision["context"]
+                    job["cycle"] += 1
                     translation.put(job)
                 else:
-                    finish(job,'needs_review',job['reasons'])
-            finally:management.task_done()
-    for row in rows:
-        job={'row':row,'cycle':1,'feedback':'','candidate':'',
-             'fault':[],'history':[]}
-        # Orchestrator verifies existing PTBR before spending LLM time:
-        # identical or placeholder-drifted entries go to supervisor directly.
-        if row.get('status') in ('identical','placeholder_mismatch') and row.get('ptbr'):
-            job['candidate']=row['ptbr']
+                    finish(job, "needs_review", job["reasons"])
+            except Exception as exc:
+                finish(job, "needs_review", ["manager_exception: " + str(exc)[:150]])
+            finally:
+                management.task_done()
+
+    for i, row in enumerate(rows):
+        job = {"id": i, "row": row, "cycle": 1, "feedback": "", "candidate": "",
+               "fault": [], "history": []}
+        if row.get("status") in ("identical", "placeholder_mismatch") and row.get("ptbr"):
+            job["candidate"] = row["ptbr"]
             supervision.put(job)
         else:
             translation.put(job)
-    threads=[Thread(target=translator,args=(i,),daemon=True) for i in range(1,workers+1)]
-    threads += [Thread(target=supervisor,daemon=True),Thread(target=manager,daemon=True)]
-    for t in threads:t.start()
-    # The manager is the sole owner of completion and retrial decisions.
-    while True:
-        with lock:
-            if left==0:break
-        from time import sleep
-        sleep(.04)
-    for _ in range(workers):translation.put(None)
-    supervision.put(None);management.put(None)
-    for t in threads:t.join(timeout=5)
+
+    threads = [Thread(target=translator, args=(i,), name=f"translator-{i}", daemon=True)
+               for i in range(1, workers+1)]
+    threads += [Thread(target=supervisor, name="supervisor", daemon=True),
+                Thread(target=manager, name="manager", daemon=True)]
+    for thread in threads:
+        thread.start()
+
+    # Watchdog: never wait forever when every worker of a stage exits unexpectedly.
+    while inflight.wait(timeout=.1):
+        if cancel.is_set():
+            # Flush remaining queue entries as cancelled, including jobs belonging
+            # to unexpectedly stopped stages. Finish is idempotent by job ID.
+            with state_lock:
+                remaining = list(pending.items())
+            for i, row in remaining:
+                finish({"id": i, "row": row, "cycle": 0, "history": [],
+                        "candidate": ""}, "cancelled", ["cancelled"])
+            break
+        if not any(t.is_alive() for t in threads[:-2]):
+            with state_lock:
+                remaining = list(pending.items())
+            for i, row in remaining:
+                finish({"id": i, "row": row, "cycle": 0, "history": [],
+                        "candidate": ""}, "needs_review", ["workers_unavailable"])
+            break
+
+    for t in threads:
+        t.join(timeout=2)
+    if fatal:
+        raise RuntimeError("Falha de infraestrutura ou persistência durante processamento: "
+                           + str(fatal[0])) from fatal[0]
