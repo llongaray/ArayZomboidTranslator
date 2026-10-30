@@ -53,6 +53,7 @@ class OllamaClient:
         return state
 
     def generate(self, records):
+        self.last_errors = []
         protected, maps = {}, {}
         for r in records:
             value, mapping = protect(r["en"])
@@ -68,6 +69,8 @@ class OllamaClient:
                   "Minor Bleeding = sangramento leve. Traduza verbos de menus no infinitivo; nunca repita inglês sem tradução. "
                   "Nunca retorne nomes de arquivos .txt, IDs, chaves ou metadados como tradução. "
                   "Produza um campo translations com exatamente os IDs do lote. "
+                  "Os IDs aparecem somente nas chaves de translations, nunca nos valores. "
+                  "Cada valor contém exclusivamente o texto final, sem prefixos ou numeração. "
                   "Glossário obrigatório: " + json.dumps(GLOSSARY,ensure_ascii=False) + ". Textos: " + json.dumps(protected,ensure_ascii=False) + (" Orientação de revisão (não copiar na resposta): "+json.dumps({"motivo": feedback, "versao_anterior": previous}, ensure_ascii=False)+" Responda SOMENTE com o texto traduzido para cada ID, nunca com a orientação." if feedback else ""))
         payload = {"model":self.model,"prompt":prompt,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":4096,"num_predict":768}}
         request = Request(self.url + "/api/generate", data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
@@ -87,19 +90,27 @@ class OllamaClient:
                 if len(values)==1:translations={records[0]["key_id"]:values[0]}
             output = []
             for r in records:
-                key_id = r["key_id"]
-                candidate = translations[key_id]
-                if not isinstance(candidate, str):
-                    raise ValueError("Tradução não é texto")
-                # Reject echoed internal instructions before any marker restoration.
-                if re.search(r"(?i)\\b(?:gerente|supervisor|tradutor|anterior)\\s*:", candidate) or re.search(
-                    r"(?i)\\b(?:agent_feedback_leak|unchanged_english|corrija o erro|corrigir o erro|vazamento de feedback)\\b", candidate):
-                    raise ValueError("agent_feedback_leak")
-                translated = restore(candidate,maps[key_id])
-                if tokens(r["en"]) != tokens(translated):
-                    raise ValueError(f"Placeholders alterados em {key_id}")
-                if not translated.strip(): raise ValueError(f"Tradução vazia em {key_id}")
-                output.append({"file":r["file"],"key":r["key"],"translation":translated,"source":r["status"]})
+                try:
+                    key_id = r["key_id"]
+                    candidate = translations[key_id]
+                    if not isinstance(candidate, str):
+                        raise ValueError("Tradução não é texto")
+                    id_prefix=r'(?i)^\s*k\d+\s*[-–—:|]\s*'
+                    if re.search(id_prefix,candidate) and not re.search(id_prefix,r['en']):
+                        raise ValueError('id_prefix_echo')
+                    # Reject echoed internal instructions before any marker restoration.
+                    if re.search(r"(?i)\\b(?:gerente|supervisor|tradutor|anterior)\\s*:", candidate) or re.search(
+                        r"(?i)\\b(?:agent_feedback_leak|unchanged_english|corrija o erro|corrigir o erro|vazamento de feedback)\\b", candidate):
+                        raise ValueError("agent_feedback_leak")
+                    translated = restore(candidate,maps[key_id])
+                    if tokens(r["en"]) != tokens(translated):
+                        raise ValueError(f"Placeholders alterados em {key_id}")
+                    if not translated.strip(): raise ValueError(f"Tradução vazia em {key_id}")
+                    output.append({"file":r["file"],"key":r["key"],"translation":translated,"source":r["status"]})
+                except (KeyError, TypeError, ValueError) as exc:
+                    if len(records)==1:
+                        raise
+                    self.last_errors.append({'file':r['file'],'key':r['key'],'error':str(exc)})
             return output
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"Resposta inválida do Ollama: {exc}") from exc
@@ -112,6 +123,7 @@ def translate_rows(client, rows, batch_size=8, retries=2, on_progress=None):
         for attempt in range(retries+1):
             try:
                 accepted.extend(client.generate(batch))
+                failed.extend(getattr(client,"last_errors",[]))
                 break
             except Exception as exc:
                 if attempt >= retries:

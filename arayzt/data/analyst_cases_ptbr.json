@@ -1,0 +1,4212 @@
+{
+  "version": 2,
+  "entries": [
+    {
+      "file": "DynamicRadio_PTBR.txt",
+      "key": "AEBS_KpH",
+      "en": " KpH",
+      "translation": " km/h",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "DynamicRadio_PTBR.txt",
+      "key": "AEBS_MpH",
+      "en": " MpH",
+      "translation": " mph",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "Entity_PTBR.txt",
+      "key": "EC_CraftLogicTooltip_TemperatureNormal",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Habanero",
+      "en": "Habanero",
+      "translation": "Pimenta habanero",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Jalapeno",
+      "en": "Jalapeno",
+      "translation": "Pimenta jalapeño",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Ficus",
+      "en": "Ficus",
+      "translation": "Fícus",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Dispenser",
+      "en": "Dispenser",
+      "translation": "Dispensador",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Jerrycan",
+      "en": "Jerry Can",
+      "translation": "Galão",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Brandy",
+      "en": "Brandy",
+      "translation": "Conhaque",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Cola",
+      "en": "Cola",
+      "translation": "Cola",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Gin",
+      "en": "Gin",
+      "translation": "Gin",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_GingerAle",
+      "en": "Ginger Ale",
+      "translation": "Refrigerante de gengibre",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Grenadine",
+      "en": "Grenadine",
+      "translation": "Xarope de romã",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Perfume",
+      "en": "Perfume",
+      "translation": "Perfume",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Rum",
+      "en": "Rum",
+      "translation": "Rum",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Scotch",
+      "en": "Scotch",
+      "translation": "Uísque escocês",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Sherry",
+      "en": "Sherry",
+      "translation": "Xerez",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Tequila",
+      "en": "Tequila",
+      "translation": "Tequila",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Vodka",
+      "en": "Vodka",
+      "translation": "Vodka",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ItemCat_Animal",
+      "en": "Animal",
+      "translation": "Animal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ItemCat_Bug",
+      "en": "Bug",
+      "translation": "Inseto",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ItemCat_Goblin",
+      "en": "Goblin",
+      "translation": "Goblin",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ItemCat_Memento",
+      "en": "Memento",
+      "translation": "Lembrança",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Keyboard_Caps",
+      "en": "Caps",
+      "translation": "Caps Lock",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_UserList_Online",
+      "en": "Online",
+      "translation": "Online",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Map_Industrial",
+      "en": "Industrial",
+      "translation": "Industrial",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_Citr8",
+      "en": "Citr8 Chevalier Step Van",
+      "translation": "Citr8 Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameCarLightsRanger",
+      "en": "Ranger Chevalier Nyala",
+      "translation": "Ranger Chevalier Nyala",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpTruckLightsFossoil",
+      "en": "Fossoil Chevalier D6",
+      "translation": "Fossoil Chevalier D6",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpTruckLightsRanger",
+      "en": "Ranger Chevalier D6",
+      "translation": "Ranger Chevalier D6",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpTruck_Camo",
+      "en": "Chevalier D6",
+      "translation": "Chevalier D6",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanLightsFossoil",
+      "en": "Fossoil Dash Bulldriver",
+      "translation": "Fossoil Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanLightsKentuckyLumber",
+      "en": "Kentucky Lumber Dash Bulldriver",
+      "translation": "Kentucky Lumber Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanLightsRanger",
+      "en": "Ranger Dash Bulldriver",
+      "translation": "Ranger Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanMarchRidgeConstruction",
+      "en": "March Ridge Construction Dash Bulldriver",
+      "translation": "March Ridge Construction Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_Plonkies",
+      "en": "Plonkies Chevalier Step Van",
+      "translation": "Plonkies Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_Zippee",
+      "en": "Zippee Chevalier Step Van",
+      "translation": "Zippee Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanFossoil",
+      "en": "Fossoil Franklin Valuline",
+      "translation": "Fossoil Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanMccoy",
+      "en": "McCoy Franklin Valuline",
+      "translation": "McCoy Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameMccoyLogging",
+      "en": "McCoy Logging",
+      "translation": "McCoy Logging",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameLectroMax",
+      "en": "Lectromax",
+      "translation": "Lectromax",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameMassGenFac",
+      "en": "Mass-Genfac",
+      "translation": "Mass-Genfac",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameCarLightsLouisvilleCounty",
+      "en": "LCPD Chevalier Nyala",
+      "translation": "LCPD Chevalier Nyala",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpTruckJPLandscaping",
+      "en": "JP Landscaping Chevalier D6",
+      "translation": "JP Landscaping Chevalier D6",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanHeltonMetalWorking",
+      "en": "Helton Metalworking Dash Bulldriver",
+      "translation": "Helton Metalworking Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanKimbleKonstruction",
+      "en": "Kimbler Konstruction Dash Bulldriver",
+      "translation": "Kimbler Konstruction Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanLightsLouisvilleCounty",
+      "en": "LCPD Dash Bulldriver",
+      "translation": "LCPD Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanCallowayLandscaping",
+      "en": "Calloway Landscaping Dash Bulldriver",
+      "translation": "Calloway Landscaping Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNamePickUpVanYingsWood",
+      "en": "Van Yings Wood Dash Bulldriver",
+      "translation": "Van Yings Wood Dash Bulldriver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_Jorgensen",
+      "en": "Jorgensen Chevalier Step Van",
+      "translation": "Jorgensen Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_LouisvilleMotorShop",
+      "en": "Louisville Motorshop Chevalier Step Van",
+      "translation": "Louisville Motorshop Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_SouthEasternHosp",
+      "en": "South Eastern Hospitality Chevalier Step Van",
+      "translation": "South Eastern Hospitality Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_SouthEasternPaint",
+      "en": "South Eastern Paint Chevalier Step Van",
+      "translation": "South Eastern Paint Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameStepVan_USL",
+      "en": "USL Chevalier Step Van",
+      "translation": "USL Chevalier Step Van",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanBrewsterHarbin",
+      "en": "Brewster & Harbin Franklin Valuline",
+      "translation": "Brewster & Harbin Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanJonesFabrication",
+      "en": "Jones Fabrication Franklin Valuline",
+      "translation": "Jones Fabrication Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanKerrHomes",
+      "en": "Kerr Homes Franklin Valuline",
+      "translation": "Kerr Homes Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanMooreMechanics",
+      "en": "Moore Mechanics Franklin Valuline",
+      "translation": "Moore Mechanics Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanPennSHam",
+      "en": "Penn S. Ham Construction Franklin Valuline",
+      "translation": "Penn S. Ham Construction Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanPlattAuto",
+      "en": "Platt Auto Repair Franklin Valuline",
+      "translation": "Platt Auto Repair Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanSchwabSheetMetal",
+      "en": "Schwab Sheet Metal Franklin Valuline",
+      "translation": "Schwab Sheet Metal Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanTreyBaines",
+      "en": "Trey Baines Franklin Valuline",
+      "translation": "Trey Baines Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanVanGreenes",
+      "en": "Greenes Franklin Valuline",
+      "translation": "Greenes Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVan_VoltMojo",
+      "en": "Volt Mojo Franklin Valuline",
+      "translation": "Volt Mojo Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Breed_leghorn",
+      "en": "Leghorn",
+      "translation": "Leghorn",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Breed_suffolk",
+      "en": "Suffolk",
+      "translation": "Suffolk",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Breed_rambouillet",
+      "en": "Rambouillet",
+      "translation": "Rambouillet",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Breed_angus",
+      "en": "Angus",
+      "translation": "Angus",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Breed_holstein",
+      "en": "Holstein",
+      "translation": "Holstein",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_gobblers",
+      "en": "Tom",
+      "translation": "Peru macho",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_turkeypoult",
+      "en": "Poult",
+      "translation": "Filhote de peru",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_fawndead",
+      "en": "Fawn",
+      "translation": "Filhote de cervo",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_cockerel",
+      "en": "Cockerel",
+      "translation": "Galo jovem",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_buck",
+      "en": "Buck",
+      "translation": "Cervo macho",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_doe",
+      "en": "Doe",
+      "translation": "Cervo fêmea",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_fawn",
+      "en": "Fawn",
+      "translation": "Filhote de cervo",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AnimalType_ram",
+      "en": "Ram",
+      "translation": "Carneiro",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Breed_meleagris",
+      "en": "Meleagris",
+      "translation": "Meleagris",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Animal_Udder",
+      "en": "Udder",
+      "translation": "Úbere",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_BarKey",
+      "en": "Bar",
+      "translation": "Bar",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_barKey",
+      "en": "Bar",
+      "translation": "Bar",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_barkitchenKey",
+      "en": "Bar",
+      "translation": "Bar",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_barstorageKey",
+      "en": "Bar",
+      "translation": "Bar",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_CountryClubKey",
+      "en": "Country Club",
+      "translation": "Clube de campo",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FossoilKey",
+      "en": "Fossoil",
+      "translation": "Fossoil",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Gas2GoKey",
+      "en": "Gas-2-Go",
+      "translation": "Gas-2-Go",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_KnoxBankKey",
+      "en": "Knox Bank",
+      "translation": "Knox Bank",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MassGenfacCoKey",
+      "en": "Mass-Genfac Co.",
+      "translation": "Mass-Genfac Co.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_motelroomKey",
+      "en": "Motel",
+      "translation": "Motel",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PileOCrepeKey",
+      "en": "Pile o' Crepe",
+      "translation": "Pile o' Crepe",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PizzaWhirledKey",
+      "en": "Pizza Whirled",
+      "translation": "Pizza Whirled",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PonyKey",
+      "en": "Pony Roam-O",
+      "translation": "Pony Roam-O",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SmokeysKey",
+      "en": "Smokey's",
+      "translation": "Smokey's",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SpaKey",
+      "en": "Spa",
+      "translation": "Spa",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SpiffoKey",
+      "en": "Spiffo's",
+      "translation": "Spiffo's",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_TrailerParkKey",
+      "en": "Trailer Park Trailer",
+      "translation": "Trailer de parque residencial",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Fossoil",
+      "en": "Fossoil",
+      "translation": "Fossoil",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SpiffoCorp",
+      "en": "Spiffo Corp",
+      "translation": "Spiffo Corp",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_KirrusInc",
+      "en": "Kirrus Inc.",
+      "translation": "Kirrus Inc.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FranklinMotors",
+      "en": "Franklin Motors",
+      "translation": "Franklin Motors",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ParasolInc",
+      "en": "Parasol Inc.",
+      "translation": "Parasol Inc.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AlgolElectronics",
+      "en": "Algol Electronics",
+      "translation": "Algol Electronics",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Fibroil",
+      "en": "Fibroil",
+      "translation": "Fibroil",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SeahorseCoffeeCorp",
+      "en": "Seahorse Coffee Corp",
+      "translation": "Seahorse Coffee Corp",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PopCo",
+      "en": "PopCo",
+      "translation": "PopCo",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Nikoda",
+      "en": "Nikoda",
+      "translation": "Nikoda",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Zippee",
+      "en": "Zippee",
+      "translation": "Zippee",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Pharmahug",
+      "en": "Pharmahug",
+      "translation": "Pharmahug",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_RedmondRedmond",
+      "en": "Redmond 'N' Redmond",
+      "translation": "Redmond 'N' Redmond",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AmeriGlobeInc",
+      "en": "AmeriGlobe Inc.",
+      "translation": "AmeriGlobe Inc.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_GeneralBroadcastCorporation",
+      "en": "General Broadcast Corporation",
+      "translation": "General Broadcast Corporation",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MassGenfacCo",
+      "en": "Mass-Genfac Co.",
+      "translation": "Mass-Genfac Co.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_McCoyLogging",
+      "en": "McCoy Logging",
+      "translation": "McCoy Logging",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ValuTech",
+      "en": "ValuTech",
+      "translation": "ValuTech",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Egenerex",
+      "en": "Egenerex",
+      "translation": "Egenerex",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_HerrFlickKnives",
+      "en": "Herr Flick-Knives",
+      "translation": "Herr Flick-Knives",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_BansheeHolloway",
+      "en": "Banshee-Holloway",
+      "translation": "Banshee-Holloway",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_YuriDesign",
+      "en": "Yuri Design",
+      "translation": "Yuri Design",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SanchezGoldberg",
+      "en": "Sanchez-Goldberg",
+      "translation": "Sanchez-Goldberg",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Beanz",
+      "en": "Beanz",
+      "translation": "Beanz",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PantherMotors",
+      "en": "Panther Motors",
+      "translation": "Panther Motors",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FunXtremeInc",
+      "en": "FunXtreme Inc.",
+      "translation": "FunXtreme Inc.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Imekagi",
+      "en": "Imekagi",
+      "translation": "Imekagi",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_WolframWaffen",
+      "en": "Wolfram Waffen",
+      "translation": "Wolfram Waffen",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_CartonSydneyLawServices",
+      "en": "Carton & Sydney Law Services",
+      "translation": "Carton & Sydney Law Services",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ChurnsRUs",
+      "en": "Churns-R-Us",
+      "translation": "Churns-R-Us",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ElveeArena",
+      "en": "Elvee Arena",
+      "translation": "Elvee Arena",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FunXtreme",
+      "en": "FunXtreme",
+      "translation": "FunXtreme",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_HowieZitron",
+      "en": "Howie Zitron",
+      "translation": "Howie Zitron",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_HugoPlush",
+      "en": "Hugo Plush",
+      "translation": "Hugo Plush",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Ivanov",
+      "en": "Ivanov",
+      "translation": "Ivanov",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_KYTransit",
+      "en": "KY Transit",
+      "translation": "KY Transit",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_McCoyLoggingCo",
+      "en": "McCoy Logging Co.",
+      "translation": "McCoy Logging Co.",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NiteGlo",
+      "en": "Nite Glo",
+      "translation": "Nite Glo",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PonyRoamO",
+      "en": "Pony Roam-O",
+      "translation": "Pony Roam-O",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PoshBox",
+      "en": "Posh Box",
+      "translation": "Posh Box",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_RedmondNRedmond",
+      "en": "Redmond 'N' Redmond",
+      "translation": "Redmond 'N' Redmond",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Saucy",
+      "en": "Saucy",
+      "translation": "Saucy",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ShebaJewellers",
+      "en": "Sheba Jewellers",
+      "translation": "Sheba Jewellers",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_SkyBlueBanking",
+      "en": "Sky Blue Banking",
+      "translation": "Sky Blue Banking",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_TopCrownPlaza",
+      "en": "Top Crown Plaza",
+      "translation": "Top Crown Plaza",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Toyz",
+      "en": "Toyz",
+      "translation": "Toyz",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Twiggys",
+      "en": "Twiggy's",
+      "translation": "Twiggy's",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Yummmers",
+      "en": "Yummmers",
+      "translation": "Yummmers",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Framer",
+      "en": "Framer",
+      "translation": "Carpinteiro de estruturas",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Tutor",
+      "en": "Tutor",
+      "translation": "Tutor",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_BargNClothes",
+      "en": "Barg-N-Clothes",
+      "translation": "Barg-N-Clothes",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Blocko",
+      "en": "Blocko",
+      "translation": "Blocko",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_DashMotors",
+      "en": "Dash Motors",
+      "translation": "Dash Motors",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Dollie1993",
+      "en": "Dollie 1993",
+      "translation": "Dollie 1993",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_KirrusSoftware",
+      "en": "Kirrus Software",
+      "translation": "Kirrus Software",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_LouisvilleBruiser",
+      "en": "Louisville Bruiser",
+      "translation": "Louisville Bruiser",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Bruiser",
+      "en": "Bruiser",
+      "translation": "Bruiser",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Bruisers",
+      "en": "Bruisers!",
+      "translation": "Bruisers!",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_DinoTrapper",
+      "en": "Dino Trapper",
+      "translation": "Dino Trapper",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_DinoTrapperVSAtomLizard",
+      "en": "Dino Trapper VS Atom Lizard!",
+      "translation": "Dino Trapper VS Atom Lizard!",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Farrago",
+      "en": "Farrago",
+      "translation": "Farrago",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_FrankenLad",
+      "en": "Franken-Lad",
+      "translation": "Franken-Lad",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Iceblaze",
+      "en": "Iceblaze",
+      "translation": "Iceblaze",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Kazusa",
+      "en": "Kazusa",
+      "translation": "Kazusa",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_KingRedwood",
+      "en": "King Redwood",
+      "translation": "King Redwood",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_LassoLady",
+      "en": "Lasso Lady",
+      "translation": "Lasso Lady",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_MetalSpearQuest",
+      "en": "Metal Spear Quest",
+      "translation": "Metal Spear Quest",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_MillipedeKid",
+      "en": "Millipede Kid",
+      "translation": "Millipede Kid",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Needleface",
+      "en": "Needleface",
+      "translation": "Needleface",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_PUTRID",
+      "en": "PUTRID",
+      "translation": "PUTRID",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_ScorpmanDangerville",
+      "en": "Scorpman - Dangerville",
+      "translation": "Scorpman - Dangerville",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_ShikokuMonogatari",
+      "en": "Shikoku Monogatari",
+      "translation": "Shikoku Monogatari",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Shonen",
+      "en": "Shonen",
+      "translation": "Shonen",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_TeenSteelman",
+      "en": "Teen Steelman",
+      "translation": "Teen Steelman",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_UMLAUT",
+      "en": "ÜMLÄÜT!",
+      "translation": "ÜMLÄÜT!",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ComicTitle_Zoinks",
+      "en": "Zoinks!",
+      "translation": "Zoinks!",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_ArtAmerica",
+      "en": "ArtAmerica",
+      "translation": "ArtAmerica",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Bassline",
+      "en": "Bassline",
+      "translation": "Bassline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_CodeWorld",
+      "en": "CodeWorld",
+      "translation": "CodeWorld",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_GameZ",
+      "en": "GameZ",
+      "translation": "GameZ",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_HomeRun",
+      "en": "Home Run",
+      "translation": "Home Run",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_KentuckyLiberal",
+      "en": "Kentucky Liberal",
+      "translation": "Kentucky Liberal",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_KirrusComputing",
+      "en": "Kirrus Computing",
+      "translation": "Kirrus Computing",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_KoolKids",
+      "en": "Kool Kids",
+      "translation": "Kool Kids",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Merc",
+      "en": "Merc!",
+      "translation": "Merc!",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Newton",
+      "en": "Newton",
+      "translation": "Newton",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Piledriver",
+      "en": "Piledriver!",
+      "translation": "Piledriver!",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_RockOut",
+      "en": "Rock Out",
+      "translation": "Rock Out",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Sorbes",
+      "en": "Sorbe's",
+      "translation": "Sorbe's",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_VitimaniaRx",
+      "en": "VitimaniaRx",
+      "translation": "VitimaniaRx",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_WWCInsider",
+      "en": "WWC Insider",
+      "translation": "WWC Insider",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Y",
+      "en": "Y",
+      "translation": "Y",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_MajesticBigGame",
+      "en": "Majestic Big Game",
+      "translation": "Majestic Big Game",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Trailbeaters",
+      "en": "Trailbeaters",
+      "translation": "Trailbeaters",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Andborg",
+      "en": "Andborg",
+      "translation": "Andborg",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_Thresher",
+      "en": "Thresher",
+      "translation": "Thresher",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_TPower",
+      "en": "T-Power",
+      "translation": "T-Power",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_MagazineTitle_AltF4",
+      "en": "Alt + F4",
+      "translation": "Alt + F4",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_BrandenburgBugle",
+      "en": "Brandenburg Bugle",
+      "translation": "Brandenburg Bugle",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_LouisvilleSun",
+      "en": "Louisville Sun",
+      "translation": "Louisville Sun",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_BowlingGreenPost",
+      "en": "Bowling Green Post",
+      "translation": "Bowling Green Post",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_WashingtonHerald",
+      "en": "Washington Herald",
+      "translation": "Washington Herald",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_WallStreetInsider",
+      "en": "Wall Street Insider",
+      "translation": "Wall Street Insider",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_EvansvillePost",
+      "en": "Evansville Post",
+      "translation": "Evansville Post",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_NewspaperTitle_KnoxFrontline",
+      "en": "Knox Frontline",
+      "translation": "Knox Frontline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Louisville",
+      "en": "Louisville",
+      "translation": "Louisville",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Bill",
+      "en": "Bill",
+      "translation": "Fatura",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_A",
+      "en": "a",
+      "translation": "um",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_Bob",
+      "en": "Bob",
+      "translation": "Bob",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_Chris",
+      "en": "Chris",
+      "translation": "Chris",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_Hank",
+      "en": "Hank",
+      "translation": "Hank",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_James",
+      "en": "James",
+      "translation": "James",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_Janine",
+      "en": "Janine",
+      "translation": "Janine",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_Kate",
+      "en": "Kate",
+      "translation": "Kate",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Voice_Maryanne",
+      "en": "Maryanne",
+      "translation": "Maryanne",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Ben",
+      "en": "Ben",
+      "translation": "Ben",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Sam",
+      "en": "Sam",
+      "translation": "Sam",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Toby",
+      "en": "Toby",
+      "translation": "Toby",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Max",
+      "en": "Max",
+      "translation": "Max",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Penny",
+      "en": "Penny",
+      "translation": "Penny",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Lucy",
+      "en": "Lucy",
+      "translation": "Lucy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Sally",
+      "en": "Sally",
+      "translation": "Sally",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rocky",
+      "en": "Rocky",
+      "translation": "Rocky",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Holly",
+      "en": "Holly",
+      "translation": "Holly",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Molly",
+      "en": "Molly",
+      "translation": "Molly",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bess",
+      "en": "Bess",
+      "translation": "Bess",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Jack",
+      "en": "Jack",
+      "translation": "Jack",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Orca",
+      "en": "Orca",
+      "translation": "Orca",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Harry",
+      "en": "Harry",
+      "translation": "Harry",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Boxer",
+      "en": "Boxer",
+      "translation": "Boxer",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Pancho",
+      "en": "Pancho",
+      "translation": "Pancho",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Coco",
+      "en": "Coco",
+      "translation": "Coco",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Charlie",
+      "en": "Charlie",
+      "translation": "Charlie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bruno",
+      "en": "Bruno",
+      "translation": "Bruno",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Spiffo",
+      "en": "Spiffo",
+      "translation": "Spiffo",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Jacques",
+      "en": "Jacques",
+      "translation": "Jacques",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Boris",
+      "en": "Boris",
+      "translation": "Boris",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Fluffyfoot",
+      "en": "Fluffyfoot",
+      "translation": "Fluffyfoot",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Freddy",
+      "en": "Freddy",
+      "translation": "Freddy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Furbert",
+      "en": "Furbert",
+      "translation": "Furbert",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bruce",
+      "en": "Bruce",
+      "translation": "Bruce",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Goblin",
+      "en": "Goblin",
+      "translation": "Goblin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Scott",
+      "en": "Scott",
+      "translation": "Scott",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rex",
+      "en": "Rex",
+      "translation": "Rex",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Daisy",
+      "en": "Daisy",
+      "translation": "Daisy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bailey",
+      "en": "Bailey",
+      "translation": "Bailey",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rosie",
+      "en": "Rosie",
+      "translation": "Rosie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Teddy",
+      "en": "Teddy",
+      "translation": "Teddy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rover",
+      "en": "Rover",
+      "translation": "Rover",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Ginger",
+      "en": "Ginger",
+      "translation": "Ginger",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Ruca",
+      "en": "Ruca",
+      "translation": "Ruca",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Vic",
+      "en": "Vic",
+      "translation": "Vic",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Sandy",
+      "en": "Sandy",
+      "translation": "Sandy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Buttercup",
+      "en": "Buttercup",
+      "translation": "Buttercup",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Trixie",
+      "en": "Trixie",
+      "translation": "Trixie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Shep",
+      "en": "Shep",
+      "translation": "Shep",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Polly",
+      "en": "Polly",
+      "translation": "Polly",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Fifi",
+      "en": "Fifi",
+      "translation": "Fifi",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bella",
+      "en": "Bella",
+      "translation": "Bella",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bud",
+      "en": "Bud",
+      "translation": "Bud",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Ed",
+      "en": "Ed",
+      "translation": "Ed",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Sid",
+      "en": "Sid",
+      "translation": "Sid",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Niko",
+      "en": "Niko",
+      "translation": "Niko",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Jay",
+      "en": "Jay",
+      "translation": "Jay",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Chronos",
+      "en": "Chronos",
+      "translation": "Chronos",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Chocolate",
+      "en": "Chocolate",
+      "translation": "Chocolate",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Larry",
+      "en": "Larry",
+      "translation": "Larry",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bagel",
+      "en": "Bagel",
+      "translation": "Bagel",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Hazel",
+      "en": "Hazel",
+      "translation": "Hazel",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Dylan",
+      "en": "Dylan",
+      "translation": "Dylan",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Lester",
+      "en": "Lester",
+      "translation": "Lester",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Mantell",
+      "en": "Mantell",
+      "translation": "Mantell",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Hargrave",
+      "en": "Hargrave",
+      "translation": "Hargrave",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Ranger",
+      "en": "Ranger",
+      "translation": "Ranger",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Plonkie",
+      "en": "Plonkie",
+      "translation": "Plonkie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Snowie",
+      "en": "Snowie",
+      "translation": "Snowie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Marge",
+      "en": "Marge",
+      "translation": "Marge",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Muffin",
+      "en": "Muffin",
+      "translation": "Muffin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Cupcake",
+      "en": "Cupcake",
+      "translation": "Cupcake",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Flora",
+      "en": "Flora",
+      "translation": "Flora",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bacon",
+      "en": "Bacon",
+      "translation": "Bacon",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Frosty",
+      "en": "Frosty",
+      "translation": "Frosty",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rosemary",
+      "en": "Rosemary",
+      "translation": "Rosemary",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Violet",
+      "en": "Violet",
+      "translation": "Violet",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Primrose",
+      "en": "Primrose",
+      "translation": "Primrose",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Nugget",
+      "en": "Nugget",
+      "translation": "Nugget",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Fudge",
+      "en": "Fudge",
+      "translation": "Fudge",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Ted",
+      "en": "Ted",
+      "translation": "Ted",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Willow",
+      "en": "Willow",
+      "translation": "Willow",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Sparky",
+      "en": "Sparky",
+      "translation": "Sparky",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Lulu",
+      "en": "Lulu",
+      "translation": "Lulu",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Duke",
+      "en": "Duke",
+      "translation": "Duke",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Louise",
+      "en": "Louise",
+      "translation": "Louise",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Jenny",
+      "en": "Jenny",
+      "translation": "Jenny",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Griffin",
+      "en": "Griffin",
+      "translation": "Griffin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Sammy",
+      "en": "Sammy",
+      "translation": "Sammy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Laz",
+      "en": "Laz",
+      "translation": "Laz",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rua",
+      "en": "Rua",
+      "translation": "Rua",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Cooper",
+      "en": "Cooper",
+      "translation": "Cooper",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Goldie",
+      "en": "Goldie",
+      "translation": "Goldie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Brandy",
+      "en": "Brandy",
+      "translation": "Brandy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Misty",
+      "en": "Misty",
+      "translation": "Misty",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Archie",
+      "en": "Archie",
+      "translation": "Archie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Romeo",
+      "en": "Romeo",
+      "translation": "Romeo",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Juliet",
+      "en": "Juliet",
+      "translation": "Juliet",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Luna",
+      "en": "Luna",
+      "translation": "Luna",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Toffee",
+      "en": "Toffee",
+      "translation": "Toffee",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Tommy",
+      "en": "Tommy",
+      "translation": "Tommy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Tammy",
+      "en": "Tammy",
+      "translation": "Tammy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Claude",
+      "en": "Claude",
+      "translation": "Claude",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Woody",
+      "en": "Woody",
+      "translation": "Woody",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Madame",
+      "en": "Madame",
+      "translation": "Madame",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Lily",
+      "en": "Lily",
+      "translation": "Lily",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Maria",
+      "en": "Maria",
+      "translation": "Maria",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Buck",
+      "en": "Buck",
+      "translation": "Buck",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Crockett",
+      "en": "Crockett",
+      "translation": "Crockett",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Lincoln",
+      "en": "Lincoln",
+      "translation": "Lincoln",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Washington",
+      "en": "Washington",
+      "translation": "Washington",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Roosevelt",
+      "en": "Roosevelt",
+      "translation": "Roosevelt",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Yorkie",
+      "en": "Yorkie",
+      "translation": "Yorkie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Kentucky",
+      "en": "Kentucky",
+      "translation": "Kentucky",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Magnum",
+      "en": "Magnum",
+      "translation": "Magnum",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Katana",
+      "en": "Katana",
+      "translation": "Katana",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Laser",
+      "en": "Laser",
+      "translation": "Laser",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Gravy",
+      "en": "Gravy",
+      "translation": "Gravy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Chaplin",
+      "en": "Chaplin",
+      "translation": "Chaplin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rada",
+      "en": "Rada",
+      "translation": "Rada",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Jilly",
+      "en": "Jilly",
+      "translation": "Jilly",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Jill",
+      "en": "Jill",
+      "translation": "Jill",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Roy",
+      "en": "Roy",
+      "translation": "Roy",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Katja",
+      "en": "Katja",
+      "translation": "Katja",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Odin",
+      "en": "Odin",
+      "translation": "Odin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Whimbly",
+      "en": "Whimbly",
+      "translation": "Whimbly",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Zuko",
+      "en": "Zuko",
+      "translation": "Zuko",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Kai",
+      "en": "Kai",
+      "translation": "Kai",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Tia",
+      "en": "Tia",
+      "translation": "Tia",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Cally",
+      "en": "Cally",
+      "translation": "Cally",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Rodney",
+      "en": "Rodney",
+      "translation": "Rodney",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Dakota",
+      "en": "Dakota",
+      "translation": "Dakota",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Wally",
+      "en": "Wally",
+      "translation": "Wally",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Bert",
+      "en": "Bert",
+      "translation": "Bert",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Berserker",
+      "en": "Berserker",
+      "translation": "Berserker",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Puppers",
+      "en": "Puppers",
+      "translation": "Puppers",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Mauler",
+      "en": "Mauler",
+      "translation": "Mauler",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Milkshake",
+      "en": "Milkshake",
+      "translation": "Milkshake",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Buckshot",
+      "en": "Buckshot",
+      "translation": "Buckshot",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Terry",
+      "en": "Terry",
+      "translation": "Terry",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Joss",
+      "en": "Joss",
+      "translation": "Joss",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Josh",
+      "en": "Josh",
+      "translation": "Josh",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Joshie",
+      "en": "Joshie",
+      "translation": "Joshie",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_PetName_Oscar",
+      "en": "Oscar",
+      "translation": "Oscar",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_LasVegas",
+      "en": "Las Vegas",
+      "translation": "Las Vegas",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_WashingtonDC",
+      "en": "Washington D.C.",
+      "translation": "Washington D.C.",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Paris",
+      "en": "Paris",
+      "translation": "Paris",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_LosAngeles",
+      "en": "Los Angeles",
+      "translation": "Los Angeles",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_China",
+      "en": "China",
+      "translation": "China",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_HongKong",
+      "en": "Hong Kong",
+      "translation": "Hong Kong",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Taiwan",
+      "en": "Taiwan",
+      "translation": "Taiwan",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_SpiffoWorld",
+      "en": "Spiffo World",
+      "translation": "Spiffo World",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Sydney",
+      "en": "Sydney",
+      "translation": "Sydney",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_RiodeJaneiro",
+      "en": "Rio de Janeiro",
+      "translation": "Rio de Janeiro",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Honolulu",
+      "en": "Honolulu",
+      "translation": "Honolulu",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Bali",
+      "en": "Bali",
+      "translation": "Bali",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Haiti",
+      "en": "Haiti",
+      "translation": "Haiti",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Jamaica",
+      "en": "Jamaica",
+      "translation": "Jamaica",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Aspen",
+      "en": "Aspen",
+      "translation": "Aspen",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Barcelona",
+      "en": "Barcelona",
+      "translation": "Barcelona",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Malta",
+      "en": "Malta",
+      "translation": "Malta",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Dublin",
+      "en": "Dublin",
+      "translation": "Dublin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Gibraltar",
+      "en": "Gibraltar",
+      "translation": "Gibraltar",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Montserrat",
+      "en": "Montserrat",
+      "translation": "Montserrat",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Argentina",
+      "en": "Argentina",
+      "translation": "Argentina",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_BuenosAires",
+      "en": "Buenos Aires",
+      "translation": "Buenos Aires",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Cairo",
+      "en": "Cairo",
+      "translation": "Cairo",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Tijuana",
+      "en": "Tijuana",
+      "translation": "Tijuana",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Toronto",
+      "en": "Toronto",
+      "translation": "Toronto",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Vancouver",
+      "en": "Vancouver",
+      "translation": "Vancouver",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Montreal",
+      "en": "Montreal",
+      "translation": "Montreal",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Quebec",
+      "en": "Quebec",
+      "translation": "Quebec",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_CostaRica",
+      "en": "Costa Rica",
+      "translation": "Costa Rica",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_NiagaraFalls",
+      "en": "Niagara Falls",
+      "translation": "Niagara Falls",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Killarney",
+      "en": "Killarney",
+      "translation": "Killarney",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Yosemite",
+      "en": "Yosemite",
+      "translation": "Yosemite",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Portugal",
+      "en": "Portugal",
+      "translation": "Portugal",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Yellowstone",
+      "en": "Yellowstone",
+      "translation": "Yellowstone",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MachuPicchu",
+      "en": "Machu Picchu",
+      "translation": "Machu Picchu",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MonumentValley",
+      "en": "Monument Valley",
+      "translation": "Monument Valley",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_GlenCanyon",
+      "en": "Glen Canyon",
+      "translation": "Glen Canyon",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_TimesSquare",
+      "en": "Times Square",
+      "translation": "Times Square",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Pisa",
+      "en": "Pisa",
+      "translation": "Pisa",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Newcastle",
+      "en": "Newcastle",
+      "translation": "Newcastle",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_SierraNevada",
+      "en": "Sierra Nevada",
+      "translation": "Sierra Nevada",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MontSantMichel",
+      "en": "Mont-Saint-Michel",
+      "translation": "Mont-Saint-Michel",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Stonehenge",
+      "en": "Stonehenge",
+      "translation": "Stonehenge",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Newgrange",
+      "en": "Newgrange",
+      "translation": "Newgrange",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Roswell",
+      "en": "Roswell",
+      "translation": "Roswell",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Hollywood",
+      "en": "Hollywood",
+      "translation": "Hollywood",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Texas",
+      "en": "Texas",
+      "translation": "Texas",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Nashville",
+      "en": "Nashville",
+      "translation": "Nashville",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Tennessee",
+      "en": "Tennessee",
+      "translation": "Tennessee",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Richmond",
+      "en": "Richmond",
+      "translation": "Richmond",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Ohio",
+      "en": "Ohio",
+      "translation": "Ohio",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Indiana",
+      "en": "Indiana",
+      "translation": "Indiana",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Illinois",
+      "en": "Illinois",
+      "translation": "Illinois",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Chicago",
+      "en": "Chicago",
+      "translation": "Chicago",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Missouri",
+      "en": "Missouri",
+      "translation": "Missouri",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Raleigh",
+      "en": "Raleigh",
+      "translation": "Raleigh",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Minnesota",
+      "en": "Minnesota",
+      "translation": "Minnesota",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Milwaukee",
+      "en": "Milwaukee",
+      "translation": "Milwaukee",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Wisconsin",
+      "en": "Wisconsin",
+      "translation": "Wisconsin",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Oklahoma",
+      "en": "Oklahoma",
+      "translation": "Oklahoma",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_CumberlandFalls",
+      "en": "Cumberland Falls",
+      "translation": "Cumberland Falls",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MesaVerde",
+      "en": "Mesa Verde",
+      "translation": "Mesa Verde",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Brooklyn",
+      "en": "Brooklyn",
+      "translation": "Brooklyn",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Manhattan",
+      "en": "Manhattan",
+      "translation": "Manhattan",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MiamiBeach",
+      "en": "Miami Beach",
+      "translation": "Miami Beach",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_CapeCod",
+      "en": "Cape Cod",
+      "translation": "Cape Cod",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_KeyWest",
+      "en": "Key West",
+      "translation": "Key West",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Monticello",
+      "en": "Monticello",
+      "translation": "Monticello",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_PearlHarbor",
+      "en": "Pearl Harbor",
+      "translation": "Pearl Harbor",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_SanDiego",
+      "en": "San Diego",
+      "translation": "San Diego",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Montana",
+      "en": "Montana",
+      "translation": "Montana",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Colorado",
+      "en": "Colorado",
+      "translation": "Colorado",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Maui",
+      "en": "Maui",
+      "translation": "Maui",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Seattle",
+      "en": "Seattle",
+      "translation": "Seattle",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Boston",
+      "en": "Boston",
+      "translation": "Boston",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Massachusetts",
+      "en": "Massachusetts",
+      "translation": "Massachusetts",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Gettysburg",
+      "en": "Gettysburg",
+      "translation": "Gettysburg",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_BeaconHill",
+      "en": "Beacon Hill",
+      "translation": "Beacon Hill",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Salem",
+      "en": "Salem",
+      "translation": "Salem",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Alcatraz",
+      "en": "Alcatraz",
+      "translation": "Alcatraz",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Cleveland",
+      "en": "Cleveland",
+      "translation": "Cleveland",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MonroeLake",
+      "en": "Monroe Lake",
+      "translation": "Monroe Lake",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Monroeville",
+      "en": "Monroeville",
+      "translation": "Monroeville",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Atlanta",
+      "en": "Atlanta",
+      "translation": "Atlanta",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_ConeyIsland",
+      "en": "Coney Island",
+      "translation": "Coney Island",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_ValleyForge",
+      "en": "Valley Forge",
+      "translation": "Valley Forge",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Sedona",
+      "en": "Sedona",
+      "translation": "Sedona",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_LochNess",
+      "en": "Loch Ness",
+      "translation": "Loch Ness",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Miami",
+      "en": "Miami",
+      "translation": "Miami",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_MontBlanc",
+      "en": "Mont Blanc",
+      "translation": "Mont Blanc",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_ElCapitan",
+      "en": "El Capitan",
+      "translation": "El Capitan",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Petra",
+      "en": "Petra",
+      "translation": "Petra",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_HaLongBay",
+      "en": "Ha Long Bay",
+      "translation": "Ha Long Bay",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_AyersRock",
+      "en": "Ayers Rock",
+      "translation": "Ayers Rock",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_FaneuilHall",
+      "en": "Faneuil Hall",
+      "translation": "Faneuil Hall",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Malibu",
+      "en": "Malibu",
+      "translation": "Malibu",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Jamestown",
+      "en": "Jamestown",
+      "translation": "Jamestown",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_EllisIsland",
+      "en": "Ellis Island",
+      "translation": "Ellis Island",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Dallas",
+      "en": "Dallas",
+      "translation": "Dallas",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_CarnegieHall",
+      "en": "Carnegie Hall",
+      "translation": "Carnegie Hall",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Photo_Memphis",
+      "en": "Memphis",
+      "translation": "Memphis",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_CraftingWindow_ToolLeft",
+      "en": "L",
+      "translation": "E",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_CraftingWindow_ToolRight",
+      "en": "R",
+      "translation": "D",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Doodle_DoodleofSpiffo",
+      "en": "Spiffo",
+      "translation": "Spiffo",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_VehicleNameVanOvoFarm",
+      "en": "Franklin Valuline",
+      "translation": "Franklin Valuline",
+      "category": "proper_name"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_DebugMenu_Dev_IsoRegions",
+      "en": "IsoRegions",
+      "translation": "IsoRegions",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ClimateOptions_InA",
+      "en": "Interior Alpha: ",
+      "translation": "Alfa interior: ",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ClimateColors_Ex",
+      "en": "Exterior",
+      "translation": "Exterior",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ClimateColors_In",
+      "en": "Interior",
+      "translation": "Interior",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ClimateColors_temp_normal",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ClimDebuggers_Thunderbug",
+      "en": "Thunderbug",
+      "translation": "Thunderbug",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AttachmentEditor_Global",
+      "en": "Global",
+      "translation": "Global",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AttachmentEditor_Local",
+      "en": "Local",
+      "translation": "Local",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FMODEvent_Loop",
+      "en": "Loop",
+      "translation": "Repetir",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FMODEvent_Volume",
+      "en": "volume %1",
+      "translation": "volume %1",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_FMODEvent_Milliseconds",
+      "en": "%1 ms",
+      "translation": "%1 ms",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_CharacterDebug_Animal",
+      "en": "Animal",
+      "translation": "Animal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ChunkState_Nav",
+      "en": "Nav",
+      "translation": "Navegação",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_GlobalObject_IsoGenerator",
+      "en": "IsoGenerator",
+      "translation": "IsoGenerator",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_WorldMapEditor_SnapChunk",
+      "en": "Snap to Chunk",
+      "translation": "Ajustar ao bloco",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_StashDebug_Spawn",
+      "en": "Spawn",
+      "translation": "Gerar",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_GameStats_IP",
+      "en": "IP",
+      "translation": "IP",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_GameStats_Ping",
+      "en": "Ping",
+      "translation": "Ping",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_GameStats_FPS",
+      "en": "FPS",
+      "translation": "FPS",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_EditVehicle_Chassis",
+      "en": "Chassis",
+      "translation": "Chassi",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_WorldFlares_Lerp",
+      "en": "Lerp",
+      "translation": "Interpolação linear",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ZomboidRadio_GUID",
+      "en": "GUID",
+      "translation": "GUID",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_AttachedItems_Item",
+      "en": "Item",
+      "translation": "Item",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Animal",
+      "en": "Animal",
+      "translation": "Animal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Bag_CraftedFramepack_Large2",
+      "en": "Framepack",
+      "translation": "Mochila com armação",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Birdie",
+      "en": "Badminton Birdie",
+      "translation": "Peteca de badminton",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Bluegill",
+      "en": "Bluegill",
+      "translation": "Peixe-sol (bluegill)",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Bobber",
+      "en": "Bobber",
+      "translation": "Boia de pesca",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Boilersuit_SWAT",
+      "en": "Coveralls",
+      "translation": "Macacão",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Brandy",
+      "en": "Brandy",
+      "translation": "Conhaque",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.CandyNovapops",
+      "en": "Novapops Candy",
+      "translation": "Doce Novapops",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Chocolate_SnikSnak",
+      "en": "SnikSnak Bar",
+      "translation": "Barra SnikSnak",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Chum",
+      "en": "Chum",
+      "translation": "Ceva",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.CigaretteRollingPapers",
+      "en": "Rolling Papers",
+      "translation": "Papel de seda para cigarro",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Clitter",
+      "en": "Glitter",
+      "translation": "Purpurina",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Creamocle",
+      "en": "Creamocle",
+      "translation": "Creamocle",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Dip_Salsa",
+      "en": "Salsa",
+      "translation": "Molho salsa",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.FudgeePop",
+      "en": "Fudgee Pop",
+      "translation": "Fudgee Pop",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Gaiter_Left",
+      "en": "Gaiter",
+      "translation": "Polaina",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Gaiter_Right",
+      "en": "Gaiter",
+      "translation": "Polaina",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Gin",
+      "en": "Gin",
+      "translation": "Gin",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.GolfTee",
+      "en": "Golf Tee",
+      "translation": "Suporte para bola de golfe",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Grenadine",
+      "en": "Grenadine",
+      "translation": "Xarope de romã",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Harmonica",
+      "en": "Harmonica",
+      "translation": "Gaita",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Hat_BandanaMask_Green",
+      "en": "Bandana",
+      "translation": "Bandana",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Hat_Bandana_Green",
+      "en": "Bandana",
+      "translation": "Bandana",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Hat_HeadSack_Burlap",
+      "en": "Burlap Headsack",
+      "translation": "Saco de juta para cabeça",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Hat_HeadSack_Cotton",
+      "en": "Cotton Headsack",
+      "translation": "Saco de algodão para cabeça",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.HottieZ_New",
+      "en": "HottieZ",
+      "translation": "HottieZ",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Humidor",
+      "en": "Humidor",
+      "translation": "Caixa umidificadora de charutos",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Kale",
+      "en": "Kale",
+      "translation": "Couve",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Loupe",
+      "en": "Loupe",
+      "translation": "Lupa",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.MenuCard",
+      "en": "Menu",
+      "translation": "Cardápio",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Mov_Espresso",
+      "en": "Espresso Deluxe",
+      "translation": "Espresso Deluxe",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Mov_Ficus",
+      "en": "Ficus",
+      "translation": "Fícus",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Mov_TVCamera",
+      "en": "Imekagi HK533P",
+      "translation": "Imekagi HK533P",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Mov_TomDrum",
+      "en": "Tom Drum",
+      "translation": "Tom-tom",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Multitool",
+      "en": "Multitool",
+      "translation": "Ferramenta multifuncional",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Paddlefish",
+      "en": "Paddlefish",
+      "translation": "Peixe-espátula",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Rum",
+      "en": "Rum",
+      "translation": "Rum",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.SCBA",
+      "en": "SCBA",
+      "translation": "SCBA",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Sauger",
+      "en": "Sauger",
+      "translation": "Picão-canadense (sauger)",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Scotch",
+      "en": "Scotch",
+      "translation": "Uísque escocês",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Sherry",
+      "en": "Sherry",
+      "translation": "Xerez",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Tequila",
+      "en": "Tequila",
+      "translation": "Tequila",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.TvBlack",
+      "en": "ValuTech Television",
+      "translation": "Televisor ValuTech",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Vodka",
+      "en": "Vodka",
+      "translation": "Vodka",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Walleye",
+      "en": "Walleye",
+      "translation": "Picão-verde (walleye)",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Zipties",
+      "en": "Zip Ties",
+      "translation": "Braçadeiras de nylon",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Brandenburg",
+      "en": "BRANDENBURG",
+      "translation": "BRANDENBURG",
+      "category": "proper_name"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_EchoCreek",
+      "en": "ECHO CREEK",
+      "translation": "ECHO CREEK",
+      "category": "proper_name"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Ekron",
+      "en": "EKRON",
+      "translation": "EKRON",
+      "category": "proper_name"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Irvington",
+      "en": "IRVINGTON",
+      "translation": "IRVINGTON",
+      "category": "proper_name"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_MarchRidge",
+      "en": "MARCH RIDGE",
+      "translation": "MARCH RIDGE",
+      "category": "proper_name"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Riverside",
+      "en": "RIVERSIDE",
+      "translation": "RIVERSIDE",
+      "category": "proper_name"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Rosewood",
+      "en": "ROSEWOOD",
+      "translation": "ROSEWOOD",
+      "category": "proper_name"
+    },
+    {
+      "file": "Moveables_PTBR.txt",
+      "key": "Tom_Drum",
+      "en": "Tom Drum",
+      "translation": "Tom-tom",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Moveables_PTBR.txt",
+      "key": "Bar_Bar",
+      "en": "Bar",
+      "translation": "Bar",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_PonyRoamO_title",
+      "en": "Pony Roam-O",
+      "translation": "Pony Roam-O",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_McCoyLoggingCorp_title",
+      "en": "McCoy Logging Co.",
+      "translation": "McCoy Logging Co.",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_UStoreItLouisville_title",
+      "en": "U-Store It (Louisville)",
+      "translation": "U-Store It (Louisville)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Fossoil1_title",
+      "en": "Fossoil (Muldraugh)",
+      "translation": "Fossoil (Muldraugh)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Fossoil3_title",
+      "en": "Fossoil (Rosewood)",
+      "translation": "Fossoil (Rosewood)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Fossoil4_title",
+      "en": "Fossoil (Ekron)",
+      "translation": "Fossoil (Ekron)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Fossoil5_title",
+      "en": "Fossoil (Riverside)",
+      "translation": "Fossoil (Riverside)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Fossoil6_title",
+      "en": "Fossoil (Brandenburg)",
+      "translation": "Fossoil (Brandenburg)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Delilah_title",
+      "en": "PS Delilah",
+      "translation": "PS Delilah",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_ChapelmountDownsRacetrack_title",
+      "en": "Chapelmount Downs Racetrack",
+      "translation": "Chapelmount Downs Racetrack",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_GrandOhioMall_title",
+      "en": "Grand Ohio Mall",
+      "translation": "Grand Ohio Mall",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_HavishamSuites_title",
+      "en": "Havisham Suites",
+      "translation": "Havisham Suites",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_PizzaWhirled_title",
+      "en": "Pizza Whirled",
+      "translation": "Pizza Whirled",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_PizzaWhirledJobAdRosewood_title",
+      "en": "Pizza Whirled (Rosewood)",
+      "translation": "Pizza Whirled (Rosewood)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_LowryCourt_title",
+      "en": "Lowry Court",
+      "translation": "Lowry Court",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_RoxysRollerRink_title",
+      "en": "Roxy's Roller Rink",
+      "translation": "Roxy's Roller Rink",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_ElveeArena_title",
+      "en": "Elvee Arena",
+      "translation": "Elvee Arena",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_MeadshireEstate_title",
+      "en": "Meadshire Estate",
+      "translation": "Meadshire Estate",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_IrvingtonSpeedway_title",
+      "en": "Irvington Speedway",
+      "translation": "Irvington Speedway",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_CivilWarfort_title",
+      "en": "Fort Prospect",
+      "translation": "Fort Prospect",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_AlsAutoShop_title",
+      "en": "Al's Auto Shop",
+      "translation": "Al's Auto Shop",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_WPDIY_title",
+      "en": "West Point DIY",
+      "translation": "West Point DIY",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_BeefChunk_title",
+      "en": "Beef Chunk Jerky Co.",
+      "translation": "Beef Chunk Jerky Co.",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_MadDansDen_title",
+      "en": "Mad Dan's Den",
+      "translation": "Mad Dan's Den",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Sammies_title",
+      "en": "Sammie's (Brandenburg)",
+      "translation": "Sammie's (Brandenburg)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_Twiggys_title",
+      "en": "Twiggy's",
+      "translation": "Twiggy's",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Fossoil1_title",
+      "en": "Fossoil (Muldraugh)",
+      "translation": "Fossoil (Muldraugh)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Fossoil3_title",
+      "en": "Fossoil (Rosewood)",
+      "translation": "Fossoil (Rosewood)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Fossoil4_title",
+      "en": "Fossoil (Ekron)",
+      "translation": "Fossoil (Ekron)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Fossoil5_title",
+      "en": "Fossoil (Riverside)",
+      "translation": "Fossoil (Riverside)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Fossoil6_title",
+      "en": "Fossoil (Brandenburg)",
+      "translation": "Fossoil (Brandenburg)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_UStoreItLouisville_title",
+      "en": "U-Store It (Louisville)",
+      "translation": "U-Store It (Louisville)",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_WPDIY_title",
+      "en": "West Point DIY",
+      "translation": "West Point DIY",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_LowryCourt_title",
+      "en": "Lowry Court",
+      "translation": "Lowry Court",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_MeadshireEstate_title",
+      "en": "Meadshire Estate",
+      "translation": "Meadshire Estate",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_LeafhillHeights_title",
+      "en": "Leafhill Heights",
+      "translation": "Leafhill Heights",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_McCoyLoggingCorp_title",
+      "en": "McCoy Logging Co.",
+      "translation": "McCoy Logging Co.",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_DuCaseApartments_title",
+      "en": "Du Case Apartments",
+      "translation": "Du Case Apartments",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_BeefChunk_title",
+      "en": "Beef Chunk Jerky Co.",
+      "translation": "Beef Chunk Jerky Co.",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_AlsAutoShop_title",
+      "en": "Al's Auto Shop",
+      "translation": "Al's Auto Shop",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_MadDansDen_title",
+      "en": "Mad Dan's Den",
+      "translation": "Mad Dan's Den",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_StuartandLogScrapyard_title",
+      "en": "Stuart & Log",
+      "translation": "Stuart & Log",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Twiggys_title",
+      "en": "Twiggy's",
+      "translation": "Twiggy's",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_RoxysRollerRink_title",
+      "en": "Roxy's Roller Rink",
+      "translation": "Roxy's Roller Rink",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_GrandOhioMall_title",
+      "en": "Grand Ohio Mall",
+      "translation": "Grand Ohio Mall",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_IrvingtonSpeedway_title",
+      "en": "Irvington Speedway",
+      "translation": "Irvington Speedway",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Print_Text_PTBR.txt",
+      "key": "Print_Text_Delilah_title",
+      "en": "PS Delilah",
+      "translation": "PS Delilah",
+      "category": "business_or_publication_title"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Boulder2",
+      "en": "Boulder",
+      "translation": "Rocha",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_FarmingAmount_option3",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_FishAmount_option3",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_MaterialLootNew",
+      "en": "Material",
+      "translation": "Material",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_AnimalAgeModifier_option3",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_AnimalSpeed_option4",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_Normal",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_DayNightCycle_option1",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_ClimateCycle_option1",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_FogCycle_option1",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Stash_PTBR.txt",
+      "key": "Stash_IrvingtonMap10_Text1",
+      "en": "IRVINGTON",
+      "translation": "IRVINGTON",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "Stash_PTBR.txt",
+      "key": "Stash_WorldMap9_Text5",
+      "en": "muldraugh",
+      "translation": "muldraugh",
+      "category": "proper_name_or_internal_identifier"
+    },
+    {
+      "file": "Tooltip_PTBR.txt",
+      "key": "Tooltip_fish_abundance_Normal",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Tooltip_PTBR.txt",
+      "key": "Tooltip_food_AnimalMilk",
+      "en": "Animal",
+      "translation": "Animal",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Tooltip_PTBR.txt",
+      "key": "Tooltip_item_Duck",
+      "en": "Quack quack.",
+      "translation": "Quá quá.",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "Tooltip_PTBR.txt",
+      "key": "Tooltip_item_BrainTan",
+      "en": "BrainTan",
+      "translation": "Curtimento com cérebro",
+      "category": "contextual_ui_translation"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_cafeteriaKey",
+      "en": "Cafeteria",
+      "translation": "Cafeteria",
+      "category": "valid_ptbr_or_ui_notation"
+    },
+    {
+      "file": "Moveables_PTBR.txt",
+      "key": "Bar",
+      "en": "Bar",
+      "translation": "Balcão de bar",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Moveables_PTBR.txt",
+      "key": "Ficus",
+      "en": "Ficus",
+      "translation": "Fícus",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Print_Media_PTBR.txt",
+      "key": "Print_Media_DuCaseApartments_title",
+      "en": "Du Case Apartments",
+      "translation": "Du Case Apartments",
+      "category": "proper_name"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Recipe_GlazeClayJar",
+      "en": "Glaze Clay Jar",
+      "translation": "Esmaltar jarro de argila",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Boulder",
+      "en": "Boulder",
+      "translation": "Rocha",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_ZombieRespawn_option2",
+      "en": "Normal",
+      "translation": "Normal",
+      "category": "contextual_translation"
+    },
+    {
+      "file": "Stash_PTBR.txt",
+      "key": "Stash_EkronMap7_Text1",
+      "en": "ekron",
+      "translation": "Ekron",
+      "category": "proper_name"
+    }
+  ]
+}

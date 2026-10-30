@@ -43,13 +43,32 @@ limite escolhido. Sem correções, todos podem trabalhar como Tradutor I.
 O orquestrador mostra entradas **pendentes**, incluindo as em execução. Os demais
 cards mostram somente itens **na fila**, separados dos que estão em execução.
 O log de decisões apresenta horário, agente, entrada, ciclo, resultado e motivo:
-feito, aprovado, reprovado, revisão humana, refazer ou cancelado. Entradas aprovadas
+feito, aprovado, reprovado, análise automática, refazer ou cancelado. Entradas aprovadas
 no checkpoint/glossário são identificadas como reutilizadas, sem inventar decisões
 do gerente. Os últimos 120 eventos ficam no estado ao vivo; o histórico completo
 das entradas é exportado ao final em `agent-history.json`.
 
 No desenvolvimento, `VITE_BACKEND_URL` permite apontar o proxy do Vite para outra
 instância local. O padrão continua sendo `http://127.0.0.1:8767`.
+
+### Otimização de tradução
+
+O painel permite lotes de 1, 2 ou 4 textos curtos. Textos longos e correções são
+processados individualmente; cada saída do lote passa pela validação. Respostas
+repetidas sem progresso seguem ao analista sem consumir uma terceira geração.
+Pendências antigas de revisão são migradas ao analista, mesmo quando já houve
+uma tentativa anterior. Não existe aprovação humana no fluxo. Falhas não
+resolvidas ficam em `analysis-report.json`, com motivo, candidata e autoria.
+Confira as medições históricas em [OPTIMIZATION_REPORT.md](OPTIMIZATION_REPORT.md).
+
+### Analista local e auditoria completa
+
+Falhas não resolvidas pelos tradutores seguem para o quinto worker, um analista
+com presets e Argos Translate EN -> PT-BR offline. O gerente fornece diagnóstico
+e contexto de correção ao Tradutor II; a saída do analista também é validada.
+A entrega inclui `auditoria-traducao.csv` com antes/depois, autoria, tentativas,
+motivos e confirmação de exportação. Consulte [ANALYST_WORKFLOW.md](ANALYST_WORKFLOW.md)
+para instalar o modelo e entender a rastreabilidade e os casos não resolvidos.
 
 Instalação real: `E:\Games\Project.Zomboid.v42.13.1\game\media\lua\shared\Translate`.
 

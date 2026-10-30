@@ -25,5 +25,5 @@ def test_queue_depths_follow_stages(monkeypatch):
     thread.join(5)
     assert not thread.is_alive()
     assert len(outputs)==4
-    assert all(set(q)=={'translator','translator_ii','supervisor','manager','orchestrator','delivery'} for q in snapshots)
+    assert all(set(q)=={'translator','translator_ii','supervisor','manager','orchestrator','delivery','analyst'} for q in snapshots)
     assert any(q['supervisor']>=1 or q['manager']>=1 for q in snapshots)

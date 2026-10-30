@@ -71,18 +71,20 @@ def test_live_pipeline_reports_progress_queues_and_all_decisions(tmp_path, monke
         state.update(values)
         snapshots.append(json.loads(json.dumps(state)))
 
-    jobs.Pipeline(event).run(game, tmp_path / 'work', translate=True, workers=4)
+    jobs.Pipeline(event).run(game, tmp_path / 'work', translate=True, workers=4, batch=1)
     assert state['progress'] == state['total'] == 4
     assert state['percent'] == 100
     assert state['accepted'] == 2
-    assert state['needs_review'] == 1
-    assert state['failed'] == 1
+    assert state['needs_review'] == 0
+    assert state['failed'] == 2
     assert state['remaining'] == 0
-    assert state['manager_decisions'] == {'approved': 2, 'needs_review': 1, 'rejected': 1, 'retry': 3}
+    # C repeats its first candidate: stop after its one correction instead of
+    # spending a third generation on the same answer.
+    assert state['manager_decisions'] == {'approved': 2, 'rejected': 2, 'retry': 2, 'analyze': 2}
     assert len(state['agent_recent']) == 4
     assert any(s.get('agent_queues', {}).get('translator', 0) == 4 for s in snapshots)
     assert {25, 50, 75, 100}.issubset({s.get('percent') for s in snapshots})
-    assert {'approved', 'needs_review', 'rejected', 'retry', 'done'}.issubset(
+    assert {'approved', 'analyze', 'rejected', 'retry', 'done'}.issubset(
         {event['action'] for event in state['agent_events']})
     assert state['active_workers'] == []
     assert all(s.get('progress', 0) <= s.get('total', 0) for s in snapshots)

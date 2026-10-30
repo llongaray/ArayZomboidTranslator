@@ -32,23 +32,22 @@ HTML = '''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta na
 <header class="top"><div class="brand"><div class="brand-icon">▣</div><div><h1>Aray <strong>Zomboid</strong> Translator <small>v0.9.1</small></h1><small>Tradução local com orquestração de agentes</small></div></div><div class="pill"><span id="ollamaDot" class="dot" style="background:#ffcb4a"></span><span id="ollamaState" role="status">Verificando Ollama…</span></div></header>
 <main><section class="panel"><form id="f"><div class="controls"><label>Diretório do jogo<input name="game" required placeholder="E:\Games\Project.Zomboid...\Translate"></label><label>Workspace<input name="work" required value="./workspace"></label><label>Modelo<input name="model" value="gemma3:4b"></label><label>Endpoint Ollama<input name="url" value="http://127.0.0.1:11434"></label><label>Workers (1–4)<input name="workers" type="number" value="1" min="1" max="4"></label><label>Itens por lote<input name="batch" type="number" value="4" min="1" max="32"></label><label>Limite (0 = todos)<input name="limit" type="number" value="0" min="0"></label><label>Filtro<input name="files" value="UI,ContextMenu,Moodles"></label><label>Auditoria<select name="mode"><option value="all">Completa</option><option value="missing">Somente ausentes</option><option value="review">Revisão</option></select></label><label>Operação<select name="operation"><option value="audit">Somente auditar</option><option value="translate">Traduzir e exportar</option></select></label></div><div class="buttons"><button id="go">Executar</button><button id="cancel" type="button" class="danger">Cancelar</button></div></form></section>
 <section class="panel overview"><div><h2 id="headline">Pronto para executar</h2><p id="message">Aguardando início da auditoria.</p></div><div><div class="big percent" id="percent">0,0%</div><div class="track"><div id="progressFill" class="fill"></div></div><p id="processed">0 / 0 entradas processadas</p></div><div><p id="totals">Aprovadas: 0 | Revisão: 0 | Falhas: 0</p><p id="phase">idle</p><p id="workersActive">1 instância</p></div></section>
-<section class="panel"><h2>Pipeline de agentes</h2><p>O orquestrador distribui entradas; o supervisor valida; o gerente solicita correção ou libera a entrega.</p><div class="flow"><div class="node" style="--clr:#a477fa"><span class="glyph">♛</span><h3>Orquestrador</h3><p id="nodeOrchestrator">Aguardando</p><p>Distribuição dos workers</p></div><div class="node" style="--clr:#318fff"><span class="glyph">▤</span><h3>Tradutor</h3><p id="nodeTranslator">Ollama local</p><p>Tradução atômica</p></div><div class="node" style="--clr:#2fd6a4"><span class="glyph">⬡</span><h3>Supervisor</h3><p id="nodeSupervisor">Aguardando</p><p>Qualidade e placeholders</p></div><div class="node" style="--clr:#ffca4a"><span class="glyph">✓</span><h3>Gerente</h3><p id="nodeManager">Aguardando</p><p>Decisão e feedback</p></div><div class="node" style="--clr:#29d6ac"><span class="glyph">⚑</span><h3>Entrega</h3><p id="nodeDelivery">Não iniciada</p><p>Validação dos arquivos Lua</p></div></div><div class="feedback">↺ Reprovação → contexto do gerente → retradução → nova supervisão (até 3 ciclos) → revisão humana, se necessário</div></section>
+<section class="panel"><h2>Pipeline de agentes</h2><p>O orquestrador distribui entradas; o supervisor valida; o gerente solicita correção ou libera a entrega.</p><div class="flow"><div class="node" style="--clr:#a477fa"><span class="glyph">♛</span><h3>Orquestrador</h3><p id="nodeOrchestrator">Aguardando</p><p>Distribuição dos workers</p></div><div class="node" style="--clr:#318fff"><span class="glyph">▤</span><h3>Tradutor</h3><p id="nodeTranslator">Ollama local</p><p>Tradução atômica</p></div><div class="node" style="--clr:#2fd6a4"><span class="glyph">⬡</span><h3>Supervisor</h3><p id="nodeSupervisor">Aguardando</p><p>Qualidade e placeholders</p></div><div class="node" style="--clr:#ffca4a"><span class="glyph">✓</span><h3>Gerente</h3><p id="nodeManager">Aguardando</p><p>Decisão e feedback</p></div><div class="node" style="--clr:#29d6ac"><span class="glyph">⚑</span><h3>Entrega</h3><p id="nodeDelivery">Não iniciada</p><p>Validação dos arquivos Lua</p></div></div><div class="feedback">↺ Reprovação → contexto do gerente → retradução → nova supervisão (até 3 ciclos) → análise automática, se necessário</div></section>
 <section class="metrics" id="metrics"></section>
 <div class="bottom" style="margin-top:15px"><section class="panel"><h2>Fila e histórico dos agentes</h2><p id="agentCount">Dados de execução</p><div class="scroll"><table><thead><tr><th>Arquivo / chave</th><th>Estágio</th><th>Ciclos</th><th>Resultado</th></tr></thead><tbody id="queueRows"></tbody></table></div></section><section class="panel"><h2>Cobertura da tradução original</h2><div class="segment" id="coverageBar"></div><p id="coverageLabel">Aguardando auditoria</p><details><summary>Arquivos com pendências</summary><div class="scroll"><table><thead><tr><th>Arquivo</th><th>Ausentes</th><th>Traduzidas</th></tr></thead><tbody id="fileRows"></tbody></table></div></details><h3 style="margin-top:20px">Atividade em tempo real</h3><div id="logs" class="logs"></div></section></div>
-<div class="bottom"><section class="panel"><h2>Entrega e arquivos</h2><p id="exportWarning"></p><p id="artifacts">Nenhum arquivo gerado nesta sessão.</p><div id="blocked"></div><details><summary>Detalhes técnicos</summary><pre id="technical"></pre></details></section><section class="panel"><h2>Revisão humana</h2><p>Itens que esgotaram as tentativas automáticas; aprovações exigem intervenção explícita.</p><button id="reviewLoad" type="button">Carregar pendências</button><div id="reviewRows" class="scroll"></div></section></div></main>
+<div class="bottom"><section class="panel"><h2>Entrega e arquivos</h2><p id="exportWarning"></p><p id="artifacts">Nenhum arquivo gerado nesta sessão.</p><div id="blocked"></div><details><summary>Detalhes técnicos</summary><pre id="technical"></pre></details></section><section class="panel"><h2>Analista</h2><p>Pendências seguem automaticamente para o analista. Consulte o relatório em /api/analyst/report.</p></section></div></main>
 <script>
 const $=id=>document.getElementById(id),f=$('f'),fmt=n=>Number(n||0).toLocaleString('pt-BR');let previousKey='';
 function kpi(label,val,color){const d=document.createElement('div');d.className='metric';if(color)d.style.borderColor=color;const a=document.createElement('div');a.className='num';a.textContent=fmt(val);const b=document.createElement('div');b.className='lab';b.textContent=label;d.append(a,b);return d}
-function render(s){const sum=s.summary||{},c=sum.counts||{},t=Number(s.total||0),p=Number(s.progress||0),pct=t?100*p/t:(s.status==='done'?100:0);$('percent').textContent=pct.toFixed(1).replace('.',',')+'%';$('progressFill').style.width=Math.max(0,Math.min(100,pct))+'%';$('processed').textContent=fmt(p)+' / '+fmt(t)+' entradas processadas';$('totals').textContent='Aprovadas: '+fmt(s.accepted)+' | Revisão: '+fmt(s.needs_review)+' | Falhas: '+fmt(s.errors);$('headline').textContent=({running:'Execução em andamento',done:'Processamento concluído',partial:'Entrega parcial',error:'Falha na execução',cancelled:'Execução cancelada',idle:'Pronto para executar'})[s.status]||'Preparando';$('message').textContent=s.message||'Aguardando';$('phase').textContent=s.phase||'idle';$('workersActive').textContent=fmt(s.workers||1)+' instância(s)';$('nodeOrchestrator').textContent=fmt(p)+' / '+fmt(t);$('nodeTranslator').textContent=s.status==='running'?'Traduzindo':'gemma3:4b';$('nodeSupervisor').textContent=s.status==='running'?'Validando entradas':'Aguardando';$('nodeManager').textContent=fmt(s.needs_review)+' para revisão humana';$('nodeDelivery').textContent=s.phase==='export'?'Validando exportação':(s.result?.files!=null?fmt(s.result.files)+' arquivo(s)':'Aguardando');$('exportWarning').textContent=s.result?.blocked_files?.length?'Arquivos bloqueados pela validação: '+s.result.blocked_files.length:(s.result?.export_error||'');$('blocked').textContent=(s.result?.blocked_files||[]).map(x=>x.file+': '+(x.issue_count||0)+' problema(s)').join(' | ');$('artifacts').textContent=s.result?['audit','accepted','quality_review','agent_history','quality_invalidation','output'].filter(k=>s.result[k]).map(k=>k+': '+s.result[k]).join(' | '):'Aguardando arquivos';$('technical').textContent=JSON.stringify(s.result||s.message,null,2);
-const m=$('metrics');m.replaceChildren();[['Aprovadas',s.accepted,'#219b78'],['Revisão humana',s.needs_review,'#b38b31'],['Falhas',s.errors,'#ad4561'],['Selecionadas',sum.selected,''],['Traduzidas na origem',c.translated,''],['Ausentes na origem',c.missing,''],['Idênticas',c.identical,''],['Placeholders',c.placeholder_mismatch,'']].forEach(x=>m.append(kpi(...x)));
+function render(s){const sum=s.summary||{},c=sum.counts||{},t=Number(s.total||0),p=Number(s.progress||0),pct=t?100*p/t:(s.status==='done'?100:0);$('percent').textContent=pct.toFixed(1).replace('.',',')+'%';$('progressFill').style.width=Math.max(0,Math.min(100,pct))+'%';$('processed').textContent=fmt(p)+' / '+fmt(t)+' entradas processadas';$('totals').textContent='Aprovadas: '+fmt(s.accepted)+' | Revisão: '+fmt(s.analyst_pending)+' | Falhas: '+fmt(s.errors);$('headline').textContent=({running:'Execução em andamento',done:'Processamento concluído',partial:'Entrega parcial',error:'Falha na execução',cancelled:'Execução cancelada',idle:'Pronto para executar'})[s.status]||'Preparando';$('message').textContent=s.message||'Aguardando';$('phase').textContent=s.phase||'idle';$('workersActive').textContent=fmt(s.workers||1)+' instância(s)';$('nodeOrchestrator').textContent=fmt(p)+' / '+fmt(t);$('nodeTranslator').textContent=s.status==='running'?'Traduzindo':'gemma3:4b';$('nodeSupervisor').textContent=s.status==='running'?'Validando entradas':'Aguardando';$('nodeManager').textContent=fmt(s.analyst_pending)+' para análise automática';$('nodeDelivery').textContent=s.phase==='export'?'Validando exportação':(s.result?.files!=null?fmt(s.result.files)+' arquivo(s)':'Aguardando');$('exportWarning').textContent=s.result?.blocked_files?.length?'Arquivos bloqueados pela validação: '+s.result.blocked_files.length:(s.result?.export_error||'');$('blocked').textContent=(s.result?.blocked_files||[]).map(x=>x.file+': '+(x.issue_count||0)+' problema(s)').join(' | ');$('artifacts').textContent=s.result?['audit','accepted','quality_review','agent_history','quality_invalidation','output'].filter(k=>s.result[k]).map(k=>k+': '+s.result[k]).join(' | '):'Aguardando arquivos';$('technical').textContent=JSON.stringify(s.result||s.message,null,2);
+const m=$('metrics');m.replaceChildren();[['Aprovadas',s.accepted,'#219b78'],['Analista',s.analyst_pending,'#b38b31'],['Falhas',s.errors,'#ad4561'],['Selecionadas',sum.selected,''],['Traduzidas na origem',c.translated,''],['Ausentes na origem',c.missing,''],['Idênticas',c.identical,''],['Placeholders',c.placeholder_mismatch,'']].forEach(x=>m.append(kpi(...x)));
 const bar=$('coverageBar');bar.replaceChildren();const total=Number(sum.total||0);[['translated','#26cc99'],['missing','#b6c9e4'],['identical','#a77bfa'],['placeholder_mismatch','#ffbf49']].forEach(([k,color])=>{const e=document.createElement('span');e.style.width=(total?100*(c[k]||0)/total:0)+'%';e.style.background=color;bar.appendChild(e)});$('coverageLabel').textContent=total?'Origem: '+fmt(c.translated)+' traduzidas de '+fmt(total)+' ('+(100*(c.translated||0)/total).toFixed(1)+'%)':'Aguardando auditoria';f.querySelector('#go').disabled=s.status==='running';
 const fileRows=$('fileRows');fileRows.replaceChildren();for(const entry of (sum.files||[])){const tr=document.createElement('tr');for(const v of [entry.file,fmt(entry.missing),fmt(entry.translated)]){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}fileRows.appendChild(tr)}
 const rows=$('queueRows');rows.replaceChildren();for(const item of (s.agent_recent||[]).slice().reverse()){const tr=document.createElement('tr');const history=item.history||[];const last=history[history.length-1]||{};for(const value of [item.file+' / '+item.key,last.agent||'orquestrador',history.filter(h=>h.agent==='translator').length,item.status]){const td=document.createElement('td');td.textContent=String(value||'');tr.appendChild(td)}rows.appendChild(tr)}
-const key=[s.status,p,s.phase,s.message,s.accepted,s.needs_review,s.errors].join('|');if(key!==previousKey){previousKey=key;const line=document.createElement('div');line.className='log';line.textContent=new Date().toLocaleTimeString('pt-BR')+' • '+(s.message||s.phase||s.status);$('logs').prepend(line);while($('logs').children.length>60)$('logs').lastChild.remove()}}
+const key=[s.status,p,s.phase,s.message,s.accepted,s.analyst_pending,s.errors].join('|');if(key!==previousKey){previousKey=key;const line=document.createElement('div');line.className='log';line.textContent=new Date().toLocaleTimeString('pt-BR')+' • '+(s.message||s.phase||s.status);$('logs').prepend(line);while($('logs').children.length>60)$('logs').lastChild.remove()}}
 async function refresh(){try{const r=await fetch('/api/status');if(r.ok)render(await r.json())}catch{}}
 f.onsubmit=async e=>{e.preventDefault();const body=Object.fromEntries(new FormData(f));$('go').disabled=true;try{const r=await fetch('/api/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json();if(!r.ok){alert(data.error||'Erro');$('go').disabled=false}}catch(e){alert(String(e));$('go').disabled=false}};
 $('cancel').onclick=async()=>{const r=await fetch('/api/cancel',{method:'POST'});if(!r.ok){const x=await r.json();alert(x.error||'Erro')}};
-$('reviewLoad').onclick=async()=>{const work=f.elements.work.value,r=await fetch('/api/review?work='+encodeURIComponent(work)),data=await r.json(),root=$('reviewRows');root.replaceChildren();if(!r.ok){root.textContent=data.error||'Erro';return}for(const item of data.items){const box=document.createElement('div');box.className='review';const title=document.createElement('h3');title.textContent=item.file+' / '+item.key;const en=document.createElement('p');en.textContent='EN: '+(item.english||'');const textarea=document.createElement('textarea');textarea.value=item.translation||'';const feedback=document.createElement('p');box.append(title,en,textarea);for(const action of ['approve','reject']){const b=document.createElement('button');b.type='button';b.textContent=action==='approve'?'Aprovar':'Rejeitar';if(action==='reject')b.className='danger';b.onclick=async()=>{const resp=await fetch('/api/review/decision',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({work,file:item.file,key:item.key,translation:textarea.value,action})});const x=await resp.json();feedback.textContent=resp.ok?'Decisão salva':x.error||'Erro'};box.append(b)}box.append(feedback);root.append(box)}};
 async function checkOllama(){try{const query=new URLSearchParams({model:f.elements.model.value,url:f.elements.url.value});const r=await fetch('/api/ollama/status?'+query),data=await r.json();$('ollamaState').textContent=data.message;$('ollamaDot').style.background=data.ready?'#25d7a1':'#ffcb4a'}catch{$('ollamaState').textContent='Não foi possível consultar o backend';$('ollamaDot').style.background='#ff8198'}setTimeout(checkOllama,10000)}
 checkOllama();setInterval(refresh,1000);refresh();
 </script></body></html>'''
@@ -61,72 +60,21 @@ from collections import Counter
 import threading
 _cancel = threading.Event()
 
-@app.get('/api/review')
-def review_list():
-    try:return jsonify(items=pending_review(Path(request.args.get('work','./workspace')).expanduser().resolve()))
+@app.get('/api/analyst/report')
+def analyst_report():
+    work=Path(request.args.get('work','./workspace')).expanduser().resolve()
+    try:
+        path=work/'analysis-report.json'
+        return jsonify(json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {'items':[]})
     except (OSError,ValueError) as exc:return jsonify(error=str(exc)),400
 
+@app.get('/api/review')
 @app.get('/api/review/report.csv')
-def review_report_csv():
-    from .review_csv import report_csv
-    try:
-        work = Path(request.args.get('work', './workspace')).expanduser().resolve()
-        csv_content = report_csv(work)
-        return Response(csv_content.encode('utf-8'), mimetype='text/csv',
-                        headers={'Content-Disposition': 'attachment; filename="relatorio-revisao-humana.csv"',
-                                 'Cache-Control': 'no-store'})
-    except (OSError, ValueError, KeyError, TypeError) as exc:
-        return jsonify(error=str(exc)), 400
-
-@app.post('/api/review/decision')
-def review_decision():
-    with _lock:
-        if _state["status"]=="running":return jsonify(error="Aguarde o processamento terminar"),409
-    data=request.get_json(silent=True) or {}
-    try:
-        item=record_decision(Path(data["work"]).expanduser().resolve(),str(data["file"]),str(data["key"]),str(data.get("translation","")),str(data["action"]))
-        return jsonify(saved=True,item=item)
-    except (ValueError,OSError,KeyError,TypeError) as exc:return jsonify(error=str(exc)),400
-
-_instruction_lock=threading.Lock()
-_instruction_state={'status':'idle','progress':0,'total':0,'result':None,'error':None}
-
 @app.get('/api/review/instruction-status')
-def instruction_status():
-    with _instruction_lock:
-        return jsonify(dict(_instruction_state))
-
+@app.post('/api/review/decision')
 @app.post('/api/review/instruct')
-def instruction_start():
-    with _lock:
-        if _state['status']=='running':
-            return jsonify(error='Conclua a execução atual antes da revisão'),409
-    data=request.get_json(silent=True) or {}
-    work=Path(str(data.get('work','./workspace'))).expanduser().resolve()
-    file=str(data.get('file',''))
-    instruction=str(data.get('instruction','')).strip()
-    if not file or not instruction or len(instruction)>1200:
-        return jsonify(error='Arquivo e instrução (até 1200 caracteres) são obrigatórios'),400
-    with _instruction_lock:
-        if _instruction_state['status']=='running':
-            return jsonify(error='Já existe revisão por LLM em andamento'),409
-        _instruction_state.update(status='running',progress=0,total=0,result=None,error=None)
-    def task_instruction():
-        try:
-            from .review_instructions import instruct
-            def progress(done,total,item):
-                with _instruction_lock:
-                    _instruction_state.update(progress=done,total=total,last=item)
-            result=instruct(work,file,instruction,model=str(data.get('model','gemma3:4b')),
-                           url=str(data.get('url','http://127.0.0.1:11434')),
-                           key=data.get('key'),limit=int(data.get('limit',20)),on_progress=progress)
-            with _instruction_lock:
-                _instruction_state.update(status='done',result=result)
-        except Exception as exc:
-            with _instruction_lock:
-                _instruction_state.update(status='error',error=str(exc))
-    threading.Thread(target=task_instruction,daemon=True).start()
-    return jsonify(started=True),202
+def retired_human_review():
+    return jsonify(error='A aprovação manual foi removida. O analista resolve as pendências automaticamente.',replacement='/api/analyst/report'),410
 
 @app.get('/api/preview')
 def preview():
@@ -144,6 +92,27 @@ def cancel_job():
 
 @app.get('/api/health')
 def health():return jsonify(service='Aray Zomboid Translator',version='0.9.1',ok=True)
+
+@app.get('/api/analyst/status')
+def analyst_status():
+    from .analyst import MODEL_ROOT
+    from importlib.util import find_spec
+    models=[]
+    for metadata in MODEL_ROOT.glob('*/metadata.json'):
+        try:
+            data=json.loads(metadata.read_text(encoding='utf-8'))
+            if data.get('from_code')=='en' and data.get('to_code')=='pb':models.append(metadata.parent.name)
+        except (OSError,ValueError):
+            continue
+    return jsonify(ready=bool(models) and find_spec('argostranslate') is not None,
+                   provider='argos-en-pb',worker=5,device='cpu',models=models)
+
+@app.get('/api/delivery/audit.csv')
+def delivery_audit_csv():
+    work=Path(request.args.get('work','./workspace')).expanduser().resolve()
+    path=work/'auditoria-traducao.csv'
+    if not path.is_file():return jsonify(error='Auditoria de entrega ainda não gerada'),404
+    return send_file(path,mimetype='text/csv; charset=utf-8',as_attachment=True,download_name=path.name)
 
 @app.get('/api/ollama/status')
 def ollama_status():
@@ -194,7 +163,7 @@ def start():
     with _lock:
         if _state["status"] == "running":return jsonify(error="Já existe uma execução ativa"),409
         run_id=uuid.uuid4().hex
-        _publish(status="running",run_id=run_id,progress=0,percent=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,reused=0,cancelled_count=0,remaining=0,workers=1,agent_events=[],agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
+        _publish(status="running",run_id=run_id,progress=0,percent=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,analyst_pending=0,reused=0,preserved_review=0,cancelled_count=0,remaining=0,workers=1,agent_events=[],agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
         _cancel.clear()
     try:
         game = str(data.get("game","")).strip()

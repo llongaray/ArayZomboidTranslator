@@ -8,7 +8,7 @@ def test_manager_feedback():
     assert d["context"]
 
 def test_max_cycles():
-    assert manager_decision("rejected",["ollama_error"],3)["decision"]=="human_review"
+    assert manager_decision("rejected",["ollama_error"],3)["decision"]=="analyze"
 
 def test_supervisor_retry_cycle():
     row={"file":"UI_PTBR.txt","key":"A","en":"Sleep","status":"missing"}

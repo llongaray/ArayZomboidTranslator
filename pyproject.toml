@@ -7,9 +7,14 @@ version = "0.10.1"
 description = "Auditoria e tradução local EN->PTBR para Project Zomboid B42"
 requires-python = ">=3.10"
 dependencies = ["Flask>=3.0,<4", "luaparser>=3.3,<4"]
+[project.optional-dependencies]
+analyst = ["argostranslate>=1.10,<2"]
 [project.scripts]
 arayzt = "arayzt.cli:main"
 [tool.setuptools.packages.find]
 include = ["arayzt*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+arayzt = ["data/*.json"]

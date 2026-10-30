@@ -2,6 +2,8 @@
 from __future__ import annotations
 import re
 from .core import tokens
+from .source_rules import reviewed_unchanged
+from .analyst_rules import valid_literal, resolution
 
 GLOSSARY = {
     'Sleep on Ground with Pillow': 'Dormir no chão com travesseiro',
@@ -22,6 +24,9 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
     if tokens(en) != tokens(translated):
         return 'rejected',['placeholder_mismatch']
     candidate=translated.strip()
+    id_prefix=r'(?i)^\s*k\d+\s*[-–—:|]\s*'
+    if re.search(id_prefix,candidate) and not re.search(id_prefix,en):
+        return 'rejected',['id_prefix_echo']
     if (re.search(r'(?i)\b(?:GERENTE|SUPERVISOR|TRADUTOR|ANTERIOR)\s*:', candidate)
             or re.search(r'(?i)\b(?:agent_feedback_leak|unchanged_english|corrija o erro|corrigir o erro|vazamento de feedback)\b', candidate)
             or re.fullmatch(r'(?i)\s*(?:GERENTE|SUPERVISOR|TRADUTOR)\s*', candidate)):
@@ -36,8 +41,12 @@ def review(en: str, translated: str, key: str = '') -> tuple[str, list[str]]:
         return 'rejected',['structural_echo']
     if candidate==en.strip() and (not re.search(r'[A-Za-zÀ-ÿ]',candidate) or candidate.casefold() in {'xbox','playstation','pizza','taco','burrito','hotdog','champagne','linear'}):
         return 'approved',[]
+    exact_rule=resolution(key,en)
+    if exact_rule and translated==exact_rule['translation']:
+        return 'approved',[]
     issues=[]
-    if en.strip().casefold()==translated.strip().casefold() and key!='ContextMenu_Delete_OneItem':
+    if (en.strip().casefold()==translated.strip().casefold()
+            and key!='ContextMenu_Delete_OneItem' and not reviewed_unchanged(key,en) and not valid_literal(key,en)):
         issues.append('unchanged_english')
     original_words=set(re.findall(r"[a-zA-Z]+",en.casefold()))
     new_words=set(re.findall(r"[a-zA-Z]+",translated.casefold()))

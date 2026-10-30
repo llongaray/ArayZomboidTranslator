@@ -2,17 +2,17 @@ export type History = {agent: string; cycle?: number; decision?: string; status?
 export type AgentEvent = {id:number;timestamp:number;agent:string;action:string;file:string;key:string;cycle:number;reasons:string[]};
 export type Entry = {file: string; key: string; status: string; history: History[]};
 export type ReviewItem = {file: string; key: string; english: string; translation: string; reasons?: string[]};
-export type ActiveWorker = {worker: number; agent: string; cycle: number; file: string; key: string};
+export type ActiveWorker = {worker: number; agent: string; cycle: number; file: string; key: string; detail?:{tasks?:{key:string;file:string;cycle:number}[]}};
 export type JobState = {
-  revision?:number;run_id?:string;percent?:number;reused?:number;remaining?:number;cancelled_count?:number;agent_events?:AgentEvent[];
+  revision?:number;run_id?:string;percent?:number;reused?:number;preserved_review?:number;remaining?:number;cancelled_count?:number;agent_events?:AgentEvent[];
   status?: string; phase?: string; progress?: number; total?: number; accepted?: number;
-  needs_review?: number; errors?: number; workers?: number; message?: string;
+  analyst_pending?: number; needs_review?: number; errors?: number; workers?: number; message?: string;
   active_workers?: ActiveWorker[]; agent_queues?: Record<string, number>; manager_decisions?: Record<string, number>; agent_recent?: Entry[];
   summary?: {total?: number; counts?: Record<string, number>};
-  result?: {files?: number; output?: string; export_error?: string; blocked_files?: {file?: string; issues?: unknown[]}[]};
+  result?: {files?: number; output?: string; delivery_audit_csv?:string; export_error?: string; blocked_files?: {file?: string; issues?: unknown[]}[]};
 };
 export type OllamaState = {ready: boolean; online: boolean; status: string; message: string; latency_ms?: number; models?: string[]};
-export type Config = {game: string; work: string; model: string; workers: number; limit: number; files: string; mode: string; operation: string};
-export const defaults: Config = {game: '', work: './workspace', model: 'gemma3:4b', workers: 1, limit: 0, files: '', mode: 'all', operation: 'audit'};
+export type Config = {game: string; work: string; model: string; workers: number; batch:number; limit: number; files: string; mode: string; operation: string};
+export const defaults: Config = {game: '', work: './workspace', model: 'gemma3:4b', workers: 1, batch:4, limit: 0, files: '', mode: 'all', operation: 'audit'};
 export const format = (value = 0) => value.toLocaleString('pt-BR');
-export const labels: Record<string, string> = {idle: 'Aguardando', running: 'Em andamento', done: 'Concluído', partial: 'Entrega parcial', error: 'Erro na execução', cancelled: 'Cancelado', approved: 'Aprovada', needs_review: 'Revisão humana', rejected: 'Rejeitada', translator: 'Tradutor I', translator_ii: 'Tradutor II', supervisor: 'Supervisor', manager: 'Gerente', audit: 'Auditoria', audit_done: 'Auditoria concluída', translate: 'Tradução', export: 'Exportação', starting: 'Preparando', export_partial: 'Entrega parcial', export_failed: 'Falha na exportação'};
+export const labels: Record<string, string> = {idle: 'Aguardando', running: 'Em andamento', done: 'Concluído', partial: 'Entrega parcial', error: 'Erro na execução', cancelled: 'Cancelado', approved: 'Aprovada', needs_review: 'Análise necessária', rejected: 'Rejeitada', translator: 'Tradutor I', translator_ii: 'Tradutor II', analyst:'Analista', supervisor: 'Supervisor', manager: 'Gerente', audit: 'Auditoria', audit_done: 'Auditoria concluída', translate: 'Tradução', export: 'Exportação', starting: 'Preparando', export_partial: 'Entrega parcial', export_failed: 'Falha na exportação'};

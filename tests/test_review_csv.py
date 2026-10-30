@@ -28,6 +28,5 @@ def test_review_csv_has_source_translation_reasons_and_cycles(tmp_path):
     assert 'unchanged_english' in rows[0]['historico_motivos']
     assert save_report(tmp_path).read_bytes().startswith(b'\xef\xbb\xbf')
     res=app.test_client().get('/api/review/report.csv',query_string={'work':str(tmp_path)})
-    assert res.status_code==200
-    assert res.headers['Content-Type'].startswith('text/csv')
-    assert b'IGUI_abc' in res.data
+    assert res.status_code==410
+    assert res.json['replacement']=='/api/analyst/report'
