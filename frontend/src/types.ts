@@ -5,7 +5,7 @@ export type ActiveWorker = {worker: number; agent: string; cycle: number; file: 
 export type JobState = {
   status?: string; phase?: string; progress?: number; total?: number; accepted?: number;
   needs_review?: number; errors?: number; workers?: number; message?: string;
-  active_workers?: ActiveWorker[]; agent_recent?: Entry[];
+  active_workers?: ActiveWorker[]; agent_queues?: Record<string, number>; agent_recent?: Entry[];
   summary?: {total?: number; counts?: Record<string, number>};
   result?: {files?: number; output?: string; export_error?: string; blocked_files?: {file?: string; issues?: unknown[]}[]};
 };
