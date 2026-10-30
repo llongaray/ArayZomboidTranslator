@@ -18,10 +18,10 @@ function readConfig(): Config {
 }
 const agents = [
   {id: 'orchestrator', name: 'Orquestrador', detail: 'Distribuição de tarefas', color: '#b6a0ed'},
-  {id: 'translator', name: 'Tradutor', detail: 'Tradução com Ollama', color: '#7bb8f2'},
+  {id: 'translator', name: 'Tradutor I', detail: 'Novas traduções', color: '#7bb8f2'},
+  {id: 'translator_ii', name: 'Tradutor II', detail: 'Correções solicitadas', color: '#70acff'},
   {id: 'supervisor', name: 'Supervisor', detail: 'Validação e qualidade', color: '#72c7ad'},
   {id: 'manager', name: 'Gerente', detail: 'Decisão e correções', color: '#e6bc68'},
-  {id: 'delivery', name: 'Entrega', detail: 'Exportação validada', color: '#a9c780'},
 ];
 export default function App() {
   const [config, setConfig] = useState(readConfig);
@@ -38,6 +38,7 @@ export default function App() {
   const reduced = useReducedMotion();
   const active = running ? s.active_workers || [] : [];
   const translators = active.filter(w => w.agent === 'translator').length;
+  const retranslator = active.filter(w => w.agent === 'translator_ii').length;
   const auditDone = s.status === 'done' && s.phase === 'audit_done';
   const pct = auditDone ? 100 : s.total ? Math.max(0, Math.min(100, 100 * (s.progress || 0) / s.total)) : s.status === 'done' ? 100 : 0;
   const [events, setEvents] = useState<{message: string; time: string}[]>([]);
@@ -61,7 +62,7 @@ export default function App() {
   return <>
     <a className="skip-link" href="#content">Ir para o conteúdo</a>
     <header className="header"><div className="header-inner">
-      <a className="brand" href="#content" aria-label="Aray Zomboid Translator, início"><span className="brand-icon"><BookOpen size={23}/></span><span><strong>Aray <b>Zomboid</b> Translator</strong><small>Central de tradução <span className="version">v0.10.1</span></small></span></a>
+      <a className="brand" href="#content" aria-label="Aray Zomboid Translator, início"><span className="brand-icon"><BookOpen size={23}/></span><span><strong>Aray <b>Zomboid</b> Translator</strong><small>Central de tradução <span className="version">v0.10.2</span></small></span></a>
       <div className="header-status"><span className={'connection ' + (offline ? 'bad' : job.data ? 'good' : '')}>{offline ? <WifiOff size={14}/> : <Wifi size={14}/>} {offline ? 'Backend desconectado' : job.data ? 'Backend conectado' : 'Conectando…'}</span><span className="local-label">EN <ArrowRight size={13}/> PT-BR</span></div>
     </div></header>
     <main className="shell" id="content">
@@ -97,8 +98,8 @@ export default function App() {
               <div className="track" role="progressbar" aria-label="Progresso da execução" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}><motion.div animate={{width: pct + '%'}} transition={{duration: reduced ? 0 : .4}}/></div><div className="progress-caption"><span>{auditDone ? 'Auditoria concluída' : <>{format(s.progress)} <span className="muted">de {format(s.total)} entradas processadas</span></>}</span><span>{running ? 'Atualização automática' : 'Pronto para uma nova execução'}</span></div>
             </section>
             <section className="metrics" aria-label="Resultados da execução">{[{label: 'Aprovadas', value: s.accepted, icon: Check, color: 'green'}, {label: 'Revisão humana', value: s.needs_review, icon: ClipboardCheck, color: 'amber'}, {label: 'Falhas', value: s.errors, icon: CircleHelp, color: 'red'}, {label: 'Selecionadas', value: s.total, icon: Layers3, color: 'blue'}].map(({label, value, icon: Icon, color}) => <div className={'metric ' + color} key={label}><div className="metric-label"><span>{label}</span><Icon size={16}/></div><strong>{format(value)}</strong><small>{label === 'Selecionadas' ? 'Nesta execução' : 'Entradas'}</small></div>)}</section>
-            <section className="panel pipeline-panel"><div className="section-head"><div><h2>Equipe em campo</h2><p>Cada etapa cuida de uma parte da tradução.</p></div><span className="pill">{translators}/{s.workers || config.workers} tradutores ativos</span></div>
-              <div className="robot-pipeline">{agents.map(agent => {const count = active.filter(w => w.agent === agent.id).length; const working = running && (count > 0 || agent.id === 'orchestrator' || agent.id === 'delivery' && s.phase === 'export'); return <AgentRobot key={agent.id} name={agent.name} color={agent.color} status={working ? 'working' : s.status === 'done' && s.result?.files !== undefined ? 'done' : 'waiting'} count={count} detail={agent.detail} workers={count} queued={running ? (s.agent_queues?.[agent.id] ?? 0) : 0} tasks={active.filter(w=>w.agent===agent.id).map(w=>({key:w.key,cycle:w.cycle}))}/>})}</div>
+            <section className="panel pipeline-panel"><div className="section-head"><div><h2>Equipe em campo</h2><p>Cada etapa cuida de uma parte da tradução.</p></div><span className="pill">I: {translators}/{s.workers || config.workers} · II: {retranslator} em retradução</span></div>
+              <div className="robot-pipeline">{agents.map(agent => {const count = active.filter(w => w.agent === agent.id).length; const working = running && (count > 0 || agent.id === 'orchestrator'); return <AgentRobot key={agent.id} name={agent.name} color={agent.color} status={working ? 'working' : s.status === 'done' && s.result?.files !== undefined ? 'done' : 'waiting'} count={count} detail={agent.detail} workers={count} queued={running ? (s.agent_queues?.[agent.id] ?? 0) : 0} tasks={active.filter(w=>w.agent===agent.id).map(w=>({key:w.key,cycle:w.cycle}))}/>})}</div>
               <div className="pipeline-foot"><RefreshCw size={14}/><span>Entradas que precisam de correção retornam ao tradutor com feedback.</span></div>
               {active.length > 0 && <div className="worker-list">{active.map(w => <div key={w.worker}><span className="status-dot"/><strong>{labels[w.agent] || w.agent}</strong><span className="mono">{w.key}</span><small>Ciclo {w.cycle}</small></div>)}</div>}
             </section>
