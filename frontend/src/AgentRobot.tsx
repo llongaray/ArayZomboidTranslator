@@ -1,9 +1,10 @@
 import type {CSSProperties} from 'react';
 import {motion,useReducedMotion} from 'motion/react';
-type Props={name:string;color:string;status:'working'|'waiting'|'done';count:number;detail:string;workers:number};
-export default function AgentRobot({name,color,status,count,detail,workers}:Props){
+type Props={name:string;color:string;status:'working'|'waiting'|'done';count:number;detail:string;workers:number;queued:number;tasks?:{key:string;cycle:number}[]};
+export default function AgentRobot({name,color,status,count,detail,workers,queued,tasks=[]}:Props){
  const reduce=useReducedMotion(),working=status==='working';
  return <div className="bot-station" style={{'--bot-color':color} as CSSProperties}>
+  <div className="bot-queue" aria-label={`${queued} entrada(s) aguardando ${name}`}><span>Na fila</span><strong>{queued.toLocaleString('pt-BR')}</strong></div>
   <div className={'bot-status '+status}><span className="bot-dot"/>{status==='working'?'Trabalhando':status==='done'?'Finalizado':'Esperando'}{count>0&&<small> · {count}</small>}</div>
   <div className="bot-scene">
    <motion.svg viewBox="0 0 220 160" className="bot-svg" role="img" aria-label={name+' — '+(working?'em atividade':status==='done'?'concluído':'aguardando')} animate={working&&!reduce?{y:[0,-3,0]}:{y:0}} transition={{duration:2.4,repeat:working&&!reduce?Infinity:0,ease:'easeInOut'}}>
@@ -34,5 +35,6 @@ export default function AgentRobot({name,color,status,count,detail,workers}:Prop
    </motion.svg>
   </div>
   <div className="bot-caption"><strong>{name}</strong><span>{detail}</span>{workers>0&&<small>{workers} worker(s) neste estágio</small>}</div>
+  <div className="bot-current"><span className="bot-current-label">Executando agora</span>{tasks.length>0?tasks.map((task,i)=><div className="bot-task" key={task.key+i} title={task.key}><span>{task.key}</span><small>Ciclo {task.cycle}</small></div>):<span className="bot-idle">Nenhuma entrada ativa</span>}</div>
  </div>;
 }
