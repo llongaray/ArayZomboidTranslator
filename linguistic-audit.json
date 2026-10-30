@@ -1,0 +1,339 @@
+{
+  "screened": 10665,
+  "scope": "Automated screening of all approvals; contextual review of BodyParts and six individually reviewed cases. Other findings are candidates for further audit.",
+  "bodyparts_review": [
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_PELVIS",
+      "en": "Pelvis",
+      "before": "Pelve",
+      "reviewed": "Pelve",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_SPINE",
+      "en": "Spine",
+      "before": "Coluna vertebral",
+      "reviewed": "Coluna vertebral",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_HEAD",
+      "en": "Head",
+      "before": "Cabeça",
+      "reviewed": "Cabeça",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_UPPER_LEG",
+      "en": "Left Upper Leg",
+      "before": "Coxa esquerda",
+      "reviewed": "Coxa esquerda",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_LOWER_LEG",
+      "en": "Left Lower Leg",
+      "before": "Perna esquerda",
+      "reviewed": "Perna esquerda",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_UPPER_LEG",
+      "en": "Right Upper Leg",
+      "before": "Coxa direita",
+      "reviewed": "Coxa direita",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_LOWER_LEG",
+      "en": "Right Lower Leg",
+      "before": "Perna direita",
+      "reviewed": "Perna direita",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_UPPER_ARM",
+      "en": "Left Upper Arm",
+      "before": "Braço esquerdo",
+      "reviewed": "Braço esquerdo",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_LOWER_ARM",
+      "en": "Left Lower Arm",
+      "before": "Antebraço esquerdo",
+      "reviewed": "Antebraço esquerdo",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_UPPER_ARM",
+      "en": "Right Upper Arm",
+      "before": "Braço direito",
+      "reviewed": "Braço direito",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_LOWER_ARM",
+      "en": "Right Lower Arm",
+      "before": "Antebraço direito",
+      "reviewed": "Antebraço direito",
+      "changed": false
+    }
+  ],
+  "findings": [
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Shoulderpad_ArticulatedSpike_L",
+      "en": "Spiked Articulated Metal Shoulder Armor - Left",
+      "translation": "Armadura de ombro articulada de metal com pregos",
+      "checks": [
+        "possible_missing_laterality_left"
+      ],
+      "automatic_correction": "Armadura de ombro articulada de metal com espigões - esquerda"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Shoulderpad_ArticulatedSpike_R",
+      "en": "Spiked Articulated Metal Shoulder Armor - Right",
+      "translation": "Armadura de ombro articulada de metal com pregos",
+      "checks": [
+        "possible_missing_laterality_right"
+      ],
+      "automatic_correction": "Armadura de ombro articulada de metal com espigões - direita"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Recipe_MakeArticulatedMetalShoulderArmorLeft",
+      "en": "Make Articulated Metal Shoulder Armor - Left",
+      "translation": "Fazer Armadura de Ombro de Metal Articulada - Lado",
+      "checks": [
+        "possible_missing_laterality_left"
+      ],
+      "automatic_correction": "Fazer armadura de ombro de metal articulada - esquerda"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Assemble_Shoulder_Armor_Left",
+      "en": "Assemble Shoulder Armor - Left",
+      "translation": "Montar Armadura de Ombro - Lado",
+      "checks": [
+        "possible_missing_laterality_left"
+      ],
+      "automatic_correction": "Montar armadura de ombro - esquerda"
+    }
+  ],
+  "previous_bodyparts_review": [
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_PELVIS",
+      "en": "Pelvis",
+      "before": "Pelve",
+      "reviewed": "Pelve",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_SPINE",
+      "en": "Spine",
+      "before": "Espinha",
+      "reviewed": "Coluna vertebral",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_HEAD",
+      "en": "Head",
+      "before": "Cabeça",
+      "reviewed": "Cabeça",
+      "changed": false
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_UPPER_LEG",
+      "en": "Left Upper Leg",
+      "before": "Meia perna superior esquerda",
+      "reviewed": "Coxa esquerda",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_LOWER_LEG",
+      "en": "Left Lower Leg",
+      "before": "Meia inferior esquerda",
+      "reviewed": "Perna esquerda",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_UPPER_LEG",
+      "en": "Right Upper Leg",
+      "before": "Membrana Superior da Coxa",
+      "reviewed": "Coxa direita",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_LOWER_LEG",
+      "en": "Right Lower Leg",
+      "before": "Meia perna inferior",
+      "reviewed": "Perna direita",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_UPPER_ARM",
+      "en": "Left Upper Arm",
+      "before": "Braço Superior Esquerdo",
+      "reviewed": "Braço esquerdo",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_LOWER_ARM",
+      "en": "Left Lower Arm",
+      "before": "Braço Inferior Esquerdo",
+      "reviewed": "Antebraço esquerdo",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_UPPER_ARM",
+      "en": "Right Upper Arm",
+      "before": "Braço Superior Direito",
+      "reviewed": "Braço direito",
+      "changed": true
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_LOWER_ARM",
+      "en": "Right Lower Arm",
+      "before": "Braço Inferior Direito",
+      "reviewed": "Antebraço direito",
+      "changed": true
+    }
+  ],
+  "contextual_changes": [
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_SPINE",
+      "en": "Spine",
+      "before": "Espinha",
+      "after": "Coluna vertebral"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_UPPER_LEG",
+      "en": "Left Upper Leg",
+      "before": "Meia perna superior esquerda",
+      "after": "Coxa esquerda"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_LOWER_LEG",
+      "en": "Left Lower Leg",
+      "before": "Meia inferior esquerda",
+      "after": "Perna esquerda"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_UPPER_LEG",
+      "en": "Right Upper Leg",
+      "before": "Membrana Superior da Coxa",
+      "after": "Coxa direita"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_LOWER_LEG",
+      "en": "Right Lower Leg",
+      "before": "Meia perna inferior",
+      "after": "Perna direita"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_UPPER_ARM",
+      "en": "Left Upper Arm",
+      "before": "Braço Superior Esquerdo",
+      "after": "Braço esquerdo"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_LEFT_LOWER_ARM",
+      "en": "Left Lower Arm",
+      "before": "Braço Inferior Esquerdo",
+      "after": "Antebraço esquerdo"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_UPPER_ARM",
+      "en": "Right Upper Arm",
+      "before": "Braço Superior Direito",
+      "after": "Braço direito"
+    },
+    {
+      "file": "BodyParts_PTBR.txt",
+      "key": "BODYPART_RIGHT_LOWER_ARM",
+      "en": "Right Lower Arm",
+      "before": "Braço Inferior Direito",
+      "after": "Antebraço direito"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Shoulderpad_ArticulatedSpike_L",
+      "en": "Spiked Articulated Metal Shoulder Armor - Left",
+      "before": "Armadura de ombro articulada de metal com pregos",
+      "after": "Armadura de ombro articulada de metal com espigões - esquerda"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.Shoulderpad_ArticulatedSpike_R",
+      "en": "Spiked Articulated Metal Shoulder Armor - Right",
+      "before": "Armadura de ombro articulada de metal com pregos",
+      "after": "Armadura de ombro articulada de metal com espigões - direita"
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "key": "ItemName_Base.TailoringMag8",
+      "en": "Magazine: Outdoor Gear, Done Right",
+      "before": "Revólver: Equipamento Externo, Feito na Medida",
+      "after": "Revista: Equipamentos para atividades ao ar livre, do jeito certo"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Recipe_MakeArticulatedMetalShoulderArmorLeft",
+      "en": "Make Articulated Metal Shoulder Armor - Left",
+      "before": "Fazer Armadura de Ombro de Metal Articulada - Lado",
+      "after": "Fazer armadura de ombro de metal articulada - esquerda"
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "key": "Assemble_Shoulder_Armor_Left",
+      "en": "Assemble Shoulder Armor - Left",
+      "before": "Montar Armadura de Ombro - Lado",
+      "after": "Montar armadura de ombro - esquerda"
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "key": "Sandbox_AnimalMetaPredator_tooltip",
+      "en": "If a meta (ie. not actually visible in-game) fox may attack \\nyour chickens if the hutch's door is left open at night.",
+      "before": "Se uma raposa meta (ou seja, não visível realmente no jogo) pode atacar \\nsuas galinhas se a porta do chiqueiro for deixada aberta à noite.",
+      "after": "Se uma raposa meta (ou seja, não visível realmente no jogo) pode atacar \\nsuas galinhas se a porta do galinheiro for deixada aberta à noite."
+    }
+  ],
+  "contextual_corrections_applied": 6,
+  "remaining_screening_findings": [],
+  "independent_qa_20261030": {
+    "corrected_entries": 65,
+    "scope": "Correções pontuais de terminologia inequívoca, sem aprovação integral da qualidade de 10.665 traduções"
+  }
+}

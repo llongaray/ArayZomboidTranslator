@@ -1,0 +1,22 @@
+{
+  "approved_checkpoint_entries": 10665,
+  "exported_approved_entries": 10665,
+  "previously_blocked_verified": 9113,
+  "blocked_files": 0,
+  "current_exported_files": 19,
+  "prior_files_preserved": 14,
+  "prior_keys_checked": 5763,
+  "contextual_corrections": 15,
+  "unchanged_approvals": 10650,
+  "csv_statuses": {
+    "approved": 10665,
+    "original_ptbr": 8704,
+    "not_processed": 6300
+  },
+  "checkpoint_backup": "workspace\\export-repair-backup\\20261030-014708",
+  "verified_native_game_values": true,
+  "verified_lua_representations": true,
+  "post_export_qa_corrections": 65,
+  "checkpoint_modified_by_qa": false,
+  "note": "Pacote QA pós-exportação: o checkpoint no repositório não foi modificado."
+}

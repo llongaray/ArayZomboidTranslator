@@ -1,0 +1,13 @@
+BodyParts_PTBR = {
+    BODYPART_PELVIS = "Pelve",
+    BODYPART_SPINE = "Coluna vertebral",
+    BODYPART_HEAD = "Cabeça",
+    BODYPART_LEFT_UPPER_LEG = "Coxa esquerda",
+    BODYPART_LEFT_LOWER_LEG = "Perna esquerda",
+    BODYPART_RIGHT_UPPER_LEG = "Coxa direita",
+    BODYPART_RIGHT_LOWER_LEG = "Perna direita",
+    BODYPART_LEFT_UPPER_ARM = "Braço esquerdo",
+    BODYPART_LEFT_LOWER_ARM = "Antebraço esquerdo",
+    BODYPART_RIGHT_UPPER_ARM = "Braço direito",
+    BODYPART_RIGHT_LOWER_ARM = "Antebraço direito",
+}

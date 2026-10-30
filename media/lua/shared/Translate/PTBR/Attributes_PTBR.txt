@@ -1,0 +1,14 @@
+Attributes_PTBR = { -- AZT-native-v1
+    Attributes_Type_None = "Nenhum",
+    Attributes_Type_Quality = "Qualidade",
+    Attributes_Type_Durability = "Durabilidade",
+    Attributes_Type_WoodWetness = "Umidade da Madeira",
+    Attributes_Type_Uses = "Usos",
+    Attributes_Type_DurabilityOnUse = "Resistência ao Uso",
+    Attributes_Type_CraftedBy = "Fabricado por",
+    Attributes_Type_MetalType = "Tipo de Metal",
+    Attributes_Type_WoodType = "Tipo de Madeira",
+    Attributes_Type_ContainsWood = "Contém Madeira",
+    Attributes_Type_ContainsMetal = "Contém Metal",
+    Attributes_TooltipOverride_Durability = "Uso(s) de Durabilidade",
+}

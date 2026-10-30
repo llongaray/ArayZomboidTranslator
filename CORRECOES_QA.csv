@@ -1,0 +1,66 @@
+﻿file;key;en;before;after
+Attributes_PTBR.txt;Attributes_Type_Uses;Uses;Utiliza;Usos
+Entity_PTBR.txt;EC_CraftLogicTooltip_TemperatureWarm;Warm;Quente;Morno
+Farming_PTBR.txt;Farming_Tobacco;Tobacco;Bacon;Tabaco
+Farming_PTBR.txt;Farming_Mint;Mint;Mentha;Hortelã
+Farming_PTBR.txt;Farming_Greenpeas;Green Peas;Vagem Verde;Ervilhas verdes
+Farming_PTBR.txt;Farming_Parsley;Parsley;Pimenta sagu;Salsa
+Farming_PTBR.txt;Farming_Thyme;Thyme;Alecrim;Tomilho
+Farming_PTBR.txt;Farming_Barley;Barley;Traga o cevada.;Cevada
+Farming_PTBR.txt;Farming_Flax;Flax;Lã;Linho
+Farming_PTBR.txt;Farming_Hops;Hops;Saltos;Lúpulo
+Farming_PTBR.txt;Farming_Turnip;Turnip;Beterraba;Nabo
+Farming_PTBR.txt;Farming_BroadleafPlantain;Broadleaf Plantain;Bandagem de Folha Ampla;Tanchagem-de-folhas-largas
+Farming_PTBR.txt;Farming_Leek;Leek;Cebola;Alho-poró
+Farming_PTBR.txt;Farming_ChineseEvergreen;Chinese Evergreen;Chinês Evergreen;Aglaonema
+Farming_PTBR.txt;Farming_Seed_bearing;Seed-bearing;Semeador;Produzindo sementes
+Farming_PTBR.txt;Farming_Slugs;Slugs and Snails;Caracóis e Sapos;Lesmas e caracóis
+Farming_PTBR.txt;Farming_Weeds;Weeds;Ervas;Ervas daninhas
+Farming_PTBR.txt;Farming_Month_5;May;Pode;Maio
+Farming_PTBR.txt;Farming_Light;Light;Ligar;Leve
+Farming_PTBR.txt;Farming_Tooltip_RiskMonth;Planting Season - Poor Month;Plantio - Mês Pobre;Época de plantio - mês desfavorável
+Farming_PTBR.txt;Farming_Tooltip_RiskMonth2;Poor Month;Mês Pobre;Mês desfavorável
+Farming_PTBR.txt;Farming_SlugsProof;Slug-Proof;Resistente a Caramujos;Resistente a lesmas
+Farming_PTBR.txt;Farming_SlugsBane;Slug-Proof;Resistente a Caramujos;Resistente a lesmas
+Fluids_PTBR.txt;Fluid_Max_Transfer;Max Pour;Máximo de despejar;Quantidade máxima a despejar
+Fluids_PTBR.txt;Fluid_Transferring;Pouring;Gotejando;Despejando
+Fluids_PTBR.txt;Fluid_Swap;Switch;Ligar;Trocar
+Fluids_PTBR.txt;Fluid_Target;Pouring To;Despejar água;Despejando para
+Fluids_PTBR.txt;Fluid_Options;Liquid Options;Opções Líquidas;Opções de líquidos
+Fluids_PTBR.txt;Fluid_Mixed_Beverages;Mixed Beverages;Misturas Alcoólicas;Bebidas misturadas
+Fluids_PTBR.txt;Fluid_Container_Bowl;Bowl;Bow;Tigela
+Fluids_PTBR.txt;Fluid_Container_Can;Can;Pode;Lata
+Fluids_PTBR.txt;Fluid_Container_CanBeer;Beer Can; lata de cerveja;Lata de cerveja
+Fluids_PTBR.txt;Fluid_Container_Canister;Canister;Cano;Galão
+Fluids_PTBR.txt;Fluid_Container_CanPop;Pop Can;Latinha;Lata de refrigerante
+Fluids_PTBR.txt;Fluid_Container_Canteen;Canteen;Cantina;Cantil
+Fluids_PTBR.txt;Fluid_Container_FeedingBottle;Feeding Bottle;Alimentar com mamadeira;Mamadeira
+Fluids_PTBR.txt;Fluid_Container_Glass;Glass;Vidro;Copo
+Fluids_PTBR.txt;Fluid_Container_HotWaterBottle;Hot Water Bottle;Garrafa Térmica;Bolsa de água quente
+Fluids_PTBR.txt;Fluid_Container_Jar;Jar;Garrafa;Pote de vidro
+Fluids_PTBR.txt;Fluid_Container_Kettle;Kettle;Panela;Chaleira
+Fluids_PTBR.txt;Fluid_Container_Kettle_Copper;Copper Kettle;Panela de Cobre;Chaleira de cobre
+Fluids_PTBR.txt;Fluid_Container_Pan;Pan;Pão;Frigideira
+Fluids_PTBR.txt;Fluid_Container_Pot;Pot;Pote;Panela
+Fluids_PTBR.txt;Fluid_Container_Well;Well;Bem;Poço
+Fluids_PTBR.txt;Fluid_Container_WesternCanteen;Western Canteen;Canteen Ocidental;Cantil ocidental
+Fluids_PTBR.txt;Fluid_Name_Bleach;Bleach;Clorar;Água sanitária
+Fluids_PTBR.txt;Fluid_Name_Cider;Cider;Cerveja de sidra;Sidra
+Fluids_PTBR.txt;Fluid_Name_ColaDiet;Diet Cola;Coca-Cola Diet;Refrigerante de cola diet
+Fluids_PTBR.txt;Fluid_Name_Dye;Dye;Colorir;Corante
+Fluids_PTBR.txt;Fluid_Name_Mead;Mead;Mel;Hidromel
+Fluids_PTBR.txt;Fluid_Name_Port;Port;Porta;Vinho do Porto
+Fluids_PTBR.txt;Fluid_Name_SimpleSyrup;Simple Syrup;Simples de açúcar;Xarope de açúcar
+MapLabel_PTBR.txt;MapLabel_FallasLake;FALLAS LAKE;FALAIS LAKE;FALLAS LAKE
+MapLabel_PTBR.txt;MapLabel_Louisville;LOUISVILLE;LOUISVILE;LOUISVILLE
+MapLabel_PTBR.txt;MapLabel_Muldraugh;MULDRAUGH;MULDRAUGH GERENTE;MULDRAUGH
+MapLabel_PTBR.txt;MapLabel_WestPoint;WEST POINT;PONTO OESTE;WEST POINT
+MapLabel_PTBR.txt;MapLabel_SaltRiver;SALT RIVER;RIO SALTO;SALT RIVER
+MapLabel_PTBR.txt;MapLabel_ValleyStation;VALLEY STATION;ESTAÇÃO DE VALE;VALLEY STATION
+IG_UI_PTBR.txt;IGUI_WarManager_WarItemText;Attacker: %1<br>Defender: %2<br>State: %3<br>%4;Ataqueiro: %1<br>Defensor: %2<br>Estado: %3<br>%4;Atacante: %1<br>Defensor: %2<br>Estado: %3<br>%4
+IG_UI_PTBR.txt;IGUI_WarManager_Attacker;Attacker;Ataque;Atacante
+IG_UI_PTBR.txt;IGUI_Map_Brightness;BRIGHTNESS;BRILHANCIDADE;BRILHO
+IG_UI_PTBR.txt;IGUI_ContainerTitle_SeatRearRight;Rear Right Seat;Banco Traseiro Direito Traseiro;Banco traseiro direito
+IG_UI_PTBR.txt;IGUI_ClimatePlotter_airmassTemperature;Air Mass Temperature;Temperatura do Ar em Massa;Temperatura da massa de ar
+IG_UI_PTBR.txt;IGUI_ScriptManager_ReloadScripts;Reload All '%1' Scripts;Carregar todos os scripts '%1' ;Recarregar todos os scripts '%1'
+IG_UI_PTBR.txt;IGUI_WorldMapEditor_SaveStreets;Save Streets;Salvar Rua;Salvar ruas

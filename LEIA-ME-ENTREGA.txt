@@ -1,0 +1,16 @@
+Entrega validada - Aray Zomboid Translator v0.10.2
+10665 aprovações reutilizadas; 10665 efetivamente exportadas em 19 arquivos.
+9113 entradas antes bloqueadas conferidas individualmente. Zero bloqueios atuais.
+15 correções linguísticas por contexto (9 BodyParts, 6 outros casos); 10650 aprovações inalteradas.
+Os TXT em media/lua/shared/Translate/PTBR usam as chaves literais do carregador do jogo.
+A pasta auditoria-lua contém representações Lua estritas validadas; não substituem os TXT do jogo.
+O CSV registra todos os resultados, antes/depois, responsável, histórico e motivos.
+A auditoria linguística aplica triagem automática às 10665 entradas e revisão contextual aos casos registrados; não certifica semanticamente todas as traduções.
+As cópias anteriores e o checkpoint original continuam no backup local export-repair-backup/20261030-014708.
+Os 14 arquivos anteriores foram preservados na pasta de exportação; este ZIP contém os 19 arquivos regenerados nesta execução.
+
+REVISAO QA INDEPENDENTE 30/10/2026
+65 correcoes adicionais de traducao feitas no pacote, com chaves e placeholders preservados.
+Leia RELATORIO_QA.md para diferenciar integridade tecnica de qualidade linguistica.
+ATENCAO: checkpoint local nao alterado; importar as correcoes para o repositorio antes da proxima exportacao.
+O ZIP so inclui os 19 TXT regenerados. Arquivos de traducao originais nao incluidos devem ser mantidos.

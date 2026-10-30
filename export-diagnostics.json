@@ -1,0 +1,212 @@
+{
+  "translated": 10665,
+  "exported_entries": 10665,
+  "approved_unexported": 0,
+  "approved_entries": 10665,
+  "blocked_file_count": 0,
+  "manifest": "E:\\Downloads\\ArayZomboidTranslator-Repo\\workspace\\delivery-manifest.json",
+  "output": "E:\\Downloads\\ArayZomboidTranslator-Repo\\workspace\\export\\media\\lua\\shared\\Translate\\PTBR",
+  "files": 19,
+  "blocked_files": [],
+  "preexisting_warnings": [
+    {
+      "file": "Farming_PTBR.txt",
+      "count": 3,
+      "examples": [
+        {
+          "kind": "duplicate_key",
+          "key": "Farming_Seedling",
+          "line": 19
+        },
+        {
+          "line": 15,
+          "kind": "bracket_key",
+          "key": "Farming_Seed-bearing"
+        },
+        {
+          "line": 63,
+          "kind": "bracket_key",
+          "key": "Farming_Strawberry plant"
+        }
+      ]
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "count": 22,
+      "examples": [
+        {
+          "kind": "duplicate_key",
+          "key": "IGUI_PlayerStats_Amount",
+          "line": 781
+        },
+        {
+          "kind": "duplicate_key",
+          "key": "IGUI_VehiclePartSeatMiddleLeft",
+          "line": 1014
+        },
+        {
+          "kind": "duplicate_key",
+          "key": "IGUI_VehiclePartSeatMiddleRight",
+          "line": 1015
+        },
+        {
+          "kind": "duplicate_key",
+          "key": "IGUI_garment_CantRepair",
+          "line": 1393
+        },
+        {
+          "line": 305,
+          "kind": "bracket_key",
+          "key": "IGUI_Gametime_You Have One Day"
+        }
+      ]
+    },
+    {
+      "file": "ItemName_PTBR.txt",
+      "count": 2,
+      "examples": [
+        {
+          "kind": "duplicate_key",
+          "key": "ItemName_Base.Stone",
+          "line": 1936
+        },
+        {
+          "kind": "duplicate_key",
+          "key": "ItemName_Base.Milk",
+          "line": 1958
+        }
+      ]
+    },
+    {
+      "file": "Moveables_PTBR.txt",
+      "count": 1,
+      "examples": [
+        {
+          "kind": "duplicate_key",
+          "key": "Childs_Drawing",
+          "line": 146
+        }
+      ]
+    },
+    {
+      "file": "Recipes_PTBR.txt",
+      "count": 5,
+      "examples": [
+        {
+          "line": 53,
+          "kind": "bracket_key",
+          "key": "Recipe_Dismantle_Two-way_Radio"
+        },
+        {
+          "line": 122,
+          "kind": "bracket_key",
+          "key": "Recipe_Make_Four-Log_Stack"
+        },
+        {
+          "line": 205,
+          "kind": "bracket_key",
+          "key": "Recipe_Make_Three-Log_Stack"
+        },
+        {
+          "line": 211,
+          "kind": "bracket_key",
+          "key": "Recipe_Make_Two-Log_Stack"
+        },
+        {
+          "line": 323,
+          "kind": "bracket_key",
+          "key": "Recipe_Prepare_Stir-fry"
+        }
+      ]
+    },
+    {
+      "file": "Sandbox_PTBR.txt",
+      "count": 9,
+      "examples": [
+        {
+          "line": 5,
+          "kind": "internal_quote"
+        },
+        {
+          "line": 5,
+          "kind": "internal_quote"
+        },
+        {
+          "line": 6,
+          "kind": "invalid_escape"
+        },
+        {
+          "line": 180,
+          "kind": "internal_quote"
+        },
+        {
+          "line": 180,
+          "kind": "internal_quote"
+        }
+      ]
+    },
+    {
+      "file": "SurvivalGuide_PTBR.txt",
+      "count": 26,
+      "examples": [
+        {
+          "kind": "dangling_concat_before_delimiter",
+          "line": 81
+        },
+        {
+          "kind": "attached_table_close_normalized",
+          "line": 100
+        },
+        {
+          "kind": "dangling_concat_before_delimiter",
+          "line": 174
+        },
+        {
+          "kind": "attached_table_close_normalized",
+          "line": 193
+        },
+        {
+          "line": 4,
+          "kind": "internal_quote"
+        }
+      ]
+    },
+    {
+      "file": "Tooltip_PTBR.txt",
+      "count": 4,
+      "examples": [
+        {
+          "line": 170,
+          "kind": "internal_quote"
+        },
+        {
+          "line": 170,
+          "kind": "internal_quote"
+        },
+        {
+          "line": 224,
+          "kind": "internal_quote"
+        },
+        {
+          "line": 224,
+          "kind": "internal_quote"
+        }
+      ]
+    }
+  ],
+  "delivery_status": "success",
+  "audit": "E:\\Downloads\\ArayZomboidTranslator-Repo\\workspace\\audit.json",
+  "selected": 10665,
+  "processed": 10665,
+  "reused": 10665,
+  "linguistic_corrections": 6,
+  "linguistic_audit": "E:\\Downloads\\ArayZomboidTranslator-Repo\\workspace\\linguistic-audit.json",
+  "delivery_audit_csv": "E:\\Downloads\\ArayZomboidTranslator-Repo\\workspace\\auditoria-traducao.csv",
+  "failed": 0,
+  "checkpoint": "E:\\Downloads\\ArayZomboidTranslator-Repo\\workspace\\checkpoint-v040.json",
+  "post_export_qa": {
+    "corrected_entries": 65,
+    "checkpoint_modified": false,
+    "status": "quality_review_partial"
+  }
+}

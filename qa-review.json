@@ -1,0 +1,463 @@
+{
+  "review_date": "2026-10-30",
+  "corrected_entries": 65,
+  "scope": "Correções pontuais de terminologia inequívoca, sem aprovação integral da qualidade de 10.665 traduções",
+  "source_checkpoint_unchanged": true,
+  "changes": [
+    {
+      "file": "Attributes_PTBR.txt",
+      "key": "Attributes_Type_Uses",
+      "en": "Uses",
+      "before": "Utiliza",
+      "after": "Usos"
+    },
+    {
+      "file": "Entity_PTBR.txt",
+      "key": "EC_CraftLogicTooltip_TemperatureWarm",
+      "en": "Warm",
+      "before": "Quente",
+      "after": "Morno"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Tobacco",
+      "en": "Tobacco",
+      "before": "Bacon",
+      "after": "Tabaco"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Mint",
+      "en": "Mint",
+      "before": "Mentha",
+      "after": "Hortelã"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Greenpeas",
+      "en": "Green Peas",
+      "before": "Vagem Verde",
+      "after": "Ervilhas verdes"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Parsley",
+      "en": "Parsley",
+      "before": "Pimenta sagu",
+      "after": "Salsa"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Thyme",
+      "en": "Thyme",
+      "before": "Alecrim",
+      "after": "Tomilho"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Barley",
+      "en": "Barley",
+      "before": "Traga o cevada.",
+      "after": "Cevada"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Flax",
+      "en": "Flax",
+      "before": "Lã",
+      "after": "Linho"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Hops",
+      "en": "Hops",
+      "before": "Saltos",
+      "after": "Lúpulo"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Turnip",
+      "en": "Turnip",
+      "before": "Beterraba",
+      "after": "Nabo"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_BroadleafPlantain",
+      "en": "Broadleaf Plantain",
+      "before": "Bandagem de Folha Ampla",
+      "after": "Tanchagem-de-folhas-largas"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Leek",
+      "en": "Leek",
+      "before": "Cebola",
+      "after": "Alho-poró"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_ChineseEvergreen",
+      "en": "Chinese Evergreen",
+      "before": "Chinês Evergreen",
+      "after": "Aglaonema"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Seed_bearing",
+      "en": "Seed-bearing",
+      "before": "Semeador",
+      "after": "Produzindo sementes"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Slugs",
+      "en": "Slugs and Snails",
+      "before": "Caracóis e Sapos",
+      "after": "Lesmas e caracóis"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Weeds",
+      "en": "Weeds",
+      "before": "Ervas",
+      "after": "Ervas daninhas"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Month_5",
+      "en": "May",
+      "before": "Pode",
+      "after": "Maio"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Light",
+      "en": "Light",
+      "before": "Ligar",
+      "after": "Leve"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Tooltip_RiskMonth",
+      "en": "Planting Season - Poor Month",
+      "before": "Plantio - Mês Pobre",
+      "after": "Época de plantio - mês desfavorável"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_Tooltip_RiskMonth2",
+      "en": "Poor Month",
+      "before": "Mês Pobre",
+      "after": "Mês desfavorável"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_SlugsProof",
+      "en": "Slug-Proof",
+      "before": "Resistente a Caramujos",
+      "after": "Resistente a lesmas"
+    },
+    {
+      "file": "Farming_PTBR.txt",
+      "key": "Farming_SlugsBane",
+      "en": "Slug-Proof",
+      "before": "Resistente a Caramujos",
+      "after": "Resistente a lesmas"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Max_Transfer",
+      "en": "Max Pour",
+      "before": "Máximo de despejar",
+      "after": "Quantidade máxima a despejar"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Transferring",
+      "en": "Pouring",
+      "before": "Gotejando",
+      "after": "Despejando"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Swap",
+      "en": "Switch",
+      "before": "Ligar",
+      "after": "Trocar"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Target",
+      "en": "Pouring To",
+      "before": "Despejar água",
+      "after": "Despejando para"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Options",
+      "en": "Liquid Options",
+      "before": "Opções Líquidas",
+      "after": "Opções de líquidos"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Mixed_Beverages",
+      "en": "Mixed Beverages",
+      "before": "Misturas Alcoólicas",
+      "after": "Bebidas misturadas"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Bowl",
+      "en": "Bowl",
+      "before": "Bow",
+      "after": "Tigela"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Can",
+      "en": "Can",
+      "before": "Pode",
+      "after": "Lata"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_CanBeer",
+      "en": "Beer Can",
+      "before": " lata de cerveja",
+      "after": "Lata de cerveja"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Canister",
+      "en": "Canister",
+      "before": "Cano",
+      "after": "Galão"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_CanPop",
+      "en": "Pop Can",
+      "before": "Latinha",
+      "after": "Lata de refrigerante"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Canteen",
+      "en": "Canteen",
+      "before": "Cantina",
+      "after": "Cantil"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_FeedingBottle",
+      "en": "Feeding Bottle",
+      "before": "Alimentar com mamadeira",
+      "after": "Mamadeira"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Glass",
+      "en": "Glass",
+      "before": "Vidro",
+      "after": "Copo"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_HotWaterBottle",
+      "en": "Hot Water Bottle",
+      "before": "Garrafa Térmica",
+      "after": "Bolsa de água quente"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Jar",
+      "en": "Jar",
+      "before": "Garrafa",
+      "after": "Pote de vidro"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Kettle",
+      "en": "Kettle",
+      "before": "Panela",
+      "after": "Chaleira"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Kettle_Copper",
+      "en": "Copper Kettle",
+      "before": "Panela de Cobre",
+      "after": "Chaleira de cobre"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Pan",
+      "en": "Pan",
+      "before": "Pão",
+      "after": "Frigideira"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Pot",
+      "en": "Pot",
+      "before": "Pote",
+      "after": "Panela"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_Well",
+      "en": "Well",
+      "before": "Bem",
+      "after": "Poço"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Container_WesternCanteen",
+      "en": "Western Canteen",
+      "before": "Canteen Ocidental",
+      "after": "Cantil ocidental"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Bleach",
+      "en": "Bleach",
+      "before": "Clorar",
+      "after": "Água sanitária"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Cider",
+      "en": "Cider",
+      "before": "Cerveja de sidra",
+      "after": "Sidra"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_ColaDiet",
+      "en": "Diet Cola",
+      "before": "Coca-Cola Diet",
+      "after": "Refrigerante de cola diet"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Dye",
+      "en": "Dye",
+      "before": "Colorir",
+      "after": "Corante"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Mead",
+      "en": "Mead",
+      "before": "Mel",
+      "after": "Hidromel"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_Port",
+      "en": "Port",
+      "before": "Porta",
+      "after": "Vinho do Porto"
+    },
+    {
+      "file": "Fluids_PTBR.txt",
+      "key": "Fluid_Name_SimpleSyrup",
+      "en": "Simple Syrup",
+      "before": "Simples de açúcar",
+      "after": "Xarope de açúcar"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_FallasLake",
+      "en": "FALLAS LAKE",
+      "before": "FALAIS LAKE",
+      "after": "FALLAS LAKE"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Louisville",
+      "en": "LOUISVILLE",
+      "before": "LOUISVILE",
+      "after": "LOUISVILLE"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_Muldraugh",
+      "en": "MULDRAUGH",
+      "before": "MULDRAUGH GERENTE",
+      "after": "MULDRAUGH"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_WestPoint",
+      "en": "WEST POINT",
+      "before": "PONTO OESTE",
+      "after": "WEST POINT"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_SaltRiver",
+      "en": "SALT RIVER",
+      "before": "RIO SALTO",
+      "after": "SALT RIVER"
+    },
+    {
+      "file": "MapLabel_PTBR.txt",
+      "key": "MapLabel_ValleyStation",
+      "en": "VALLEY STATION",
+      "before": "ESTAÇÃO DE VALE",
+      "after": "VALLEY STATION"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_WarManager_WarItemText",
+      "en": "Attacker: %1<br>Defender: %2<br>State: %3<br>%4",
+      "before": "Ataqueiro: %1<br>Defensor: %2<br>Estado: %3<br>%4",
+      "after": "Atacante: %1<br>Defensor: %2<br>Estado: %3<br>%4"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_WarManager_Attacker",
+      "en": "Attacker",
+      "before": "Ataque",
+      "after": "Atacante"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_Map_Brightness",
+      "en": "BRIGHTNESS",
+      "before": "BRILHANCIDADE",
+      "after": "BRILHO"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ContainerTitle_SeatRearRight",
+      "en": "Rear Right Seat",
+      "before": "Banco Traseiro Direito Traseiro",
+      "after": "Banco traseiro direito"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ClimatePlotter_airmassTemperature",
+      "en": "Air Mass Temperature",
+      "before": "Temperatura do Ar em Massa",
+      "after": "Temperatura da massa de ar"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_ScriptManager_ReloadScripts",
+      "en": "Reload All '%1' Scripts",
+      "before": "Carregar todos os scripts '%1' ",
+      "after": "Recarregar todos os scripts '%1'"
+    },
+    {
+      "file": "IG_UI_PTBR.txt",
+      "key": "IGUI_WorldMapEditor_SaveStreets",
+      "en": "Save Streets",
+      "before": "Salvar Rua",
+      "after": "Salvar ruas"
+    }
+  ]
+}
