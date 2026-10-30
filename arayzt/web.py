@@ -1,5 +1,5 @@
 """Dashboard local: jobs em threads com estado protegido."""
-from flask import Flask, jsonify, render_template_string, request
+from flask import Flask, jsonify, render_template_string, request, Response
 from threading import Lock, Thread
 from pathlib import Path
 from .cli import execute
@@ -50,6 +50,18 @@ _cancel = threading.Event()
 def review_list():
     try:return jsonify(items=pending_review(Path(request.args.get('work','./workspace')).expanduser().resolve()))
     except (OSError,ValueError) as exc:return jsonify(error=str(exc)),400
+
+@app.get('/api/review/report.csv')
+def review_report_csv():
+    from .review_csv import report_csv
+    try:
+        work = Path(request.args.get('work', './workspace')).expanduser().resolve()
+        csv_content = report_csv(work)
+        return Response(csv_content.encode('utf-8'), mimetype='text/csv',
+                        headers={'Content-Disposition': 'attachment; filename="relatorio-revisao-humana.csv"',
+                                 'Cache-Control': 'no-store'})
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return jsonify(error=str(exc)), 400
 
 @app.post('/api/review/decision')
 def review_decision():
