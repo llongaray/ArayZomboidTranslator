@@ -9,6 +9,11 @@ MAX_CYCLES=3
 def manager_decision(status,reasons,cycle,max_cycles=MAX_CYCLES):
     if status=="approved":
         return {"decision":"approve","reason":"supervisor_passed","context":""}
+    # Nonrecoverable structural/source errors are rejected; ambiguous output goes to RH.
+    terminal={'non_string','empty_source','nonempty_for_empty_source','structural_echo',
+              'metadata_echo','unrestored_marker','invalid_source'}
+    if any(reason in terminal for reason in reasons):
+        return {"decision":"reject","reason":",".join(reasons),"context":""}
     if cycle>=max_cycles:
         return {"decision":"human_review","reason":"max_cycles","context":",".join(reasons)}
     guide={"unchanged_english":"Traduza realmente o texto, sem deixar o original em ingles.",
