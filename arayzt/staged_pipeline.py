@@ -205,6 +205,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                for i in range(1, workers+1)]
     threads += [Thread(target=supervisor, name="supervisor", daemon=True),
                 Thread(target=manager, name="manager", daemon=True)]
+    queues()
     for thread in threads:
         thread.start()
 
