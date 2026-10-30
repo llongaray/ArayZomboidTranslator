@@ -131,8 +131,11 @@ class Pipeline:
                 snapshot=list(active_slots.values())
             self.update(active_workers=snapshot,
                         message=f"{len(snapshot)} worker(s) ativos • {done_count}/{len(queue)} concluídos")
-        orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,on_stage=on_stage)
-        self.update(active_workers=[])
+        def on_queue(counts):
+            self.update(agent_queues=counts)
+        orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,
+                             on_stage=on_stage,on_queue=on_queue)
+        self.update(active_workers=[],agent_queues={})
         # Manual approvals override only the matching entries in the current queue.
         decisions=read_decisions(work)
         by_key={(r['file'],r['key']):r for r in queue}
