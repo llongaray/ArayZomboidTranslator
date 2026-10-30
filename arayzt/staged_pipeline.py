@@ -57,6 +57,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 "reasons": reasons, "attempts": job["cycle"], "history": job["history"]
             }
             try:
+                emit(workers+3, job, "terminal", {"status": status, "reasons": reasons})
                 on_result(result)
             except Exception as exc:
                 with state_lock:
@@ -191,6 +192,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 elif decision["decision"] == "retry" and job["cycle"] < MAX_CYCLES:
                     job["feedback"] = decision["context"]
                     job["cycle"] += 1
+                    emit(workers+3, job, "retry", {"reason": decision.get("reason", "")})
                     retranslation.put(job)
                     queues()
                     emit(workers+3, job, "idle", {"from": "manager", "decision": "retry"})
