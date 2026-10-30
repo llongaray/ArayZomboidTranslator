@@ -68,6 +68,8 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     if not pending:
                         inflight.clear()
                 emit(job.get("slot", 0), job, "complete", {"status": status})
+                emit(workers+2, job, "idle", {"from": "supervisor"})
+                emit(workers+3, job, "idle", {"from": "manager"})
 
     def infrastructure_error(exc):
         # Network errors and service outages must not turn into human review.
@@ -128,6 +130,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                                        "translation": job["candidate"]})
                 supervision.put(job)
                 queues()
+                emit(slot, job, "idle", {"from": agent})
             except Exception as exc:
                 finish(job, "needs_review", ["translator_exception: " + str(exc)[:150]])
             finally:
@@ -157,6 +160,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                                        "status": status, "reasons": reasons})
                 management.put(job)
                 queues()
+                emit(workers+2, job, "idle", {"from": "supervisor"})
             except Exception as exc:
                 finish(job, "needs_review", ["supervisor_exception: " + str(exc)[:150]])
             finally:
@@ -189,6 +193,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     job["cycle"] += 1
                     retranslation.put(job)
                     queues()
+                    emit(workers+3, job, "idle", {"from": "manager", "decision": "retry"})
                 else:
                     finish(job, "needs_review", job["reasons"])
             except Exception as exc:
