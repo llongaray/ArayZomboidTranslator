@@ -1,7 +1,7 @@
 """Pipeline resumível, cancelável e com exportação transacional da tradução."""
 from __future__ import annotations
 import csv, hashlib, json, os, threading, time
-from collections import Counter
+from collections import Counter, deque
 from pathlib import Path
 from .core import audit, select_rows, export_overlay, tokens, write_json, canonical_audit_summary
 from .ollama import OllamaClient, translate_rows
@@ -91,20 +91,38 @@ class Pipeline:
                     invalidated.append({'file':row['file'],'key':row['key'],'reasons':reasons})
                     pending.append(row)
             else:pending.append(row)
-        self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,manager_decisions={},message='Traduzindo lotes com checkpoint')
+        self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,remaining=len(pending),manager_decisions={},message='Traduzindo lotes com checkpoint')
         errors=[]
         done_count=skipped
         checkpoint_dirty=0
+        cancelled_count=0
+        stages_lock=threading.RLock()
+        live_events=deque(maxlen=120)
+        event_id=0
+        def log_event(agent,action,row=None,cycle=0,reasons=None):
+            nonlocal event_id
+            event_id+=1
+            live_events.append({'id':event_id,'timestamp':time.time(),'agent':agent,
+                                'action':action,'file':(row or {}).get('file',''),
+                                'key':(row or {}).get('key',''),'cycle':cycle,
+                                'reasons':reasons or []})
+        if skipped:
+            log_event('orchestrator','reused',reasons=[f'{skipped} entradas validadas no glossário/checkpoint'])
+        self.update(reused=skipped,agent_events=list(live_events),cancelled_count=0)
         def receive(out):
-            nonlocal done_count,checkpoint_dirty
+            with stages_lock:
+                receive_locked(out)
+        def receive_locked(out):
+            nonlocal done_count,checkpoint_dirty,cancelled_count
             row=out['row']
             status=out['status']
-            histories.append({'file':row['file'],'key':row['key'],'status':status,'history':out.get('history',[])})
-            self.update(agent_recent=histories[-12:])
+            histories.append({'file':row['file'],'key':row['key'],'status':status,'reasons':out['reasons'],'history':out.get('history',[])})
             if status=='approved':
                 approved.append({'file':row['file'],'key':row['key'],'translation':out['translation'],'source':row['status']})
             elif status=='needs_review':
                 review_items.append({'file':row['file'],'key':row['key'],'english':row['en'],'translation':out['translation'],'quality':status,'reasons':out['reasons']})
+            elif status=='cancelled':
+                cancelled_count+=1
             elif status=='rejected':
                 errors.append({'file':row['file'],'key':row['key'],'error':','.join(out['reasons'])})
             if out['translation'] and status=='approved':
@@ -117,7 +135,11 @@ class Pipeline:
                         percent=round(100*done_count/len(queue),2),
                         accepted=len(approved),needs_review=len(review_items),
                         failed=len(errors),workers=int(workers),
-                        message=f"Orquestrador: {done_count}/{len(queue)} • Supervisor: {status}")
+                        agent_recent=histories[-30:],agent_events=list(live_events),
+                        manager_decisions=dict(stage_decisions),
+                        cancelled_count=cancelled_count,
+                        remaining=max(0,len(queue)-done_count),
+                        message=f"Resultados registrados: {done_count}/{len(queue)} • {status}")
             if checkpoint_dirty>=20:
                 atomic_json(checkpoint,memory)
                 checkpoint_dirty=0
@@ -125,32 +147,43 @@ class Pipeline:
                     message='Orquestrador distribuindo traduções atômicas')
         active_slots={}
         stage_decisions=Counter()
-        stages_lock=threading.Lock()
         def on_stage(slot,row,agent,cycle,detail):
             with stages_lock:
+                detail=detail or {}
                 if agent in ('terminal','retry'):
-                    key=(detail or {}).get('status', 'retry')
+                    key=detail.get('status', 'retry')
                     stage_decisions[key]+=1
-                elif agent in ('complete','idle'):
+                if agent in ('complete','idle'):
                     previous=active_slots.get(slot)
-                    if previous and previous['file']==row['file'] and previous['key']==row['key']:
+                    if (previous and previous['file']==row['file'] and previous['key']==row['key']
+                            and previous['cycle']==cycle):
                         active_slots.pop(slot,None)
-                else:
+                elif agent in ('translator','translator_ii','supervisor','manager'):
                     active_slots[slot]={'worker':slot,'agent':agent,'cycle':cycle,
-                                        'file':row['file'],'key':row['key'],
-                                        'detail':detail}
-                snapshot=list(active_slots.values())
-                decision_snapshot=dict(stage_decisions)
-            self.update(active_workers=snapshot,manager_decisions=decision_snapshot,
-                        message=f"{len(snapshot)} agente(s) ativos • {done_count}/{len(queue)} resultados registrados")
+                                        'file':row['file'],'key':row['key'],'detail':detail}
+                    log_event(agent,'started',row,cycle)
+                elif agent=='stage_done':
+                    log_event(detail.get('from','translator'),detail.get('status','done'),row,cycle,detail.get('reasons'))
+                elif agent=='validated':
+                    log_event('supervisor',detail.get('status','done'),row,cycle,detail.get('reasons'))
+                elif agent=='decision':
+                    action={'approve':'approved','retry':'retry','human_review':'needs_review','reject':'rejected'}.get(detail.get('decision'),'done')
+                    log_event('manager',action,row,cycle,[detail['reason']] if detail.get('reason') else [])
+                elif agent=='terminal':
+                    log_event('orchestrator',detail.get('status','done'),row,cycle,detail.get('reasons'))
+                self.update(active_workers=list(active_slots.values()),
+                            manager_decisions=dict(stage_decisions),agent_events=list(live_events))
         def on_queue(counts):
-            self.update(agent_queues=counts)
-        orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,
-                             on_stage=on_stage,on_queue=on_queue)
-        if checkpoint_dirty:
-            atomic_json(checkpoint,memory)
-            checkpoint_dirty=0
-        self.update(active_workers=[],agent_queues={})
+            with stages_lock:
+                self.update(agent_queues=counts)
+        try:
+            orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,
+                                 on_stage=on_stage,on_queue=on_queue)
+        finally:
+            if checkpoint_dirty:
+                atomic_json(checkpoint,memory)
+                checkpoint_dirty=0
+            self.update(active_workers=[],agent_queues={})
         # Manual approvals override only the matching entries in the current queue.
         decisions=read_decisions(work)
         by_key={(r['file'],r['key']):r for r in queue}

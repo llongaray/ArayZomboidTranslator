@@ -1,15 +1,30 @@
 """Dashboard local: jobs em threads com estado protegido."""
 from flask import Flask, jsonify, render_template_string, request, Response
-from threading import Lock, Thread
+from threading import Lock, RLock, Condition, Thread
 from pathlib import Path
 from .cli import execute
 from .summary import summarize
 from .manual_review import pending_review, record_decision
 import json
+import time
+import uuid
 
 app = Flask(__name__)
-_lock = Lock()
+_lock = RLock()
+_changed = Condition(_lock)
+_revision = 0
 _state = {"status":"idle","progress":0,"total":0,"errors":0,"result":None,"message":"","summary":None}
+def _publish(**values):
+    """Publish one atomic status revision to polling and SSE subscribers."""
+    global _revision
+    with _changed:
+        for key,value in values.items():
+            _state['errors' if key=='failed' else key]=value
+        _revision+=1
+        _state['revision']=_revision
+        _state['updated_at']=time.time()
+        _changed.notify_all()
+
 HTML = '''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aray Zomboid Translator</title>
 <style>
 :root{color-scheme:dark;font-family:Inter,Segoe UI,Arial,sans-serif;background:#091524;color:#eaf3ff}*{box-sizing:border-box}body{margin:0;min-width:320px}main{max-width:1600px;margin:auto;padding:18px 24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 25px;border-bottom:1px solid #1e3856;background:#0c1b2e}.brand{display:flex;align-items:center;gap:14px}.brand-icon{color:#ffcb4a;border:1px solid #dba72d;border-radius:10px;padding:9px;font-size:25px}.brand h1{font-size:23px;margin:0}.brand strong{color:#ffcc50}.top small{color:#91a6c1}.pill{background:#12273d;border:1px solid #294663;padding:9px 13px;border-radius:9px}.online{color:#30d3a0}.panel{background:#102035;border:1px solid #29445e;border-radius:13px;padding:18px;margin-bottom:15px}h2{font-size:18px;margin:0 0 8px}h3{font-size:15px;margin:0 0 10px}p,.muted{color:#a6b9ce;font-size:13px}.layout{display:grid;gap:14px}.overview{display:grid;grid-template-columns:minmax(230px,1fr) minmax(240px,1.1fr) minmax(160px,.7fr);align-items:center;gap:20px}.big{font-size:34px;font-weight:800}.percent{color:#ffcc50}.track{height:11px;background:#314155;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:#ffcb4a;transition:width .5s}.count{color:#abbfd5;font-size:13px}.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:15px;margin-top:18px}.node{border:1px solid var(--clr);border-radius:13px;padding:18px 12px;background:#10253a;position:relative;min-height:132px;transition:transform .2s,box-shadow .2s}.node:hover{transform:translateY(-2px);box-shadow:0 5px 22px #0004}.node:not(:last-child):after{content:'→';position:absolute;right:-19px;top:42%;color:#36a7ff;font-size:22px;z-index:1}.node .glyph{font-size:24px;color:var(--clr)}.node h3{margin:8px 0}.node p{margin:4px 0}.feedback{border:1px dashed #b34b66;color:#ff8198;border-radius:9px;padding:10px;text-align:center;margin:14px auto 0;max-width:560px;font-size:12px}.metrics{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}.metric{background:#11243a;border:1px solid #28425f;border-radius:11px;padding:13px;min-width:0}.metric .num{font-size:24px;font-weight:800}.metric .lab{color:#aabdd2;font-size:12px}.bottom{display:grid;grid-template-columns:1.05fr 1.1fr;gap:15px}.subgrid{display:grid;grid-template-columns:1.5fr 1fr;gap:15px}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:10px 7px;border-bottom:1px solid #294158;overflow-wrap:anywhere}th{color:#a2b5cd}.scroll{max-height:280px;overflow:auto}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}label{font-size:12px;color:#b6c8dc;display:block}input,select,textarea{display:block;width:100%;margin-top:5px;background:#0b1829;border:1px solid #35526f;border-radius:7px;color:white;padding:10px;font:inherit}button{border:1px solid #3f6282;border-radius:8px;background:#166bdb;color:white;padding:10px 15px;cursor:pointer}button:hover{filter:brightness(1.15)}button:disabled{opacity:.5;cursor:not-allowed}.buttons{display:flex;gap:10px;margin-top:13px}.danger{background:#9b3a52}.small{font-size:12px}.status{color:#ffcb4a}.segment{display:flex;height:12px;border-radius:7px;overflow:hidden;background:#293b50}.segment span{height:100%}details summary{cursor:pointer;color:#ffcb4a}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto}.logs{max-height:230px;overflow:auto;font-size:12px;color:#b5c8d9}.log{border-bottom:1px solid #253d58;padding:6px}.review{border:1px solid #28445f;border-radius:9px;padding:10px;margin:9px 0}textarea{min-height:65px}.dot{display:inline-block;width:9px;height:9px;border-radius:100%;background:#25d7a1;margin-right:7px}#exportWarning{color:#ffce77} @media(max-width:1000px){.metrics{grid-template-columns:repeat(4,1fr)}.overview,.bottom,.subgrid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(3,minmax(0,1fr))}.node:after{display:none}}@media(max-width:620px){main{padding:10px}.metrics,.controls,.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.top{padding:12px}.big{font-size:27px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -147,13 +162,39 @@ def index(): return render_template_string(HTML)
 def status():
     with _lock:return jsonify(dict(_state))
 
+@app.get('/api/events')
+def events():
+    def stream():
+        seen=-1
+        last_sent=0.0
+        while True:
+            with _changed:
+                if seen==_revision:
+                    _changed.wait(timeout=15)
+                # Coalesce rapid stage updates; never hold the lock while writing
+                # to the client. Reconnection always receives the latest snapshot.
+                wait=.1-(time.monotonic()-last_sent)
+                while wait>0:
+                    _changed.wait(timeout=wait)
+                    wait=.1-(time.monotonic()-last_sent)
+                if seen==_revision:
+                    payload=': keepalive\n\n'
+                else:
+                    seen=_revision
+                    payload=f'id: {seen}\nevent: status\ndata: '+json.dumps(dict(_state),ensure_ascii=False)+'\n\n'
+                last_sent=time.monotonic()
+            yield payload
+    return Response(stream(),mimetype='text/event-stream',headers={
+        'Cache-Control':'no-cache, no-transform','X-Accel-Buffering':'no'})
+
 @app.post("/api/start")
 def start():
     data = request.get_json(silent=True) or {}
     if not isinstance(data,dict): return jsonify(error="JSON inválido"),400
     with _lock:
         if _state["status"] == "running":return jsonify(error="Já existe uma execução ativa"),409
-        _state.update(status="running",progress=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,batch_started_at=None,batch_elapsed_seconds=None,agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
+        run_id=uuid.uuid4().hex
+        _publish(status="running",run_id=run_id,progress=0,percent=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,reused=0,cancelled_count=0,remaining=0,workers=1,agent_events=[],agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
         _cancel.clear()
     try:
         game = str(data.get("game","")).strip()
@@ -166,7 +207,7 @@ def start():
         if operation not in ("audit","translate"):raise ValueError("Operação inválida")
         args = (game,str(data.get("work","./workspace")),mode,str(data.get("model","gemma3:4b")),batch,str(data.get("url","http://127.0.0.1:11434")),operation=="translate")
     except (TypeError,ValueError) as exc:
-        with _lock:_state["status"]="error"
+        with _lock:_publish(status="error",message=str(exc))
         return jsonify(error=str(exc)),400
     def task():
         try:
@@ -175,14 +216,13 @@ def start():
             workers=int(data.get('workers',1) or 1)
             def event(**kw):
                 with _lock:
-                    for k,v in kw.items():
-                        if k=='failed':_state['errors']=v
-                        else:_state[k]=v
+                    if _state.get('run_id')==run_id:
+                        _publish(**kw)
             result=Pipeline(event,_cancel).run(*args[:7],files=filters,limit=limit,workers=workers)
             report=json.loads(Path(result['audit']).read_text(encoding='utf-8'))
             summary=summarize(report,filters,result['selected'])
-            with _lock:_state.update(status='error' if result.get('export_error') else ('partial' if result.get('blocked_files') else ('cancelled' if result.get('cancelled') else 'done')),result=result,summary=summary,message=result.get('export_error') or 'Concluído')
+            with _lock:_publish(status='error' if result.get('export_error') else ('partial' if result.get('blocked_files') else ('cancelled' if result.get('cancelled') else 'done')),result=result,summary=summary,message=result.get('export_error') or 'Concluído')
         except Exception as exc:
-            with _lock:_state.update(status='error',message=f'{type(exc).__name__}: {exc}')
+            with _lock:_publish(status='error',active_workers=[],agent_queues={},message=f'{type(exc).__name__}: {exc}')
     Thread(target=task,daemon=True).start()
     return jsonify(started=True),202

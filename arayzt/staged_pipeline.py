@@ -7,7 +7,7 @@ reported separately from content-quality failures and do not trigger LLM retries
 from __future__ import annotations
 
 from queue import Queue, Empty
-from threading import Thread, Lock, Event
+from threading import Thread, Lock, RLock, Event
 import time
 from .agents import manager_decision, MAX_CYCLES
 from .ollama import OllamaClient, translate_rows
@@ -20,26 +20,30 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         return
     translation, retranslation, supervision, management = Queue(), Queue(), Queue(), Queue()
     state_lock = Lock()
+    telemetry_lock = RLock()
     completion_lock = Lock()
     pending = {i: row for i, row in enumerate(rows)}
     fatal = []
     inflight = Event()
     inflight.set()
     def queues():
-        if on_queue:
-            try:
-                on_queue({'translator': translation.qsize(),
-                          'translator_ii': retranslation.qsize(),
-                          'supervisor': supervision.qsize(),
-                          'manager': management.qsize(),
-                          'orchestrator': 0, 'delivery': 0})
-            except Exception:
-                pass
+        # Serialize snapshots with their delivery, so an older queue snapshot
+        # cannot overwrite a newer one when several workers publish at once.
+        with telemetry_lock:
+            if on_queue:
+                try:
+                    on_queue({'translator': translation.qsize(),
+                              'translator_ii': retranslation.qsize(),
+                              'supervisor': supervision.qsize(),
+                              'manager': management.qsize(),
+                              'orchestrator': 0, 'delivery': 0})
+                except Exception:
+                    pass
 
     def emit(slot, job, stage, detail=None):
         if on_stage is not None:
             try:
-                on_stage(slot, job["row"], stage, job["cycle"], detail or {})
+                on_stage(slot, job["row"], stage, job["cycle"], {**(detail or {}), "job_id": job["id"]})
             except Exception:
                 # Telemetry is best-effort and must never terminate a worker.
                 pass
@@ -69,7 +73,6 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     if not pending:
                         inflight.clear()
                 emit(job.get("slot", 0), job, "complete", {"status": status})
-                emit(workers+2, job, "idle", {"from": "supervisor"})
                 emit(workers+3, job, "idle", {"from": "manager"})
 
     def infrastructure_error(exc):
@@ -77,9 +80,9 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         from urllib.error import URLError, HTTPError
         return isinstance(exc, (URLError, HTTPError, TimeoutError, ConnectionError, OSError))
 
-    def translator(slot, retry=False):
-        inbox = retranslation if retry else translation
-        agent = 'translator_ii' if retry else 'translator'
+    def translator(slot):
+        # The configured budget covers BOTH translation roles. Any free worker
+        # prioritizes a correction, then helps with first-pass translations.
         try:
             client = OllamaClient(url, model)
         except Exception as exc:
@@ -89,11 +92,18 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
             return
         while True:
             try:
-                job = inbox.get(timeout=.2)
-                queues()
+                with telemetry_lock:
+                    try:
+                        job = retranslation.get_nowait()
+                        inbox, agent = retranslation, 'translator_ii'
+                    except Empty:
+                        job = translation.get_nowait()
+                        inbox, agent = translation, 'translator'
+                    queues()
             except Empty:
                 if not inflight.is_set():
                     return
+                time.sleep(.02)
                 continue
             try:
                 if cancel.is_set():
@@ -129,12 +139,15 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     job["fault"] = [str(exc)[:250]]
                 job["history"].append({"agent": agent, "cycle": job["cycle"],
                                        "translation": job["candidate"]})
-                supervision.put(job)
-                queues()
+                emit(slot, job, "stage_done", {"from": agent, "status": "rejected" if job["fault"] else "done", "reasons": job["fault"]})
                 emit(slot, job, "idle", {"from": agent})
+                with telemetry_lock:
+                    supervision.put(job)
+                    queues()
             except Exception as exc:
                 finish(job, "needs_review", ["translator_exception: " + str(exc)[:150]])
             finally:
+                emit(slot, job, "idle", {"from": agent})
                 inbox.task_done()
 
     def supervisor():
@@ -159,12 +172,15 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 job["status"], job["reasons"] = status, reasons
                 job["history"].append({"agent": "supervisor", "cycle": job["cycle"],
                                        "status": status, "reasons": reasons})
-                management.put(job)
-                queues()
+                emit(workers+2, job, "validated", {"status": status, "reasons": reasons})
                 emit(workers+2, job, "idle", {"from": "supervisor"})
+                with telemetry_lock:
+                    management.put(job)
+                    queues()
             except Exception as exc:
                 finish(job, "needs_review", ["supervisor_exception: " + str(exc)[:150]])
             finally:
+                emit(workers+2, job, "idle", {"from": "supervisor"})
                 supervision.task_done()
 
     def manager():
@@ -183,6 +199,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 emit(workers+3, job, "manager")
                 decision = manager_decision(job["status"], job["reasons"], job["cycle"])
                 job["history"].append({"agent": "manager", "cycle": job["cycle"], **decision})
+                emit(workers+3, job, "decision", decision)
                 if decision["decision"] == "approve":
                     finish(job, "approved", [])
                 elif decision["decision"] == "reject":
@@ -193,14 +210,16 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     job["feedback"] = decision["context"]
                     job["cycle"] += 1
                     emit(workers+3, job, "retry", {"reason": decision.get("reason", "")})
-                    retranslation.put(job)
-                    queues()
+                    with telemetry_lock:
+                        retranslation.put(job)
+                        queues()
                     emit(workers+3, job, "idle", {"from": "manager", "decision": "retry"})
                 else:
                     finish(job, "needs_review", job["reasons"])
             except Exception as exc:
                 finish(job, "needs_review", ["manager_exception: " + str(exc)[:150]])
             finally:
+                emit(workers+3, job, "idle", {"from": "manager"})
                 management.task_done()
 
     for i, row in enumerate(rows):
@@ -215,9 +234,8 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         else:
             translation.put(job)
 
-    threads = [Thread(target=translator, args=(i, False), name=f"translator-{i}", daemon=True)
+    threads = [Thread(target=translator, args=(i,), name=f"translator-{i}", daemon=True)
                for i in range(1, workers+1)]
-    threads.append(Thread(target=translator, args=(workers+1, True), name="translator-ii", daemon=True))
     threads += [Thread(target=supervisor, name="supervisor", daemon=True),
                 Thread(target=manager, name="manager", daemon=True)]
     queues()

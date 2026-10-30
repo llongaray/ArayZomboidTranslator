@@ -25,6 +25,32 @@ python -m venv .venv
 
 Painel: http://127.0.0.1:8767 — feche o painel anterior antes de iniciar.
 
+### Atualizações do painel React
+
+O React recebe snapshots de estado por SSE (`GET /api/events`), com reconexão
+automática e consulta de `/api/status` como alternativa. KPIs, percentual, filas,
+workers e decisões pertencem à mesma revisão do estado. O cabeçalho informa se a
+conexão está em tempo real ou usando consultas periódicas. É preciso reiniciar o
+backend depois de atualizar seu código; uma execução antiga não carrega rotas ou
+campos novos automaticamente. Aguarde a conclusão ou cancele pelo painel antes
+de reiniciar, preservando o checkpoint.
+
+Os 1–4 workers configurados formam um pool compartilhado: Tradutor I faz novas
+traduções, Tradutor II processa correções solicitadas pelo gerente. Qualquer worker
+livre prioriza correções; o total de inferências simultâneas não ultrapassa o
+limite escolhido. Sem correções, todos podem trabalhar como Tradutor I.
+
+O orquestrador mostra entradas **pendentes**, incluindo as em execução. Os demais
+cards mostram somente itens **na fila**, separados dos que estão em execução.
+O log de decisões apresenta horário, agente, entrada, ciclo, resultado e motivo:
+feito, aprovado, reprovado, revisão humana, refazer ou cancelado. Entradas aprovadas
+no checkpoint/glossário são identificadas como reutilizadas, sem inventar decisões
+do gerente. Os últimos 120 eventos ficam no estado ao vivo; o histórico completo
+das entradas é exportado ao final em `agent-history.json`.
+
+No desenvolvimento, `VITE_BACKEND_URL` permite apontar o proxy do Vite para outra
+instância local. O padrão continua sendo `http://127.0.0.1:8767`.
+
 Instalação real: `E:\Games\Project.Zomboid.v42.13.1\game\media\lua\shared\Translate`.
 
 Primeiro execute **Somente auditar**; depois faça um piloto de **8 a 24 entradas** em `UI,ContextMenu,Moodles`, revise o `workspace/export`, e então expanda.

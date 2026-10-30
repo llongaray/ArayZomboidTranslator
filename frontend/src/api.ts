@@ -44,3 +44,39 @@ export function usePoll<T>(path: string, delay: number, enabled = true) {
   }, [path, delay, enabled]);
   return state;
 }
+
+// SSE is the primary transport. Polling keeps older servers and reconnects usable.
+export function useLiveStatus<T extends {revision?: number; run_id?: string}>() {
+  const [state,setState]=useState<{data?:T;error:string;transport:'connecting'|'live'|'polling'}>({error:'',transport:'connecting'});
+  useEffect(()=>{
+    let disposed=false,live=false,polling=false;
+    let timer:ReturnType<typeof setTimeout>;
+    let controller:AbortController|undefined;
+    const source=new EventSource('/api/events');
+    async function poll(){
+      if(disposed||live||polling)return;
+      polling=true;controller=new AbortController();
+      const timeout=setTimeout(()=>controller?.abort(),8000);
+      try{
+        const data=await api<T>('/api/status',{signal:controller.signal});
+        if(!disposed&&!live)setState({data,error:'',transport:'polling'});
+      }catch(error){
+        if(!disposed&&!live)setState(old=>({...old,error:error instanceof Error?error.message:'Falha na conexão.',transport:'polling'}));
+      }finally{
+        clearTimeout(timeout);polling=false;
+        if(!disposed&&!live)timer=setTimeout(poll,1500);
+      }
+    }
+    source.addEventListener('status',(message:MessageEvent)=>{
+      try{
+        const data=JSON.parse(message.data) as T;
+        live=true;clearTimeout(timer);
+        if(!disposed)setState(old=>old.data?.run_id===data.run_id&&old.data?.revision!==undefined&&data.revision!==undefined&&old.data.revision>data.revision?old:{data,error:'',transport:'live'});
+      }catch{live=false;void poll()}
+    });
+    source.onerror=()=>{live=false;if(!disposed){setState(old=>({...old,transport:'polling'}));void poll()}};
+    timer=setTimeout(poll,1500);
+    return()=>{disposed=true;clearTimeout(timer);controller?.abort();source.close()};
+  },[]);
+  return state;
+}

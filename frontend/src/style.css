@@ -20,3 +20,9 @@
 .bot-task small{color:#94aec7;font-size:9px}
 .bot-idle{color:#7994aa;font-size:10px}
 @media(max-width:900px){.bot-current{min-height:48px}.bot-queue{padding:5px 7px}}
+
+.decision-log{margin-top:22px;padding-top:20px;border-top:1px solid var(--border)}
+.decision-log .table-scroll{max-height:350px}.decision-log time{display:block;font-size:10px;color:var(--muted);margin-bottom:5px}
+.decision-log td .mono{max-width:300px}.decision-reason{max-width:250px;font-size:10px;overflow-wrap:anywhere}
+.result-tag.retry,.result-tag.needs_review{color:#e5bb69;background:#e5bb6913}.result-tag.started{color:#8cbde0;background:#8cbde013}
+.result-tag.done,.result-tag.reused{color:#a1d7bd;background:#a1d7bd13}.result-tag.cancelled{color:#dfb7b7;background:#dfb7b713}

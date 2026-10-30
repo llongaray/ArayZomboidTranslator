@@ -1,8 +1,10 @@
-export type History = {agent: string; cycle?: number};
+export type History = {agent: string; cycle?: number; decision?: string; status?: string; reasons?: string[]};
+export type AgentEvent = {id:number;timestamp:number;agent:string;action:string;file:string;key:string;cycle:number;reasons:string[]};
 export type Entry = {file: string; key: string; status: string; history: History[]};
 export type ReviewItem = {file: string; key: string; english: string; translation: string; reasons?: string[]};
 export type ActiveWorker = {worker: number; agent: string; cycle: number; file: string; key: string};
 export type JobState = {
+  revision?:number;run_id?:string;percent?:number;reused?:number;remaining?:number;cancelled_count?:number;agent_events?:AgentEvent[];
   status?: string; phase?: string; progress?: number; total?: number; accepted?: number;
   needs_review?: number; errors?: number; workers?: number; message?: string;
   active_workers?: ActiveWorker[]; agent_queues?: Record<string, number>; manager_decisions?: Record<string, number>; agent_recent?: Entry[];
