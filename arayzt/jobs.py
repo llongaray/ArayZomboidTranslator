@@ -91,7 +91,7 @@ class Pipeline:
                     invalidated.append({'file':row['file'],'key':row['key'],'reasons':reasons})
                     pending.append(row)
             else:pending.append(row)
-        self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,message='Traduzindo lotes com checkpoint')
+        self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,manager_decisions={},message='Traduzindo lotes com checkpoint')
         errors=[]
         done_count=skipped
         checkpoint_dirty=0
@@ -124,10 +124,14 @@ class Pipeline:
         self.update(workers=int(workers),percent=round(100*skipped/len(queue),2),
                     message='Orquestrador distribuindo traduções atômicas')
         active_slots={}
+        stage_decisions=Counter()
         stages_lock=threading.Lock()
         def on_stage(slot,row,agent,cycle,detail):
             with stages_lock:
-                if agent in ('complete','idle'):
+                if agent in ('terminal','retry'):
+                    key=(detail or {}).get('status', 'retry')
+                    stage_decisions[key]+=1
+                elif agent in ('complete','idle'):
                     previous=active_slots.get(slot)
                     if previous and previous['file']==row['file'] and previous['key']==row['key']:
                         active_slots.pop(slot,None)
@@ -136,8 +140,9 @@ class Pipeline:
                                         'file':row['file'],'key':row['key'],
                                         'detail':detail}
                 snapshot=list(active_slots.values())
-            self.update(active_workers=snapshot,
-                        message=f"{len(snapshot)} worker(s) ativos • {done_count}/{len(queue)} concluídos")
+                decision_snapshot=dict(stage_decisions)
+            self.update(active_workers=snapshot,manager_decisions=decision_snapshot,
+                        message=f"{len(snapshot)} agente(s) ativos • {done_count}/{len(queue)} resultados registrados")
         def on_queue(counts):
             self.update(agent_queues=counts)
         orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,
