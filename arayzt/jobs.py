@@ -122,8 +122,10 @@ class Pipeline:
         stages_lock=threading.Lock()
         def on_stage(slot,row,agent,cycle,detail):
             with stages_lock:
-                if agent=='complete':
-                    active_slots.pop(slot,None)
+                if agent in ('complete','idle'):
+                    previous=active_slots.get(slot)
+                    if previous and previous['file']==row['file'] and previous['key']==row['key']:
+                        active_slots.pop(slot,None)
                 else:
                     active_slots[slot]={'worker':slot,'agent':agent,'cycle':cycle,
                                         'file':row['file'],'key':row['key'],
