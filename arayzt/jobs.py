@@ -94,8 +94,9 @@ class Pipeline:
         self.update(phase='translate',total=len(queue),progress=skipped,accepted=len(approved),needs_review=len(review_items),failed=0,message='Traduzindo lotes com checkpoint')
         errors=[]
         done_count=skipped
+        checkpoint_dirty=0
         def receive(out):
-            nonlocal done_count
+            nonlocal done_count,checkpoint_dirty
             row=out['row']
             status=out['status']
             histories.append({'file':row['file'],'key':row['key'],'status':status,'history':out.get('history',[])})
@@ -108,14 +109,18 @@ class Pipeline:
                 errors.append({'file':row['file'],'key':row['key'],'error':','.join(out['reasons'])})
             if out['translation'] and status=='approved':
                 memory[fingerprint(row)]={'translation':out['translation'],'quality':status,'reasons':out['reasons']}
-                # Atomic disk write by orchestrator only; no worker mutates the checkpoint.
-                atomic_json(checkpoint,memory)
+                # Persist in small batches instead of rewriting a large checkpoint
+                # for each approved item. A crash reprocesses at most 19 entries.
+                checkpoint_dirty+=1
             done_count+=1
             self.update(phase='translate',progress=done_count,total=len(queue),
                         percent=round(100*done_count/len(queue),2),
                         accepted=len(approved),needs_review=len(review_items),
                         failed=len(errors),workers=int(workers),
                         message=f"Orquestrador: {done_count}/{len(queue)} • Supervisor: {status}")
+            if checkpoint_dirty>=20:
+                atomic_json(checkpoint,memory)
+                checkpoint_dirty=0
         self.update(workers=int(workers),percent=round(100*skipped/len(queue),2),
                     message='Orquestrador distribuindo traduções atômicas')
         active_slots={}
@@ -137,6 +142,9 @@ class Pipeline:
             self.update(agent_queues=counts)
         orchestrate_pipeline(pending,url,model,int(workers),self.cancel,receive,
                              on_stage=on_stage,on_queue=on_queue)
+        if checkpoint_dirty:
+            atomic_json(checkpoint,memory)
+            checkpoint_dirty=0
         self.update(active_workers=[],agent_queues={})
         # Manual approvals override only the matching entries in the current queue.
         decisions=read_decisions(work)
