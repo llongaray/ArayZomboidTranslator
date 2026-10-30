@@ -157,6 +157,8 @@ class Pipeline:
         history_path=work/'agent-history.json';atomic_json(history_path,{'items':histories})
         accepted_path=work/'accepted.json';atomic_json(accepted_path,{'translations':approved,'needs_review':review_items,'failed':errors,'cancelled':self.cancel.is_set()})
         review_path=work/'quality-review.json';atomic_json(review_path,{'needs_review':review_items,'rejected':errors,'approved_count':len(approved)})
+        from .review_csv import save_report
+        csv_path=save_report(work)
         try:
             exported=export_overlay(report,approved,work/'export',work/'backup') if approved else {'translated':0,'files':0,'output':str(work/'export')}
         except (ValueError,OSError) as exc:
@@ -168,6 +170,6 @@ class Pipeline:
                                    'preexisting_warnings':exported.get('preexisting_warnings',[]),
                                    'export_error':exported.get('export_error')})
         result['export_diagnostics']=str(export_report)
-        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':skipped+len(pending) if not self.cancel.is_set() else len(approved)+len(review_items)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path),'agent_history':str(history_path),'quality_invalidation':str(invalidation_path)})
+        result.update(exported);result.update({'failed':len(errors),'accepted':str(accepted_path),'checkpoint':str(checkpoint),'cancelled':self.cancel.is_set(),'processed':skipped+len(pending) if not self.cancel.is_set() else len(approved)+len(review_items)+len(errors),'reused':skipped,'needs_review':len(review_items),'quality_review':str(review_path),'review_csv':str(csv_path),'agent_history':str(history_path),'quality_invalidation':str(invalidation_path)})
         self.update(phase='export_failed' if exported.get('export_error') else ('export_partial' if exported.get('blocked_files') else 'done'),message=exported.get('export_error') or (f"{len(exported.get('blocked_files',[]))} arquivo(s) bloqueado(s) na validação" if exported.get('blocked_files') else ('Cancelado parcialmente' if self.cancel.is_set() else 'Concluído')))
         return result
