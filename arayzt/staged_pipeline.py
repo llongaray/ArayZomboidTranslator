@@ -18,7 +18,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
     workers = max(1, min(int(workers), 4))
     if not rows:
         return
-    translation, supervision, management = Queue(), Queue(), Queue()
+    translation, retranslation, supervision, management = Queue(), Queue(), Queue(), Queue()
     state_lock = Lock()
     completion_lock = Lock()
     pending = {i: row for i, row in enumerate(rows)}
@@ -29,6 +29,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         if on_queue:
             try:
                 on_queue({'translator': translation.qsize(),
+                          'translator_ii': retranslation.qsize(),
                           'supervisor': supervision.qsize(),
                           'manager': management.qsize(),
                           'orchestrator': 0, 'delivery': 0})
@@ -73,7 +74,9 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         from urllib.error import URLError, HTTPError
         return isinstance(exc, (URLError, HTTPError, TimeoutError, ConnectionError, OSError))
 
-    def translator(slot):
+    def translator(slot, retry=False):
+        inbox = retranslation if retry else translation
+        agent = 'translator_ii' if retry else 'translator'
         try:
             client = OllamaClient(url, model)
         except Exception as exc:
@@ -83,7 +86,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
             return
         while True:
             try:
-                job = translation.get(timeout=.2)
+                job = inbox.get(timeout=.2)
                 queues()
             except Empty:
                 if not inflight.is_set():
@@ -94,7 +97,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     finish(job, "cancelled", ["cancelled"])
                     continue
                 job["slot"] = slot
-                emit(slot, job, "translator")
+                emit(slot, job, agent)
                 req = dict(job["row"])
                 if job["feedback"]:
                     req["manager_feedback"] = job["feedback"]
@@ -121,14 +124,14 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                         continue
                     job["candidate"] = ""
                     job["fault"] = [str(exc)[:250]]
-                job["history"].append({"agent": "translator", "cycle": job["cycle"],
+                job["history"].append({"agent": agent, "cycle": job["cycle"],
                                        "translation": job["candidate"]})
                 supervision.put(job)
                 queues()
             except Exception as exc:
                 finish(job, "needs_review", ["translator_exception: " + str(exc)[:150]])
             finally:
-                translation.task_done()
+                inbox.task_done()
 
     def supervisor():
         while True:
@@ -143,7 +146,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 if cancel.is_set():
                     finish(job, "cancelled", ["cancelled"])
                     continue
-                emit(workers+1, job, "supervisor")
+                emit(workers+2, job, "supervisor")
                 if job["fault"]:
                     status, reasons = "rejected", job["fault"]
                 else:
@@ -172,15 +175,19 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 if cancel.is_set():
                     finish(job, "cancelled", ["cancelled"])
                     continue
-                emit(workers+2, job, "manager")
+                emit(workers+3, job, "manager")
                 decision = manager_decision(job["status"], job["reasons"], job["cycle"])
                 job["history"].append({"agent": "manager", "cycle": job["cycle"], **decision})
                 if decision["decision"] == "approve":
                     finish(job, "approved", [])
+                elif decision["decision"] == "reject":
+                    finish(job, "rejected", job["reasons"])
+                elif decision["decision"] == "human_review":
+                    finish(job, "needs_review", job["reasons"])
                 elif decision["decision"] == "retry" and job["cycle"] < MAX_CYCLES:
                     job["feedback"] = decision["context"]
                     job["cycle"] += 1
-                    translation.put(job)
+                    retranslation.put(job)
                     queues()
                 else:
                     finish(job, "needs_review", job["reasons"])
@@ -201,15 +208,16 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         else:
             translation.put(job)
 
-    threads = [Thread(target=translator, args=(i,), name=f"translator-{i}", daemon=True)
+    threads = [Thread(target=translator, args=(i, False), name=f"translator-{i}", daemon=True)
                for i in range(1, workers+1)]
+    threads.append(Thread(target=translator, args=(workers+1, True), name="translator-ii", daemon=True))
     threads += [Thread(target=supervisor, name="supervisor", daemon=True),
                 Thread(target=manager, name="manager", daemon=True)]
     queues()
     for thread in threads:
         thread.start()
 
-    # Watchdog: never wait forever when every worker of a stage exits unexpectedly.
+    # Watchdog: stages operate independently; only fatal infrastructure errors stop all work.
     while inflight.is_set():
         time.sleep(.05)
         if cancel.is_set():
