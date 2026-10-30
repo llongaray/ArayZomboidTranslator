@@ -153,7 +153,7 @@ def start():
     if not isinstance(data,dict): return jsonify(error="JSON inválido"),400
     with _lock:
         if _state["status"] == "running":return jsonify(error="Já existe uma execução ativa"),409
-        _state.update(status="running",progress=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,batch_started_at=None,batch_elapsed_seconds=None,agent_recent=[])
+        _state.update(status="running",progress=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,batch_started_at=None,batch_elapsed_seconds=None,agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
         _cancel.clear()
     try:
         game = str(data.get("game","")).strip()
