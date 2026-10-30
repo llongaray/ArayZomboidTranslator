@@ -14,7 +14,7 @@ from .ollama import OllamaClient, translate_rows
 from .validation import validate_candidate
 from .core import TOKEN_RE
 
-def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=None):
+def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=None, on_queue=None):
     workers = max(1, min(int(workers), 4))
     if not rows:
         return
@@ -25,6 +25,15 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
     fatal = []
     inflight = Event()
     inflight.set()
+    def queues():
+        if on_queue:
+            try:
+                on_queue({'translator': translation.qsize(),
+                          'supervisor': supervision.qsize(),
+                          'manager': management.qsize(),
+                          'orchestrator': 0, 'delivery': 0})
+            except Exception:
+                pass
 
     def emit(slot, job, stage, detail=None):
         if on_stage is not None:
@@ -75,6 +84,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         while True:
             try:
                 job = translation.get(timeout=.2)
+                queues()
             except Empty:
                 if not inflight.is_set():
                     return
@@ -114,6 +124,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 job["history"].append({"agent": "translator", "cycle": job["cycle"],
                                        "translation": job["candidate"]})
                 supervision.put(job)
+                queues()
             except Exception as exc:
                 finish(job, "needs_review", ["translator_exception: " + str(exc)[:150]])
             finally:
@@ -123,6 +134,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         while True:
             try:
                 job = supervision.get(timeout=.2)
+                queues()
             except Empty:
                 if not inflight.is_set():
                     return
@@ -141,6 +153,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                 job["history"].append({"agent": "supervisor", "cycle": job["cycle"],
                                        "status": status, "reasons": reasons})
                 management.put(job)
+                queues()
             except Exception as exc:
                 finish(job, "needs_review", ["supervisor_exception: " + str(exc)[:150]])
             finally:
@@ -150,6 +163,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
         while True:
             try:
                 job = management.get(timeout=.2)
+                queues()
             except Empty:
                 if not inflight.is_set():
                     return
@@ -167,6 +181,7 @@ def orchestrate_pipeline(rows, url, model, workers, cancel, on_result, on_stage=
                     job["feedback"] = decision["context"]
                     job["cycle"] += 1
                     translation.put(job)
+                    queues()
                 else:
                     finish(job, "needs_review", job["reasons"])
             except Exception as exc:
