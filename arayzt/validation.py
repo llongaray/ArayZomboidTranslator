@@ -19,20 +19,20 @@ def validate_candidate(en, translated, key):
     return state, reasons
 
 def validate_lua(path, changes):
-    text = Path(path).read_text(encoding="utf-8-sig")
-    matches = list(LUA_ENTRY_RE.finditer(text))
-    covered = {text.count("\n",0,m.start())+1 for m in matches}
-    problems=[]
-    found={}
-    for m in matches:
-        if m.group("key") in found:problems.append(("duplicate_key",m.group("key")))
-        found[m.group("key")]=m.group("value")
-    for n,line in enumerate(text.splitlines(),1):
-        if ASSIGN.match(line) and not HEADER.match(line) and n not in covered:
-            problems.append(("unparsed_assignment",n))
-    for k in changes:
-        if k not in found:problems.append(("missing_key",k))
+    from .translation_text import parse, serialize
+    from .lua_syntax import syntax_error
+    try:
+        doc=parse(Path(path).read_text(encoding='utf-8-sig'))
+    except ValueError as exc:return [('invalid_document',str(exc))]
+    problems=[(w['kind'],w.get('key',w.get('line',''))) for w in doc.warnings]
+    problems.extend((w['kind'],w.get('line','')) for w in doc.unsupported)
+    if not doc.unsupported:
+        error=syntax_error(serialize(doc,doc.entries,lua=True))
+        if error:problems.append(('invalid_lua_representation',error))
+    for key in changes:
+        if key not in doc.entries:problems.append(('missing_key',key))
     return problems
+
 
 def validate_lua_comparative(output_path, source_path, changes):
     """Report pre-existing parser warnings separately; block only introduced warnings.

@@ -156,6 +156,12 @@ def events():
     return Response(stream(),mimetype='text/event-stream',headers={
         'Cache-Control':'no-cache, no-transform','X-Accel-Buffering':'no'})
 
+def completion_status(result):
+    if result.get('export_error') or result.get('delivery_status')=='error':return 'error'
+    if result.get('cancelled'):return 'cancelled'
+    if result.get('delivery_status')=='partial' or result.get('blocked_files') or result.get('approved_unexported',0):return 'partial'
+    return 'done'
+
 @app.post("/api/start")
 def start():
     data = request.get_json(silent=True) or {}
@@ -163,7 +169,7 @@ def start():
     with _lock:
         if _state["status"] == "running":return jsonify(error="Já existe uma execução ativa"),409
         run_id=uuid.uuid4().hex
-        _publish(status="running",run_id=run_id,progress=0,percent=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,needs_review=0,analyst_pending=0,reused=0,preserved_review=0,cancelled_count=0,remaining=0,workers=1,agent_events=[],agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
+        _publish(status="running",run_id=run_id,progress=0,percent=0,total=0,errors=0,result=None,message="Inicializando",summary=None,phase="starting",accepted=0,exported_entries=0,approved_unexported=0,blocked_file_count=0,delivery_status=None,needs_review=0,analyst_pending=0,reused=0,preserved_review=0,cancelled_count=0,remaining=0,workers=1,agent_events=[],agent_recent=[],active_workers=[],agent_queues={},manager_decisions={})
         _cancel.clear()
     try:
         game = str(data.get("game","")).strip()
@@ -173,7 +179,7 @@ def start():
         mode = data.get("mode","all")
         if mode not in ("all","review","missing"):raise ValueError("Modo inválido")
         operation = data.get("operation","audit")
-        if operation not in ("audit","translate"):raise ValueError("Operação inválida")
+        if operation not in ("audit","translate","export"):raise ValueError("Operação inválida")
         args = (game,str(data.get("work","./workspace")),mode,str(data.get("model","gemma3:4b")),batch,str(data.get("url","http://127.0.0.1:11434")),operation=="translate")
     except (TypeError,ValueError) as exc:
         with _lock:_publish(status="error",message=str(exc))
@@ -187,10 +193,14 @@ def start():
                 with _lock:
                     if _state.get('run_id')==run_id:
                         _publish(**kw)
-            result=Pipeline(event,_cancel).run(*args[:7],files=filters,limit=limit,workers=workers)
+            if operation=='export':
+                from .delivery import reexport
+                result=reexport(args[1],event)
+            else:
+                result=Pipeline(event,_cancel).run(*args[:7],files=filters,limit=limit,workers=workers)
             report=json.loads(Path(result['audit']).read_text(encoding='utf-8'))
             summary=summarize(report,filters,result['selected'])
-            with _lock:_publish(status='error' if result.get('export_error') else ('partial' if result.get('blocked_files') else ('cancelled' if result.get('cancelled') else 'done')),result=result,summary=summary,message=result.get('export_error') or 'Concluído')
+            with _lock:_publish(status=completion_status(result),result=result,summary=summary,message=result.get('export_error') or ('Entrega parcial; há aprovações sem exportar' if completion_status(result)=='partial' else 'Concluído'))
         except Exception as exc:
             with _lock:_publish(status='error',active_workers=[],agent_queues={},message=f'{type(exc).__name__}: {exc}')
     Thread(target=task,daemon=True).start()

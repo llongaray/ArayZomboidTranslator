@@ -25,7 +25,9 @@ def test_overlay_does_not_touch_original(tmp_path):
     write_lua_overlay(target,src,en,{'A':'Excluir "%1"?'})
     assert src.read_text(encoding='utf8')==original
     assert read_lua(target)['A']=='Excluir "%1"?'
-    assert syntax_error(target.read_text(encoding='utf8')) is None
+    from arayzt.translation_text import parse, serialize
+    doc=parse(target.read_text(encoding='utf8'),strict=True)
+    assert syntax_error(serialize(doc,doc.entries,lua=True)) is None
 
 def test_skips_blank_source():
     report={'rows':[{'file':'UI_PTBR.txt','status':'missing','en':'','key':'A'},{'file':'UI_PTBR.txt','status':'missing','en':'Hello','key':'B'}]}

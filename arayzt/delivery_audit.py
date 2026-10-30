@@ -29,6 +29,16 @@ def save_delivery_audit(work, report, approved, reviews, errors, histories, expo
     output=Path(exported['output'])
     file_ok={name: name not in blocked and not exported.get('export_error') and (output/name).is_file()
              for name in {r['file'] for r in report['rows']}}
+    manifest_path=exported.get('manifest')
+    delivered_map=None
+    actual={}
+    if manifest_path:
+        manifest=json.loads(Path(manifest_path).read_text(encoding='utf-8'))
+        delivered_map={(i['file'],i['key']):i['translation'] for i in manifest['entries']}
+        from .core import read_translation
+        for name in {i['file'] for i in manifest['entries']}:
+            try:actual[name]=read_translation(output/name)
+            except (ValueError,OSError):actual[name]={}
     destination=work/'auditoria-traducao.csv'
     temporary=destination.with_suffix('.csv.tmp')
     with temporary.open('w',encoding='utf-8-sig',newline='') as handle:
@@ -42,6 +52,8 @@ def save_delivery_audit(work, report, approved, reviews, errors, histories, expo
             record=history_by_key.get(identity,{})
             history=record.get('history',[])
             delivered=bool(chosen and file_ok[row['file']])
+            if delivered and delivered_map is not None:
+                delivered=(delivered_map.get(identity)==chosen['translation'] and actual.get(row['file'],{}).get(row['key'])==chosen['translation'])
             candidate=(chosen or review or {}).get('translation','')
             meta=provenance(history,candidate)
             if chosen:

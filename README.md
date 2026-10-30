@@ -82,3 +82,16 @@ Primeiro execute **Somente auditar**; depois faça um piloto de **8 a 24 entrada
 ## Segurança e limitações
 
 O parser Lua é conservador: preserva comentários e traduções existentes, mas não interpreta todas as expressões Lua ou textos livres. Duplicidades e linhas ambíguas ainda exigem revisão. Traduções idênticas podem ser legítimas. **A exportação é um diretório independente, não um mod automaticamente instalado**. Confira o resultado no jogo e mantenha um backup.
+
+### Reexportar aprovações sem retraduzir
+
+Selecione **Exportar checkpoint aprovado** no painel, ou use
+`python -m arayzt.cli export --work ./workspace`. A operação reutiliza o checkpoint,
+confere a fonte EN e não cria workers de tradução. Os KPIs distinguem aprovações,
+exportações efetivas, aprovações sem exportar e arquivos bloqueados. Entregas
+parciais permanecem identificadas como parciais, mesmo após 100% do processamento.
+
+Os TXT mantêm as chaves literais exigidas pelo carregador do jogo. Representações
+Lua estritas ficam separadas em `workspace/lua-certified/PTBR`; o manifesto e o CSV
+conferem os valores realmente exportados. Veja [EXPORT_REPAIR_REPORT.md](EXPORT_REPAIR_REPORT.md)
+para causas dos oito bloqueios, preservação do checkpoint e auditoria linguística.

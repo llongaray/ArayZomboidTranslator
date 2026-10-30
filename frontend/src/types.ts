@@ -5,11 +5,12 @@ export type ReviewItem = {file: string; key: string; english: string; translatio
 export type ActiveWorker = {worker: number; agent: string; cycle: number; file: string; key: string; detail?:{tasks?:{key:string;file:string;cycle:number}[]}};
 export type JobState = {
   revision?:number;run_id?:string;percent?:number;reused?:number;preserved_review?:number;remaining?:number;cancelled_count?:number;agent_events?:AgentEvent[];
+  exported_entries?:number; approved_unexported?:number; blocked_file_count?:number; delivery_status?:string;
   status?: string; phase?: string; progress?: number; total?: number; accepted?: number;
   analyst_pending?: number; needs_review?: number; errors?: number; workers?: number; message?: string;
   active_workers?: ActiveWorker[]; agent_queues?: Record<string, number>; manager_decisions?: Record<string, number>; agent_recent?: Entry[];
   summary?: {total?: number; counts?: Record<string, number>};
-  result?: {files?: number; output?: string; delivery_audit_csv?:string; export_error?: string; blocked_files?: {file?: string; issues?: unknown[]}[]};
+  result?: {delivery_status?:string; exported_entries?:number; approved_unexported?:number; blocked_file_count?:number; files?: number; output?: string; delivery_audit_csv?:string; export_error?: string; blocked_files?: {file?: string; issues?: unknown[]}[]};
 };
 export type OllamaState = {ready: boolean; online: boolean; status: string; message: string; latency_ms?: number; models?: string[]};
 export type Config = {game: string; work: string; model: string; workers: number; batch:number; limit: number; files: string; mode: string; operation: string};

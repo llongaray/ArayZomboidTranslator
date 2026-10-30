@@ -1,0 +1,38 @@
+[
+  {
+    "file": "ItemName_PTBR.txt",
+    "key": "ItemName_Base.Shoulderpad_ArticulatedSpike_L",
+    "en": "Spiked Articulated Metal Shoulder Armor - Left",
+    "translation": "Armadura de ombro articulada de metal com espigões - esquerda"
+  },
+  {
+    "file": "ItemName_PTBR.txt",
+    "key": "ItemName_Base.Shoulderpad_ArticulatedSpike_R",
+    "en": "Spiked Articulated Metal Shoulder Armor - Right",
+    "translation": "Armadura de ombro articulada de metal com espigões - direita"
+  },
+  {
+    "file": "ItemName_PTBR.txt",
+    "key": "ItemName_Base.TailoringMag8",
+    "en": "Magazine: Outdoor Gear, Done Right",
+    "translation": "Revista: Equipamentos para atividades ao ar livre, do jeito certo"
+  },
+  {
+    "file": "Recipes_PTBR.txt",
+    "key": "Recipe_MakeArticulatedMetalShoulderArmorLeft",
+    "en": "Make Articulated Metal Shoulder Armor - Left",
+    "translation": "Fazer armadura de ombro de metal articulada - esquerda"
+  },
+  {
+    "file": "Recipes_PTBR.txt",
+    "key": "Assemble_Shoulder_Armor_Left",
+    "en": "Assemble Shoulder Armor - Left",
+    "translation": "Montar armadura de ombro - esquerda"
+  },
+  {
+    "file": "Sandbox_PTBR.txt",
+    "key": "Sandbox_AnimalMetaPredator_tooltip",
+    "en": "If a meta (ie. not actually visible in-game) fox may attack \\nyour chickens if the hutch's door is left open at night.",
+    "translation": "Se uma raposa meta (ou seja, não visível realmente no jogo) pode atacar \\nsuas galinhas se a porta do galinheiro for deixada aberta à noite."
+  }
+]

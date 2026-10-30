@@ -59,10 +59,16 @@ def main():
         p.add_argument("--files",default="",help="Ex.: UI,ContextMenu,Moodles")
         p.add_argument("--limit",type=int,default=0,help="Limite de entradas (0 para todas)")
         p.add_argument("--unsafe-review",action="store_true",help="Inclui textos existentes para revisão; exportação exige aprovação explícita")
+    export = sub.add_parser("export",help="Reexportar checkpoint aprovado sem inferências")
+    export.add_argument("--work",default="./workspace")
     web = sub.add_parser("dashboard")
     web.add_argument("--host",default="127.0.0.1")
     web.add_argument("--port",type=int,default=8767)
     args = parser.parse_args()
+    if args.cmd == "export":
+        from .delivery import reexport
+        print(json.dumps(reexport(args.work),ensure_ascii=False,indent=2))
+        return
     if args.cmd == "dashboard":
         from .web import app
         app.run(host=args.host,port=args.port,debug=False,threaded=True)
